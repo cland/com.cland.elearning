@@ -13,7 +13,17 @@ class BootStrap {
 				def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true)
 				def userRole = new Role(authority: 'ROLE_USER').save(flush: true)
 
-				def adminUser = new Person(username: 'admin', enabled: true, password: 'password')
+				def adminUser = new Person(username: 'admin',
+				enabled: true,
+				password: 'password',
+				firstName: 'System',
+				lastName: 'Admin',
+				dateOfBirth:(new Date() - 365*30),
+				gender:"M",
+				address:"123 Main St",
+				city:"Cape Town",
+				email:"jay@whereever.com")
+
 				adminUser.save()
 				if(adminUser.hasErrors()){
 					println adminUser.errors

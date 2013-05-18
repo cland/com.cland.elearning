@@ -1,21 +1,36 @@
 package com.cland.elearning
 
+import java.util.Date;
+
 class Person {
 
 	transient springSecurityService
 
 	String username
-	String password
-	String firstName
-	String lastName
+	String password	
 	boolean enabled
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+	//* Custom fields
+	String firstName
+	String lastName
+	Date dateOfBirth
+	String gender
+	String address
+	String city	
+	String email	
 
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		firstName(blank:false)
+		lastName(blank:false)
+		dateOfBirth()
+		gender(inList:["M", "F"])
+		address()	
+		city()
+		email(email:true)
 	}
 
 	static mapping = {
@@ -39,4 +54,9 @@ class Person {
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}
-}
+	
+	String toString(){
+		"${lastName}, ${firstName} (${email})"
+	}
+
+} //end class

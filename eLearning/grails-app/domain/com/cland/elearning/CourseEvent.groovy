@@ -1,15 +1,8 @@
-
 package com.cland.elearning
 
-class Course {
+class CourseEvent {
 
-	String name
-	Date startDate
-	Date endDate
     static constraints = {
-		name(blank:false)
-		startDate()
-		endDate()
     }
 	def beforeInsert = {
 	// your code goes here
