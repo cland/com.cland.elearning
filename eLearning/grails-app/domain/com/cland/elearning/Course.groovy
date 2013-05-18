@@ -6,6 +6,7 @@ class Course {
 	String name
 	Date startDate
 	Date endDate
+	static hasMany = [modules:Module,registrations:Registration]
     static constraints = {
 		name(blank:false)
 		startDate()
@@ -25,6 +26,6 @@ class Course {
 	}
 	
 	String toString(){
-	// TODO: make me interesting
+		"${name}, ${startDate.format('dd/MM/yyyy')} - ${endDate.format('dd/MM/yyyy')}"
 	}
 } //end of class

@@ -2,7 +2,12 @@ package com.cland.elearning
 
 class Organisation {
 
+	String name
+	
+	static hasMany = [people:Person]
+	
     static constraints = {
+		name()
     }
 	def beforeInsert = {
 	// your code goes here
@@ -18,6 +23,6 @@ class Organisation {
 	}
 	
 	String toString(){
-	// TODO: make me interesting
+		"${name}"
 	}
 } //end of class

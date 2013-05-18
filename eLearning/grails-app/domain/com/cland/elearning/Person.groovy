@@ -20,7 +20,8 @@ class Person {
 	String address
 	String city	
 	String email	
-
+	Date dateCreated
+	static hasMany = [registrations:Registration]
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
@@ -31,6 +32,7 @@ class Person {
 		address()	
 		city()
 		email(email:true)
+		dateCreated()
 	}
 
 	static mapping = {

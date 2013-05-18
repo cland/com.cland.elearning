@@ -2,6 +2,12 @@ package com.cland.elearning
 
 class Exam {
 
+	int testNumber
+	int maxMark
+	double weight //contribution percentation e.g 0.7 (70%) of final mark
+	
+	static belongsTo = [submodule:SubModule]
+	
     static constraints = {
     }
 	def beforeInsert = {
@@ -18,6 +24,6 @@ class Exam {
 	}
 	
 	String toString(){
-	// TODO: make me interesting
+		"${testNumber}, ${maxMark} (${weight})"
 	}
 } //end of class

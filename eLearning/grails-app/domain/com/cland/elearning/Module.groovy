@@ -2,6 +2,10 @@ package com.cland.elearning
 
 class Module {
 
+	String name
+	String description
+	
+	static hasMany = [submodules:SubModule]
     static constraints = {
     }
 	def beforeInsert = {
@@ -18,6 +22,6 @@ class Module {
 	}
 	
 	String toString(){
-	// TODO: make me interesting
+		"${name}"
 	}
 } //end of class
