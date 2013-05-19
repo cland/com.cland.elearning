@@ -6,7 +6,7 @@ class Course {
 	String name
 	Date startDate
 	Date endDate
-	static hasMany = [modules:Module,registrations:Registration]
+	static hasMany = [modules:Module,registrations:Registration,courceEvents:CourseEvent]
     static constraints = {
 		name(blank:false)
 		startDate()

@@ -2,12 +2,14 @@ package com.cland.elearning
 
 class Registration {
 
-	Date dateCreated
+	Date dateCreated	
+	Role regType
 	static belongsTo = [person:Person,course:Course]
     static constraints = {
 		person()
 		course()
 		dateCreated()
+		regType()
     }
 	def beforeInsert = {
 	// your code goes here
