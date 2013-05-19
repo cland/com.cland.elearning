@@ -25,6 +25,6 @@ class Registration {
 	}
 	
 	String toString(){
-		"${dateCreated.format('dd/MM/yyyy')}"
+		"${regType} - ${person.firstName} ${person.lastName} Registered on: ${dateCreated.format('dd/MM/yyyy hh:mm')} (${course.name})"
 	}
 } //end of class

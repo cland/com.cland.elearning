@@ -54,4 +54,7 @@ class PersonRole implements Serializable {
 		id composite: ['role', 'person']
 		version false
 	}
-}
+	String toString(){
+		"${person.fistName} ${person.lastName} - ${role.authority}"
+	}
+} //end string
