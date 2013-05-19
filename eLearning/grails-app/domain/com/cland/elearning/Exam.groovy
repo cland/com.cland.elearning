@@ -5,10 +5,15 @@ class Exam {
 	int testNumber
 	int maxMark
 	double weight //contribution percentation e.g 0.7 (70%) of final mark
-	
+	int factor
+	String factorOperand
 	static belongsTo = [submodule:SubModule]
 	
     static constraints = {
+		factorOperand(inList:["Divide",
+			"Multiply",
+			"Subtract",
+			"Add"])
     }
 	def beforeInsert = {
 	// your code goes here
@@ -24,6 +29,6 @@ class Exam {
 	}
 	
 	String toString(){
-		"${testNumber}, ${maxMark} (${weight})"
+		"${testNumber}. Max Mark: ${maxMark}, Weight: (${weight})"
 	}
 } //end of class
