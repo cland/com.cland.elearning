@@ -9,8 +9,8 @@ class Course {
 	static hasMany = [modules:Module,registrations:Registration,courceEvents:CourseEvent]
     static constraints = {
 		name(blank:false)
-		startDate(validator: {return (it >= new Date())})
-		endDate(validator: {return (it >= new Date())})
+		startDate() //validator: {return (it >= new Date())})
+		endDate() //validator: {return (it >= new Date())})
 		modules(blank:false)
     }
 	def beforeInsert = {

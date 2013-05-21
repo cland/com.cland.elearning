@@ -27,7 +27,10 @@ class SubModule {
 	// your code goes here
 	}
 	
+	String moduleName(){
+		return "${module.name}"
+	}
 	String toString(){
-		"${name}, ${type}"
+		"Module: ${moduleName()} - ${name}, ${type}"
 	}
 } //end of class

@@ -23,7 +23,10 @@ class EventResult {
 		// your code goes here
 	}
 
+	Exam courseExam(){
+		return courseEvent.exam
+	}
 	String toString(){
-		"Result for ${learner.toString()}: ${courseEvent.toString()} - Mark: ${mark} (${percentMark}%)"
+		"Result for ${learner.toString()} - Mark: ${mark}/${courseEvent.maxMark()} (${percentMark}%) : ${courseEvent.toString()})"
 	}
 } //end of class

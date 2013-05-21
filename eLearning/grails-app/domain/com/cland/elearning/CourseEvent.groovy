@@ -31,7 +31,11 @@ class CourseEvent {
 		// your code goes here
 	}
 
+	int maxMark(){
+		return exam.maxMark
+	}
+	
 	String toString(){
-		"Exam: ${exam.testNumber} - ${course.name}" 
+		"${subModule.toString()}: Exam ${exam.testNumber} - (${course.name})" 
 	}
 } //end of class
