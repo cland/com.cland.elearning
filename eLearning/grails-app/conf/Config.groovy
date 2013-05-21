@@ -94,3 +94,4 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.cland.elearning.Person'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.cland.elearning.PersonRole'
 grails.plugins.springsecurity.authority.className = 'com.cland.elearning.Role'
+grails.plugins.springsecurity.ui.encodePassword = false //added manually, jd - 19/05/2013

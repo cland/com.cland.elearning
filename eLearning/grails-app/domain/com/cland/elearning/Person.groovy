@@ -21,7 +21,7 @@ class Person {
 	String city	
 	String email	
 	Date dateCreated
-	static hasMany = [registrations:Registration]
+	static hasMany = [registrations:Registration,eventResults:EventResult]
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
@@ -58,7 +58,7 @@ class Person {
 	}
 	
 	String toString(){
-		"${lastName}, ${firstName} (${email})"
+		"${lastName}, ${firstName}"
 	}
 
 } //end class

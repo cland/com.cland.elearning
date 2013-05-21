@@ -1,10 +1,12 @@
 
+import com.cland.elearning.Course
 import com.cland.elearning.Exam
 import com.cland.elearning.Module
 import com.cland.elearning.Person
 import com.cland.elearning.Role
 import com.cland.elearning.PersonRole
 import com.cland.elearning.SubModule
+import com.cland.elearning.Venue
 import grails.util.*
 
 class BootStrap {
@@ -53,42 +55,67 @@ class BootStrap {
 					println someUser.errors
 				}
 				PersonRole.create(someUser, learnerRole, true)
-				
 
-				//** tutor/counsellor user
-				 def staffUser = new Person(username: 'kris',
-				 enabled: true,
-				 password: 'password',
-				 firstName: 'Kristen',
-				 lastName: 'Ter',
-				 dateOfBirth:(new Date() - 365*30),
-				 gender:"F",
-				 address:"12 Main1 St",
-				 city:"Durban",
-				 email:"kris1@whereever.com")
- 
-				 staffUser.save()
-				 if(staffUser.hasErrors()){
-					 println staffUser.errors
-				 }
-				 PersonRole.create(staffUser, tutorRole, true)
-				 PersonRole.create(staffUser, counsellorRole, true)
-				// assert Person.count() == 2
-				// assert Role.count() == 2
-				// assert PersonRole.count() == 2
- 
-			//** Module-Submodule-exam
+
+			//** tutor/counsellor user
+				def staffUser = new Person(username: 'kris',
+				enabled: true,
+				password: 'password',
+				firstName: 'Kristen',
+				lastName: 'Ter',
+				dateOfBirth:(new Date() - 365*30),
+				gender:"F",
+				address:"12 Main1 St",
+				city:"Durban",
+				email:"kris1@whereever.com")
+
+				staffUser.save()
+				if(staffUser.hasErrors()){
+					println staffUser.errors
+				}
+				PersonRole.create(staffUser, tutorRole, true)
+				PersonRole.create(staffUser, counsellorRole, true)
+			// assert Person.count() == 2
+			// assert Role.count() == 2
+			// assert PersonRole.count() == 2
+
+			//** Module-Submodule-exam 01
 
 				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide")
-			//exam.save()
+				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide")
+			
 				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:"Assignment")
-			//submodule.save()
+			
 				submodule.addToExams(exam)
+				submodule.addToExams(exam2)
 				def module = new Module(name:"Module01",description:"First module")
 				module.addToSubmodules(submodule)
 				module.save()
 
+			//** Module-Submodule-exam 02
 
+				def exam3 = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide")
+				def exam4 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide")
+			
+				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Experiment")
+			
+				submodule2.addToExams(exam3)
+				submodule2.addToExams(exam4)
+				def module2 = new Module(name:"Module02",description:"Second module")
+				module2.addToSubmodules(submodule2)
+				module2.save()
+				
+			//venues
+				def venue1 = new Venue(name:"Venue One")
+				venue1.save()
+				def venue2 = new Venue(name:"Venue Two")
+				venue2.save()
+
+			//** course 
+				def course = new Course(name:"Physics 101",startDate:new Date(),endDate: new Date() + 1 )
+				course.addToModules(module)
+				course.save()
+				
 				break
 			case "PRODUCTION" :
 

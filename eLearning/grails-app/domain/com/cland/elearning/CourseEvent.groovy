@@ -8,9 +8,10 @@ class CourseEvent {
 	SubModule subModule
 	Exam exam			//** This is defines the type of event 	
 	static belongsTo = [course:Course]
+	static hasMany = [results:EventResult]
 	static constraints = {
 		course()
-		subModule()
+		subModule(blank:false)
 		exam()
 		eventDate()
 		tutor()
@@ -31,6 +32,6 @@ class CourseEvent {
 	}
 
 	String toString(){
-		// TODO: make me interesting
+		"Exam: ${exam.testNumber} - ${course.name}" 
 	}
 } //end of class
