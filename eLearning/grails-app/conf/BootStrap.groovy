@@ -1,8 +1,11 @@
 
 import com.cland.elearning.Course
+import com.cland.elearning.CourseEvent
+import com.cland.elearning.EventResult
 import com.cland.elearning.Exam
 import com.cland.elearning.Module
 import com.cland.elearning.Person
+import com.cland.elearning.Registration
 import com.cland.elearning.Role
 import com.cland.elearning.PersonRole
 import com.cland.elearning.SubModule
@@ -79,13 +82,14 @@ class BootStrap {
 			// assert Role.count() == 2
 			// assert PersonRole.count() == 2
 
+				
 			//** Module-Submodule-exam 01
 
 				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide")
 				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide")
-			
+
 				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:"Assignment")
-			
+
 				submodule.addToExams(exam)
 				submodule.addToExams(exam2)
 				def module = new Module(name:"Module01",description:"First module")
@@ -94,28 +98,47 @@ class BootStrap {
 
 			//** Module-Submodule-exam 02
 
-				def exam3 = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide")
-				def exam4 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide")
-			
-				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Experiment")
-			
+				def exam3 = new Exam(testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide")
+				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide")
+
+				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Attendance Exercises")
+
 				submodule2.addToExams(exam3)
 				submodule2.addToExams(exam4)
 				def module2 = new Module(name:"Module02",description:"Second module")
 				module2.addToSubmodules(submodule2)
 				module2.save()
-				
+
 			//venues
 				def venue1 = new Venue(name:"Venue One")
 				venue1.save()
 				def venue2 = new Venue(name:"Venue Two")
 				venue2.save()
 
-			//** course 
+
+			//** course
 				def course = new Course(name:"Physics 101",startDate:new Date(),endDate: new Date() + 1 )
 				course.addToModules(module)
+							
 				course.save()
+				if(course.hasErrors()){
+					println course.errors
+				}
+			//** Person registration
+				def regtutor = new Registration(regType:tutorRole)
+				def reguser = new Registration(regType:learnerRole)
+				staffUser.addToRegistrations(regtutor)
+				someUser.addToRegistrations(reguser)
 				
+				course.addToRegistrations(regtutor)
+				course.addToRegistrations(reguser)
+
+				//** Course Event 
+				//	def courseEvent = new CourseEvent(eventDate:new Date(),tutor:staffUser,counsellor:staffUser,venue:venue1,subModule:submodule,exam:exam)
+				//	def eventResult = new EventResult(mark:59,percentMark:66.0,contributionMark:5.6)
+				//	courseEvent.addToEventresults(eventResult)
+	
+				//	course.addToCourseevents(courseEvent)
 				break
 			case "PRODUCTION" :
 

@@ -29,6 +29,6 @@ class Exam {
 	}
 	
 	String toString(){
-		"${testNumber}. Max Mark: ${maxMark}, Weight: (${weight})"
+		"${submodule.toString()} : ${testNumber}. Max Mark: ${maxMark}, Weight: (${weight})"
 	}
 } //end of class
