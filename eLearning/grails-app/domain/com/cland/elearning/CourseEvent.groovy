@@ -5,6 +5,7 @@ class CourseEvent {
 	Person tutor
 	Person counsellor
 	Venue venue
+	String region
 	SubModule subModule
 	Exam exam			//** This is defines the type of event 	
 	static belongsTo = [course:Course]
@@ -13,6 +14,7 @@ class CourseEvent {
 		course()
 		subModule(blank:false)
 		exam()
+		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
 		eventDate()
 		tutor()
 		counsellor()
