@@ -18,10 +18,10 @@ class BootStrap {
 		println "Bootstrap > environment: " + Environment.getCurrent()
 		switch(Environment.getCurrent()){
 			case "DEVELOPMENT":
-				def adminRole = new Role(authority: 'ADMIN').save(flush: true)
-				def learnerRole = new Role(authority: 'LEARNER').save(flush: true)
-				def tutorRole = new Role(authority: 'TUTOR').save(flush: true)
-				def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true)
+				def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
+				def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
+				def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
+				def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
 
 			//* Admin user
 				def adminUser = new Person(username: 'admin',
@@ -134,8 +134,8 @@ class BootStrap {
 					println course.errors
 				}
 			//** Person registration
-				def regtutor = new Registration(regType:tutorRole)
-				def reguser = new Registration(regType:learnerRole)
+				def regtutor = new Registration(regType:tutorRole,regDate: new Date())
+				def reguser = new Registration(regType:learnerRole,regDate: new Date())
 				staffUser.addToRegistrations(regtutor)
 				someUser.addToRegistrations(reguser)
 				
