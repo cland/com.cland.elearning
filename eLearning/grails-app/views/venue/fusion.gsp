@@ -46,10 +46,10 @@
 		<z:longbox id="versionBox" name="version"
 			value="${venueInstance.version}" visible="false" />
 		<z:grid>
-			<z:columns sizable="true">
-				<z:column label="${message(code:'name',default:'Venue')}"
+			<z:columns sizable="false">
+				<z:column label="${message(code:'name',default:'New Venue')}"
 					width="100px" />
-				<z:column label="${message(code:'value',default:'Value')}" />
+				
 			</z:columns>
 			<z:rows>
 				<z:row>
@@ -69,6 +69,9 @@
 				label="${message(code: 'default.button.create.cancel', default: 'Cancel')}"
 				visible="false" />
 		</z:hlayout>
+		
+		
+		
 	</z:window>
 </body>
 </html>
