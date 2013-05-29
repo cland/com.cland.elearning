@@ -47,6 +47,8 @@ class ListComposer {
                 label(value: courseInstance.name)
                 label(value: courseInstance.startDate)
                 label(value: courseInstance.endDate)
+                label(value: courseInstance.region)
+                label(value: courseInstance.status)
                 hlayout{
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "course", action: 'edit', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {

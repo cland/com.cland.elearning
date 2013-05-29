@@ -14,6 +14,12 @@ class FusionComposer {
 	//Longbox idLongbox
 	Textbox keywordBox
 	Textbox nameBox
+	Textbox addressBox
+	Textbox contactNameBox
+	Textbox contactNumberBox
+	Textbox geoLocationBox
+	Textbox directionsBox
+	Combobox regionBox
 	Longbox idBox
 	Longbox versionBox
 	Button createButton
@@ -54,14 +60,25 @@ class FusionComposer {
 	private rowRenderer = {Row row, Object id, int index ->
 		def venueInstance = Venue.get(id)
 		row << {
-			a(href: g.createLink(controller:"venue",action:'edit',id:id), label: venueInstance.id)
-			label(value: venueInstance.name)
+			a(href: g.createLink(controller:"venue",action:'edit',id:id), label: venueInstance.name)			
+			label(value: venueInstance.address)
+			label(value: venueInstance.geoLocation)
+			label(value: venueInstance.contactName)
+			label(value: venueInstance.contactNumber)
+			label(value: venueInstance.region)
+			label(value: venueInstance.directions)
 			hlayout{
 				toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',
 				onClick:{
 					idBox.value = venueInstance.id
 					versionBox.value = venueInstance.version
 					nameBox.value = venueInstance.name
+					addressBox.value = venueInstance.address
+					contactNameBox.value = venueInstance.contactName
+					contactNumberBox.value = venueInstance.contactNumber
+					geoLocationBox.value = venueInstance.geoLocation
+					regionBox.value = venueInstance.region
+					directionsBox.value = venueInstance.directions
 					updateButton.visible = true
 					createButton.visible = false
 					cancelButton.visible = true
@@ -97,6 +114,12 @@ class FusionComposer {
 
 	void clearInput(){
 		nameBox.value = null
+		addressBox.value = null
+		contactNameBox.value  = null
+		contactNumberBox.value  = null
+		geoLocationBox.value = null
+		directionsBox.value = null
+		regionBox.value = null
 	}
 	void onClick_updateButton(Event e) {
 		def params=self.params

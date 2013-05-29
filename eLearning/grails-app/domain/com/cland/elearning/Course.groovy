@@ -6,12 +6,16 @@ class Course {
 	String name
 	Date startDate
 	Date endDate
-	static hasMany = [modules:Module,registrations:Registration,courceEvents:CourseEvent]
+	String region
+	String status
+	static hasMany = [modules:Module,registrations:Registration,courceResults:CourseResult, courceEvents:CourseEvent]
     static constraints = {
 		name(blank:false)
 		startDate() //validator: {return (it >= new Date())})
 		endDate() //validator: {return (it >= new Date())})
 		modules(blank:false)
+		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
+		status(inList:["active","inactive","open","closed"])
     }
 	def beforeInsert = {
 	// your code goes here

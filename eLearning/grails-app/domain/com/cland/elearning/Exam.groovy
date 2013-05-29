@@ -6,6 +6,7 @@ class Exam {
 	int maxMark
 	double weight //contribution percentation e.g 0.7 (70%) of final mark
 	int factor
+	String status
 	String factorOperand
 	static belongsTo = [submodule:SubModule]
 	
@@ -14,6 +15,7 @@ class Exam {
 			"Multiply",
 			"Subtract",
 			"Add"])
+		status(inList:["active","inactive"])
     }
 	def beforeInsert = {
 	// your code goes here

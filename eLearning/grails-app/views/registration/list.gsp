@@ -27,11 +27,11 @@
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
                 <z:columns sizable="true">
                     <z:column label="${message(code: 'registration.id.label', default: 'Id')}"/>
-                    <z:column label="${message(code: 'registration.person.label', default: 'Person')}"/>
+                    <z:column label="${message(code: 'registration.learner.label', default: 'Learner')}"/>
                     <z:column label="${message(code: 'registration.course.label', default: 'Course')}"/>
+                    <z:column label="${message(code: 'registration.tutor.label', default: 'Tutor')}"/>
                     <z:column label="${message(code: 'registration.dateCreated.label', default: 'Date Created')}"/>
                     <z:column label="${message(code: 'registration.regDate.label', default: 'Reg Date')}"/>
-                    <z:column label="${message(code: 'registration.regType.label', default: 'Reg Type')}"/>
                     <z:column width="150px"/>
                 </z:columns>
             </z:grid>

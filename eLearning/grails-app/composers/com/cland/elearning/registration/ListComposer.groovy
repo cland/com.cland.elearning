@@ -44,11 +44,11 @@ class ListComposer {
         def registrationInstance = Registration.get(id)
         row << {
                 a(href: g.createLink(controller:"registration",action:'edit',id:id), label: registrationInstance.id)
-                label(value: registrationInstance.person)
+                label(value: registrationInstance.learner)
                 label(value: registrationInstance.course)
+                label(value: registrationInstance.tutor)
                 label(value: registrationInstance.dateCreated)
                 label(value: registrationInstance.regDate)
-                label(value: registrationInstance.regType)
                 hlayout{
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "registration", action: 'edit', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {

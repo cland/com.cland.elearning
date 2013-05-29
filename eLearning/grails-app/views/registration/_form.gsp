@@ -2,8 +2,8 @@
 <z:rows>
 
     <z:row>
-        <z:label value="${message(code:'registration.person.label',default:'Person')}"/>
-        <zkui:select name="person.id" from="${com.cland.elearning.Person.list()}" optionKey="id" value="${registrationInstance?.person?.id}"  />
+        <z:label value="${message(code:'registration.learner.label',default:'Learner')}"/>
+        <zkui:select name="learner.id" from="${com.cland.elearning.Person.list()}" optionKey="id" value="${registrationInstance?.learner?.id}"  />
     </z:row>
 
     <z:row>
@@ -12,13 +12,13 @@
     </z:row>
 
     <z:row>
-        <z:label value="${message(code:'registration.regDate.label',default:'Reg Date')}"/>
-        <z:datebox name="regDate" value="${registrationInstance?.regDate}"/>
+        <z:label value="${message(code:'registration.tutor.label',default:'Tutor')}"/>
+        <zkui:select name="tutor.id" from="${com.cland.elearning.Person.list()}" optionKey="id" value="${registrationInstance?.tutor?.id}"  />
     </z:row>
 
     <z:row>
-        <z:label value="${message(code:'registration.regType.label',default:'Reg Type')}"/>
-        <zkui:select name="regType.id" from="${com.cland.elearning.Role.list()}" optionKey="id" value="${registrationInstance?.regType?.id}"  />
+        <z:label value="${message(code:'registration.regDate.label',default:'Reg Date')}"/>
+        <z:datebox name="regDate" value="${registrationInstance?.regDate}"/>
     </z:row>
 
 </z:rows>

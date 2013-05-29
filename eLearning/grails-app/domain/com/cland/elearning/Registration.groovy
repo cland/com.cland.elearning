@@ -4,14 +4,16 @@ class Registration {
 
 	Date dateCreated	
 	Date regDate
-	Role regType
-	static belongsTo = [person:Person,course:Course]
+	Person tutor
+	static belongsTo = [learner:Person,course:Course]
+
     static constraints = {
-		person()
+		learner()
 		course()
+		tutor()
 		dateCreated()
 		regDate()
-		regType()
+		tutor()	
     }
 	def beforeInsert = {
 	// your code goes here
@@ -27,6 +29,6 @@ class Registration {
 	}
 	
 	String toString(){
-		"${regType} - ${person.firstName} ${person.lastName} Registered on: ${dateCreated.format('dd/MM/yyyy hh:mm')} (${course.name})"
+		"${learner.firstName} ${learner.lastName} Registered on: ${dateCreated.format('dd/MM/yyyy hh:mm')} - Tutor: ${learner.firstName} ${learner.lastName} (${course.name})"
 	}
 } //end of class

@@ -52,6 +52,11 @@
     </z:row>
 
     <z:row>
+        <z:label value="${message(code:'person.country.label',default:'Country')}"/>
+        <z:textbox name="country" value="${personInstance?.country}" />
+    </z:row>
+
+    <z:row>
         <z:label value="${message(code:'person.contactNo.label',default:'Contact No')}"/>
         <z:textbox name="contactNo" value="${personInstance?.contactNo}" />
     </z:row>

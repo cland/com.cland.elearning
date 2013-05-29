@@ -33,9 +33,21 @@
 		<z:grid id="grid"
 			emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
 			<z:columns sizable="true">
-				<z:column label="${message(code: 'venue.id.label', default: 'Id')}" />
+
 				<z:column
 					label="${message(code: 'venue.name.label', default: 'Name')}" />
+				<z:column
+					label="${message(code: 'venue.address.label', default: 'Address')}" />
+				<z:column
+					label="${message(code: 'venue.geoLocation.label', default: 'Geo Location')}" />
+				<z:column
+					label="${message(code: 'venue.contactName.label', default: 'Contact Name')}" />
+				<z:column
+					label="${message(code: 'venue.contactNumber.label', default: 'Contact Number')}" />
+					<z:column
+					label="${message(code: 'venue.region.label', default: 'Region')}" />
+					<z:column
+					label="${message(code: 'venue.directions.label', default: 'directions')}" />
 				<z:column width="150px" />
 			</z:columns>
 		</z:grid>
@@ -49,13 +61,54 @@
 			<z:columns sizable="false">
 				<z:column label="${message(code:'name',default:'New Venue')}"
 					width="100px" />
-				
+
 			</z:columns>
 			<z:rows>
 				<z:row>
 					<z:label value="${message(code:'venue.name.label',default:'Name')}" />
 					<z:textbox id="nameBox" name="name" maxlength="50"
 						value="${venueInstance?.name}" />
+				</z:row>
+				<z:row>
+					<z:label
+						value="${message(code:'venue.address.label',default:'Address')}" />
+					<z:textbox name="address" id="addressBox" value="${venueInstance?.address}" />
+				</z:row>
+
+				<z:row>
+					<z:label
+						value="${message(code:'venue.geoLocation.label',default:'Geo Location')}" />
+					<z:textbox name="geoLocation" id="geoLocationBox"
+						value="${venueInstance?.geoLocation}" />
+				</z:row>
+
+				<z:row>
+					<z:label
+						value="${message(code:'venue.contactName.label',default:'Contact Name')}" />
+					<z:textbox name="contactName" id="contactNameBox"
+						value="${venueInstance?.contactName}" />
+				</z:row>
+
+				<z:row>
+					<z:label
+						value="${message(code:'venue.contactNumber.label',default:'Contact Number')}" />
+					<z:textbox name="contactNumber" id="contactNumberBox"
+						value="${venueInstance?.contactNumber}" />
+				</z:row>
+
+				<z:row>
+					<z:label
+						value="${message(code:'venue.directions.label',default:'Directions')}" />
+					<z:textbox name="directions" id="directionsBox"
+						value="${venueInstance?.directions}" />
+				</z:row>
+
+				<z:row>
+					<z:label
+						value="${message(code:'venue.region.label',default:'Region')}" />
+					<zkui:select name="region" id="regionBox"
+						from="${venueInstance.constraints.region.inList}"
+						value="${venueInstance?.region}" valueMessagePrefix="venue.region" />
 				</z:row>
 			</z:rows>
 		</z:grid>
@@ -65,13 +118,13 @@
 			<z:button id="updateButton"
 				label="${message(code: 'default.button.create.update', default: 'Update')}"
 				visible="false" />
-				<z:button id="cancelButton"
+			<z:button id="cancelButton"
 				label="${message(code: 'default.button.create.cancel', default: 'Cancel')}"
 				visible="false" />
 		</z:hlayout>
-		
-		
-		
+
+
+
 	</z:window>
 </body>
 </html>

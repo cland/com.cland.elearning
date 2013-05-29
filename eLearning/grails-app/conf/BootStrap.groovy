@@ -31,6 +31,7 @@ class BootStrap {
 				lastName: 'Admin',
 				idNo :"3456753463453",
 				region:"Western Cape",
+				country:"South Africa",
 				contactNo : "021334232",
 				dateOfBirth:(new Date() - 365*30),
 				gender:"M",
@@ -45,13 +46,14 @@ class BootStrap {
 				PersonRole.create(adminUser, adminRole, true)
 
 			//** ordinary user
-				def someUser = new Person(username: 'mary',
+				def learnerUser1 = new Person(username: 'mary',
 				enabled: true,
 				password: 'password',
 				firstName: 'Mary',
-				lastName: 'Donga',
+				lastName: 'Brown',
 				idNo :"1234567890123",
 				region:"Western Cape",
+				country:"South Africa",
 				contactNo : "011834232",
 				dateOfBirth:(new Date() - 365*30),
 				gender:"F",
@@ -59,34 +61,75 @@ class BootStrap {
 				city:"Gauteng",
 				email:"user1@whereever.com")
 
-				someUser.save()
-				if(someUser.hasErrors()){
-					println someUser.errors
+				learnerUser1.save()
+				if(learnerUser1.hasErrors()){
+					println learnerUser1.errors
 				}
-				PersonRole.create(someUser, learnerRole, true)
-
+				PersonRole.create(learnerUser1, learnerRole, true)
+				def learnerUser2 = new Person(username: 'john',
+					enabled: true,
+					password: 'password',
+					firstName: 'John',
+					lastName: 'Smith',
+					idNo :"6234887800123",
+					region:"Western Cape",
+					contactNo : "011834232",
+					country :"South Africa",
+					dateOfBirth:(new Date() - 365*30),
+					gender:"F",
+					address:"12 Main1 St",
+					city:"Gauteng",
+					email:"user1@whereever.com")
+	
+					learnerUser2.save()
+					if(learnerUser2.hasErrors()){
+						println learnerUser2.errors
+					}
+					PersonRole.create(learnerUser2, learnerRole, true)
 
 			//** tutor/counsellor user
-				def staffUser = new Person(username: 'kris',
+				def tutorUser1 = new Person(username: 'tutor1',
 				enabled: true,
 				password: 'password',
-				firstName: 'Kristen',
-				lastName: 'Terb',
+				firstName: 'Tutor1',
+				lastName: 'Tutor1',
 				region:"Western Cape",
+				country:"South Africa",
 				idNo :"1234567890123",
 				contactNo : "0314334232",
 				dateOfBirth:(new Date() - 365*30),
 				gender:"F",
 				address:"12 Main1 St",
 				city:"Durban",
-				email:"kris1@whereever.com")
+				email:"tut1@whereever.com")
 
-				staffUser.save()
-				if(staffUser.hasErrors()){
-					println staffUser.errors
+				tutorUser1.save()
+				if(tutorUser1.hasErrors()){
+					println tutorUser1.errors
 				}
-				PersonRole.create(staffUser, tutorRole, true)
-				PersonRole.create(staffUser, counsellorRole, true)
+				PersonRole.create(tutorUser1, tutorRole, true)
+				PersonRole.create(tutorUser1, counsellorRole, true)
+				
+				def tutorUser2 = new Person(username: 'tutor2',
+					enabled: true,
+					password: 'password',
+					firstName: 'Tutor2',
+					lastName: 'Tutor2',
+					region:"Gauteng",
+					country:"South Africa",
+					idNo :"9234567890123",
+					contactNo : "0314334232",
+					dateOfBirth:(new Date() - 365*30),
+					gender:"F",
+					address:"12 Main1 St",
+					city:"Pretoria",
+					email:"tut2@whereever.com")
+	
+					tutorUser2.save()
+					if(tutorUser2.hasErrors()){
+						println tutorUser2.errors
+					}
+					PersonRole.create(tutorUser2, tutorRole, true)
 			// assert Person.count() == 2
 			// assert Role.count() == 2
 			// assert PersonRole.count() == 2
@@ -94,8 +137,8 @@ class BootStrap {
 				
 			//** Module-Submodule-exam 01
 
-				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide")
-				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide")
+				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide", status:"active")
+				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide",status:"active")
 
 				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:"Assignment")
 
@@ -107,8 +150,8 @@ class BootStrap {
 
 			//** Module-Submodule-exam 02
 
-				def exam3 = new Exam(testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide")
-				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide")
+				def exam3 = new Exam(testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide",status:"active")
+				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide",status:"active")
 
 				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Attendance Exercises")
 
@@ -119,28 +162,37 @@ class BootStrap {
 				module2.save()
 
 			//venues
-				def venue1 = new Venue(name:"Venue One")
+				def venue1 = new Venue(name:"Venue One",address:"",geoLocation:"-33,423",contactName:"contact 1",contactNumber:"021334345",region:"Western Cape",directions:"")
 				venue1.save()
-				def venue2 = new Venue(name:"Venue Two")
+				def venue2 = new Venue(name:"Venue Two",address:"",geoLocation:"-231,223",contactName:"contact 2",contactNumber:"031464345",region:"KZN",directions:"")
 				venue2.save()
 
 
 			//** course
-				def course = new Course(name:"Physics 101",startDate:new Date(),endDate: new Date() + 1 )
+				def course = new Course(name:"Introduction To Paint 101",startDate:new Date(),endDate: new Date() + 1,region:"Western Cape",status:"active" )
 				course.addToModules(module)
 							
 				course.save()
 				if(course.hasErrors()){
 					println course.errors
 				}
-			//** Person registration
-				def regtutor = new Registration(regType:tutorRole,regDate: new Date())
-				def reguser = new Registration(regType:learnerRole,regDate: new Date())
-				staffUser.addToRegistrations(regtutor)
-				someUser.addToRegistrations(reguser)
 				
-				course.addToRegistrations(regtutor)
-				course.addToRegistrations(reguser)
+				def course2 = new Course(name:"How To Paint 221",startDate:new Date(),endDate: new Date() + 1, region:"Western Cape",status:"active" )
+				course2.addToModules(module)
+							
+				course2.save()
+				if(course2.hasErrors()){
+					println course2.errors
+				}
+			//** Person registration
+			//	def reg1 = new Registration(learner:someUser,tutor:staffUser,regDate: new Date())
+			//	def reg2 = new Registration(learner:someUser1,tutor:staffUser,regDate: new Date())
+			//	staffUser.addToRegistrations(reg1)
+			//	staffUser.addToRegistrations(reg2)
+			//	someUser.addToRegistrations(reg1)
+			//	someUser1.addToRegistrations(reg2)
+			//	course.addToRegistrations(reg1)
+			//	course.addToRegistrations(reg1)
 
 				//** Course Event 
 				//	def courseEvent = new CourseEvent(eventDate:new Date(),tutor:staffUser,counsellor:staffUser,venue:venue1,subModule:submodule,exam:exam)

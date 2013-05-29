@@ -24,11 +24,10 @@ class VenueController {
             return [venueInstance: venueInstance]
         }
     }
-	
+
 	def fusion = {
 		def venueInstance = new Venue()
 		venueInstance.properties = params
 		return [venueInstance: venueInstance]
 	}
-
 } //end class
