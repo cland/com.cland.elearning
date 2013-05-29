@@ -46,7 +46,26 @@
 								<center><span style="color:red">No courses available!</span></center>
 								</sec:ifNotLoggedIn>
 							</z:tabpanel>
-							<z:tabpanel>No Tasks Yet!</z:tabpanel>
+							<z:tabpanel>
+							<sec:ifLoggedIn>
+								<z:grid id="myRegGrid"
+									emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
+									<z:columns sizable="true">
+										<z:column width="150px"
+											label="${message(code: 'registration.course.name.label', default: 'Course')}" />
+										<z:column
+											label="${message(code: 'registration.course.startDate.label', default: 'Start Date')}" />
+										<z:column
+											label="${message(code: 'registration.learner.firstName.label', default: 'Learner')}" />
+										<z:column  />
+									</z:columns>
+								</z:grid>
+								<z:paging autohide="true" id="paging2" pageSize="15" />
+								</sec:ifLoggedIn>
+								<sec:ifNotLoggedIn>
+								<center><span style="color:red">No tasks available!</span></center>
+								</sec:ifNotLoggedIn>
+							</z:tabpanel>
 							<z:tabpanel>No Results Yet</z:tabpanel>
 						</z:tabpanels>
 					</z:tabbox>
