@@ -2,14 +2,16 @@
 <head>
 <meta name="layout" content="main" />
 <g:set var="entityName"
-	value="${message(code: 'module.label', default: 'Module')}" />
-<title><g:message code="default.edit.label" args="[entityName]" /></title>
+	value="${message(code: 'module.name', default: moduleInstance.toString())}" />
+<title><g:message code="default.show.label" args="[entityName]" /></title>
 </head>
 
 <body>
 	<z:window style="padding:5px"
 		apply="com.cland.elearning.module.ShowComposer">
-
+<div class="bread-crump">
+<span class="r-arrow"></span><span class="current-crump"> Module: ${moduleInstance.name }</span>
+</div>
 		<g:if test="${flash.message}">
 			<z:window mode="popup" border="normal" style="margin-bottom:5px">
 				<z:hlayout>
@@ -59,7 +61,7 @@
 								label="${message(code: 'submodule.type.label', default: 'Type')}" />
 							<z:column width="80px"
 								label="${message(code: 'submodule.examcount.label', default: 'Total Exams')}" />
-							<z:column width="50px"/>
+							<z:column width="180px"/>
 						</z:columns>
 					</z:grid>
 					<z:paging autohide="true" id="paging" pageSize="15" />

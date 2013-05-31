@@ -33,7 +33,7 @@ class ShowComposer {
 		int max = paging.pageSize
 		
 		def submodInstanceList = SubModule.createCriteria().list(offset:offset,max:max) {
-			eq "module.id", 1 as long
+			eq "module.id", params.id as long
 			order('type','asc')
 		}
 	
@@ -51,13 +51,14 @@ class ShowComposer {
 
 			label(value: submodInstance.type)
 			label(value: "--")
-			//	hlayout{
-			//		toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "course", action: 'edit', id: id))
-			//		toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
-			//			Course.get(id).delete(flush: true)
-			//			listModel.remove(id)
-			//		})
-			//	}
+				hlayout{
+					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "subModule", action: 'show', id: id))
+					toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "subModule", action: 'edit', id: id))
+					toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
+						SubModule.get(id).delete(flush: true)
+						listModel.remove(id)
+					})
+				}
 		}
 	} //end rowRenderer
 

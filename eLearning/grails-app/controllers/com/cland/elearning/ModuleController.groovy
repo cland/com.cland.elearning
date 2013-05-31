@@ -34,4 +34,4 @@ class ModuleController {
 			return [moduleInstance: moduleInstance]
 		}
 	}
-}
+} //end class

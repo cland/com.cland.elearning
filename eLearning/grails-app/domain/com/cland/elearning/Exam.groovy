@@ -4,7 +4,7 @@ class Exam {
 
 	int testNumber
 	int maxMark
-	double weight //contribution percentation e.g 0.7 (70%) of final mark
+	double weight //contribution percentage e.g 0.7 (70%) of final mark
 	int factor
 	String status
 	String factorOperand

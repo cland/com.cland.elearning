@@ -24,5 +24,14 @@ class SubModuleController {
             return [subModuleInstance: subModuleInstance]
         }
     }
-
-}
+	def show = {
+		def subModuleInstance = SubModule.get(params.id)
+		if (!subModuleInstance) {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'submodule.label', default: 'SubModule'), params.id])}"
+			redirect(action: "list")
+		}
+		else {
+			return [submoduleInstance: subModuleInstance]
+		}
+	}
+} //end class

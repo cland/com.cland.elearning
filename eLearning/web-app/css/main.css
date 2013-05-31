@@ -607,3 +607,11 @@ clear: both;
 color: #00;
 text-align:center;
 }
+.bread-crump {padding:4px;font-size:0.8em;font-weight:bold;}
+.current-crump {font-weight:normal;}
+.bread-crump:before {content:'You are here: ';color:green;}
+.bread-crump r-arrow:after, .r-arrow:after {content:"\00BB"}
+.bread-crump l-arrow:after, .l-arrow:after {content:"\00AB"}
+.bread-crump r-arrow, .bread-crump l-arrow,.l-arrow,.r-arrow {color:orange; }
+
+.bread-crump tick-arrow:after, .tick-arrow:after {content:"\2713";color:green}
