@@ -11,10 +11,35 @@ import com.cland.elearning.PersonRole
 import com.cland.elearning.SubModule
 import com.cland.elearning.Venue
 import grails.util.*
+import org.springframework.web.context.support.*;
+import org.codehaus.groovy.grails.commons.*;
+import groovy.ui.Console;
 
 class BootStrap {
 
 	def init = { servletContext ->
+		/**
+		 * Launch the console to allow us to run scripts etc while site is running
+		 */
+
+		boolean showGroovyConsole = true
+
+		if (Environment.getCurrent() == Environment.DEVELOPMENT && showGroovyConsole) {
+
+			def appCtx = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext)
+
+			def grailsApp = appCtx.getBean(GrailsApplication.APPLICATION_ID);
+
+			Binding b = new Binding();
+
+			b.setVariable("ctx", appCtx);
+
+			def console = new Console(grailsApp.classLoader, b);
+
+			console.run()
+
+		}
+
 		println "Bootstrap > environment: " + Environment.getCurrent()
 		switch(Environment.getCurrent()){
 			case "DEVELOPMENT":
@@ -147,6 +172,9 @@ class BootStrap {
 				def module = new Module(name:"Module01",description:"First module")
 				module.addToSubmodules(submodule)
 				module.save()
+				if(module.hasErrors()){
+					println module.errors
+				}
 
 			//** Module-Submodule-exam 02
 
@@ -160,7 +188,10 @@ class BootStrap {
 				def module2 = new Module(name:"Module02",description:"Second module")
 				module2.addToSubmodules(submodule2)
 				module2.save()
-
+				if(module2.hasErrors()){
+					println module2.errors
+				}
+				
 			//venues
 				def venue1 = new Venue(name:"Venue One",address:"",geoLocation:"-33,423",contactName:"contact 1",contactNumber:"021334345",region:"Western Cape",directions:"")
 				venue1.save()

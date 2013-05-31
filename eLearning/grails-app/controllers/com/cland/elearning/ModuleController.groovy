@@ -24,5 +24,14 @@ class ModuleController {
             return [moduleInstance: moduleInstance]
         }
     }
-
+	def show = {
+		def moduleInstance = Module.get(params.id)
+		if (!moduleInstance) {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'module.label', default: 'Module'), params.id])}"
+			redirect(action: "list")
+		}
+		else {
+			return [moduleInstance: moduleInstance]
+		}
+	}
 }
