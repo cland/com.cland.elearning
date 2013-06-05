@@ -50,7 +50,11 @@ class ListComposer {
                 label(value: examInstance.submodule)
                 label(value: examInstance.testNumber)
                 hlayout{
-                    toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "exam", action: 'edit', id: id))
+                    //toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "exam", action: 'edit', id: id))
+					toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',client_onClick: "alert('view exam')",onClick:{
+					
+						//href:g.createLink(controller: "exam", action: 'edit', id: id)	
+					})
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
                         Exam.get(id).delete(flush: true)
                         listModel.remove(id)

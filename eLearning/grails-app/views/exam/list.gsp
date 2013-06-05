@@ -5,6 +5,8 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
+
+</div>
         <z:window style="padding:5px" apply="com.cland.elearning.exam.ListComposer">
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>

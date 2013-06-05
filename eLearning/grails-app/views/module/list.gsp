@@ -9,8 +9,8 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'module.id',default:'Id')}"/>
-                <z:longbox id="idLongbox"/>
+                <z:label value="${message(code:'module.name',default:'Module Name')}"/>
+                <z:textbox id="keywordBox" />
                 <z:space/>
                 <z:button id="searchButton" label="${message(code:'search')}"/>
             </z:hlayout>
@@ -24,12 +24,11 @@
                     </z:hlayout>
                 </z:window>
             </g:if>
-            <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
+            <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Modules Available')}">
                 <z:columns sizable="true">
-                    <z:column label="${message(code: 'module.id.label', default: 'Id')}"/>
-                    <z:column label="${message(code: 'module.description.label', default: 'Description')}"/>
                     <z:column label="${message(code: 'module.name.label', default: 'Name')}"/>
-                    <z:column width="150px"/>
+                    <z:column label="${message(code: 'module.description.label', default: 'Description')}"/>                    
+                    <z:column width="200px"/>
                 </z:columns>
             </z:grid>
             <z:paging autohide="true" id="paging" pageSize="15"/>

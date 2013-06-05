@@ -3,13 +3,15 @@ package com.cland.elearning.module
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
+
 import com.cland.elearning.Module
 
 class ListComposer {
     Grid grid
     ListModelList listModel = new ListModelList()
     Paging paging
-    Longbox idLongbox
+    //Longbox idLongbox
+	Textbox keywordBox
 
     def afterCompose = {Component comp ->
         grid.setRowRenderer(rowRenderer as RowRenderer)
@@ -30,10 +32,13 @@ class ListComposer {
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
         def moduleInstanceList = Module.createCriteria().list(offset: offset, max: max) {
-            order('id','desc')
-            if (idLongbox.value) {
-                eq('id', idLongbox.value)
-            }
+            order('name','asc')
+//            if (idLongbox.value) {
+//                eq('id', idLongbox.value)
+//            }
+			if(keywordBox.value){
+				ilike('name',"%"+keywordBox.value+"%")
+			}
         }
         paging.totalSize = moduleInstanceList.totalCount
         listModel.clear()
@@ -43,9 +48,8 @@ class ListComposer {
     private rowRenderer = {Row row, Object id, int index ->
         def moduleInstance = Module.get(id)
         row << {
-                a(href: g.createLink(controller:"module",action:'edit',id:id), label: moduleInstance.id)
-                label(value: moduleInstance.description)
-                label(value: moduleInstance.name)
+                a(href: g.createLink(controller:"module",action:'show',id:id), label: moduleInstance.name)
+                label(value: moduleInstance.description)              
                 hlayout{
 					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "module", action: 'show', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "module", action: 'edit', id: id))
@@ -55,5 +59,11 @@ class ListComposer {
                     })
                 }
         }
-    }
+    } //end rowRenderer
+	
+	//** CUSTOM TESTS
+	 void onChanging_keywordBox(InputEvent e) {
+		 keywordBox.value = e.value
+		 redraw()
+	 }
 }

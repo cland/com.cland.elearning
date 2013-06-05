@@ -22,7 +22,7 @@ class BootStrap {
 		 * Launch the console to allow us to run scripts etc while site is running
 		 */
 
-		boolean showGroovyConsole = true
+		boolean showGroovyConsole = false
 
 		if (Environment.getCurrent() == Environment.DEVELOPMENT && showGroovyConsole) {
 

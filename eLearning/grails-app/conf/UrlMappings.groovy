@@ -4,13 +4,18 @@ class UrlMappings {
 		"/$controller/$action?/$id?"{
 			constraints {
 				// apply constraints here
-			}
+			}			
 		}
+		
+		//"/staticView/$view"{controller:"staticView" action:"/view"}
+		
+		//"/test?"(controller:"staticView")
 
 		"/"(view:"/index")
 		//"/"(controller:"course",action:"list")
 		"500"(view:'/error')
 		"404"(view:'/error')
+		
 		
 		name module: "/module/show/$id/$headline" {
 			controller = "module"

@@ -6,7 +6,7 @@
 </head>
 
 <body>
-<z:window style="padding:5px" apply="com.cland.elearning.exam.EditComposer">
+<z:window title="Edit Exam" style="padding:5px" apply="com.cland.elearning.exam.EditComposer" mode="modal" closable="true" maximizable="true" >
     <z:longbox name="id" value="${examInstance.id}" visible="false"/>
     <z:longbox name="version" value="${examInstance.version}" visible="false"/>
     <g:if test="${flash.message}">

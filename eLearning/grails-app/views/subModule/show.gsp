@@ -25,6 +25,15 @@
 				</z:hlayout>
 			</z:window>
 		</g:if>
+		
+		
+		<z:window id="examView" title="Edit Exam" visible="false" style="padding:5px" mode="modal" closable="true" maximizable="true" 
+		apply="com.cland.elearning.submodule.DialogComposer">
+		modal exam details here
+		<z:button id="closeBtn"
+				label="${message(code: 'default.button.add.label', default: 'Close Dialog')}" />
+		</z:window>
+		
 		<z:grid>
 			
 			<z:rows>
@@ -74,6 +83,8 @@
 				</z:panelchildren>
 			</z:panel>
 		</z:hbox>
+		
+		
 	</z:window>
 </body>
 </html>

@@ -14,7 +14,12 @@ class ShowComposer {
 	Person curPerson
 	ListModelList listModel = new ListModelList()
     def afterCompose = {Component comp ->
-        if(!springSecurityService.isLoggedIn()) return;
+       if(!springSecurityService.isLoggedIn()){
+			println("Not logged in...")
+			 return;
+        }else{
+		println("Welcome... logged in...")
+        }
 		submoduleGrid.setRowRenderer(rowRenderer as RowRenderer)
 		submoduleGrid.setModel(listModel)
 		curPerson = (Person) springSecurityService.currentUser
