@@ -71,7 +71,7 @@ class Person {
 	}
 	
 	String toString(){
-		"${lastName}, ${firstName}"
+		"${firstName} ${lastName}"
 	}
 
 } //end class
