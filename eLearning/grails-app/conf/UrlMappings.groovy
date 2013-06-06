@@ -11,8 +11,8 @@ class UrlMappings {
 		
 		//"/test?"(controller:"staticView")
 
-		"/"(view:"/index")
-		//"/"(controller:"course",action:"list")
+	//	"/"(view:"/index")
+		"/"(controller:"home",action:"index")
 		"500"(view:'/error')
 		"404"(view:'/error')
 		

@@ -1,8 +1,9 @@
 package com.cland.elearning
-
+import grails.plugins.springsecurity.Secured
 class CourseController {
 
     def index = {
+
         redirect(action: "list", params: params)
     }
 

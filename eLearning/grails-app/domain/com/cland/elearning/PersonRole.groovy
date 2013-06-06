@@ -55,6 +55,6 @@ class PersonRole implements Serializable {
 		version false
 	}
 	String toString(){
-		"${person.fistName} ${person.lastName} - ${role.authority}"
+		"${person.firstName} ${person.lastName} - ${role.authority}"
 	}
 } //end string

@@ -1,4 +1,5 @@
 package com.cland.elearning
+import grails.plugins.springsecurity.Secured
 
 class SubModuleController {
 

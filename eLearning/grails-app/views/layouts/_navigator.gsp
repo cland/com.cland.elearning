@@ -1,5 +1,6 @@
 <div class="nav" role="navigation">
 	<ul>
+		<sec:ifLoggedIn>
 		<li><a class="home" href="${createLink(uri: '/')}"><g:message
 					code="default.home.label" /></a></li>
 		<li><g:link controller="course" action="list">Courses</g:link></li>
@@ -13,7 +14,7 @@
 		<sec:ifAnyGranted roles="ADMIN">
 			<li><g:link controller="admin" action="index">Technical</g:link></li>
 		</sec:ifAnyGranted>
-		<sec:ifLoggedIn>
+	
 			<li><g:link controller="logout" action="index">Logout</g:link></li>
 		</sec:ifLoggedIn>
 		<sec:ifNotLoggedIn>

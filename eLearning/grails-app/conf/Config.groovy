@@ -95,3 +95,34 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.cland.elearn
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.cland.elearning.PersonRole'
 grails.plugins.springsecurity.authority.className = 'com.cland.elearning.Role'
 grails.plugins.springsecurity.ui.encodePassword = false //added manually, jd - 19/05/2013
+
+//grails.plugins.springsecurity.securityConfigType = "Annotation"
+//grails.plugins.springsecurity.rejectIfNoRule = true
+
+/** ORDERING: REALLY-SECURE FIRST to LESS SECURE **/
+grails.plugins.springsecurity.controllerAnnotations.staticRules=[
+	//'/**': ['IS_AUTHENTICATED_FULLY'],
+	//** ADMIN ONLY
+	'/subModule/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	 '/exam/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	 '/person/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],	 
+	'/admin/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/exam/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/personRole/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/registration/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/role/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/user/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/venue/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	'/eventResult/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	
+	//** GENERAL AUTHENTICATED USER
+	'/home/**': ['IS_AUTHENTICATED_FULLY'],
+	'/course/**': ['IS_AUTHENTICATED_FULLY'],
+	'/courseResult/**': ['IS_AUTHENTICATED_FULLY'],
+	'/courseEvent/**': ['IS_AUTHENTICATED_FULLY'],
+	'/module/**': ['IS_AUTHENTICATED_FULLY'],
+	'/eventResult/**': ['IS_AUTHENTICATED_FULLY'],
+	'/organisation/**': ['IS_AUTHENTICATED_FULLY'],	
+	'/login/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	'/logout/**': ['IS_AUTHENTICATED_ANONYMOUSLY']
+]
