@@ -69,7 +69,12 @@ class Person {
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}
-	
+	String lastFirstName(String s = " "){
+		"${lastName}" + s + "${firstName}"
+	}
+	String firstLastName(String s = " "){
+		"${firstName}" + s + "${lastName}"
+	}
 	String toString(){
 		"${firstName} ${lastName}"
 	}

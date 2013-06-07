@@ -80,7 +80,7 @@ class CourseController {
 			[cell: [it.learner.firstName,
 					it.learner.lastName,
 					it.regDate.format('dd MMM yyyy'),
-					it.tutor.toString()					
+					it.tutor.lastFirstName()					
 				], id: it.id]
 		}
 		

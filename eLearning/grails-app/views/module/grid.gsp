@@ -22,6 +22,13 @@
 	vertical-align: text-top;
 	white-space: normal !important;
 }
+.ui-jqgrid .ui-jqgrid-htable th {
+    height: 32px;
+    padding: 0 2px;
+}
+.ui-jqgrid .ui-jqgrid-view {
+    font-size: 12px; 
+}
 </style>
 <script type="text/javascript">
 var cland_params = {
