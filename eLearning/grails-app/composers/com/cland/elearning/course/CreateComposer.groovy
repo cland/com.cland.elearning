@@ -42,7 +42,7 @@ class CreateComposer {
 		for(int i=0;i<idlist.size();i++){							
 			module = Module.get(idlist[i] as Long)
 			if (module){
-				println("adding:" + module.toString() + " module size:" + courseInstance.modules.size())
+				
 				courseInstance.addToModules(module)
 				courseInstance.save(flush:true)
 				if(courseInstance.hasErrors()){
@@ -53,7 +53,6 @@ class CreateComposer {
 					state = "OK"
 				}
 				
-				println("ADDED:" + module.toString() + " module size:" + courseInstance.modules.size())
 			}else{
 				println("No module found")
 				message = "could not find the module with id "
@@ -63,7 +62,7 @@ class CreateComposer {
 		def response = [message:message,state:state]
 		
 		println(message + " - " + state)
-
+		flash.message = response //g.message(code: 'default.created.message', args: [g.message(code: 'course.label', default: 'Course'), courseInstance.id])
 		//return response // as JSON
 		
 	} //end addModuleButton 

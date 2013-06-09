@@ -96,9 +96,9 @@ class HomeComposer {
 		def regInstance = Registration.get(id)
 		row << {
 			//a(href: g.createLink(controller:"registration",action:'edit',id:id), label: regInstance.course.name)			
-			a(href: g.createLink(controller:"course",action:'edit',id:regInstance.course.id), label: regInstance.course.name)
+			a(href: g.createLink(controller:"course",action:'show',id:regInstance.course.id), label: regInstance.course.name)
 			label(value: regInstance.course.startDate.format('dd/MM/yyyy'))
-			label(value: regInstance.learner.firstName)
+			label(value: regInstance.learner.firstLastName())
 		}
 	}
 } //end home composer class

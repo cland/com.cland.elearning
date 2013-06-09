@@ -15,16 +15,16 @@
 //<![CDATA[
 var cland_params = {
 		thisId : ${params.id},
-		modules_list_url : "../jq_list_modules?id=" + ${params.id},
-		modules_edit_url : "../jq_list_modules?id=" + ${params.id}, //to fix
+		modules_list_url : "../jq_list_modules?courseid=" + ${params.id},
+		modules_edit_url : "../jq_remove_module?courseid=" + ${params.id}, //to fix
 		module_maingrid_id		: "module_list",
 		module_maingrid_id_pager : "module_list_pager",
 		
 		submodule_subgrid_id	: "submodule_list",
 		submodule_list_url :  "../jq_list_exam",
 
-		learners_list_url : "../jq_list_learners?id=" + ${params.id},
-		learners_edit_url : "../jq_list_learners?id=" + ${params.id}, //to fix
+		learners_list_url : "../jq_list_learners?courseid=" + ${params.id},
+		learners_edit_url : "../jq_remove_learner?courseid=" + ${params.id}, //to fix
 		learner_maingrid_id		: "learner_list",
 		learner_maingrid_id_pager : "learner_list_pager",
 		
@@ -150,6 +150,7 @@ $(document).ready(function() {
 					$("fieldset.topleft1 legend").nextAll("div.content").hide();
 					$("fieldset.topleft2 legend").children("b").addClass("collapsed");
 					$("fieldset.topleft2 legend").nextAll("div.content").hide();
+					
 					  centerForm = function ($form) {
 		                    $form.closest('div.ui-jqdialog').position({
 		                        my: "center",
@@ -157,14 +158,14 @@ $(document).ready(function() {
 		                    });
 		                };
 
-		              //initialize the coursegrid
+		              //initialize the modulegrid
 					    jQuery("#" + cland_params.module_maingrid_id).jqGrid({
 					      url:cland_params.modules_list_url,
-					      editurl:cland_params.maingrid_edit_url,
+					      editurl:cland_params.modules_edit_url,
 					      autowidth: true,
 					      height:"100%",
 					      datatype: "json",
-					      colNames:['Name','Description','id','<input type="button" name="Add_Module" onClick="addModuleRow(\''+cland_params.thisId+'\');" id="module_add" value="Add Module"/>'],
+					      colNames:['Name','Description','id','<input type="button" name="Add_Module" onClick="addModuleRow(\''+cland_params.thisId+'\',\''+cland_params.module_maingrid_id+'\');" id="module_add" value="Add Module"/>'],
 					      colModel:[
 					        {name:'name', editable:false},						        
 					        {name:'description', editable:false},        
@@ -243,12 +244,8 @@ $(document).ready(function() {
 					        
 					        for(var i=0;i < ids.length;i++)
 					            { 
-					            	var cl = ids[i]; 
-						            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#submodule_list').editRow('"+cl+"');\" />"; 
-						            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#submodule_list').saveRow('"+cl+"');\" />"; 
-						            ce = "<input style='height:22px;width:42px;' type='button' value='Cancel' onclick=\"jQuery('#submodule_list').restoreRow('"+cl+"');clearSelection('"+ cland_params.module_maingrid_id + "');\" />"; 
-						            de = "<input style='height:22px;width:82px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
-						            rm = "<input style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"');\" />";
+					            	var cl = ids[i]; 						            
+						            rm = "<input style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.module_maingrid_id+"');\" />";
 						            
 						            jQuery("#" + cland_params.module_maingrid_id).jqGrid('setRowData',ids[i],{act:rm}); //be+se+ce+de forall actions 
 					            }
@@ -268,7 +265,7 @@ $(document).ready(function() {
 					      autowidth: true,
 					      height:"100%",
 					      datatype: "json",
-					      colNames:['Name','Surname','Registration Date','Tutor','id','<input type="button" name="Add_Learner" onClick="addLearnerRow(\''+cland_params.thisId+'\');" id="learner_add" value="Register Learner"/>'],
+					      colNames:['Name','Surname','Registration Date','Tutor','id','<input type="button" name="Add_Learner" onClick="addLearnerRow(\''+cland_params.thisId+'\',\''+cland_params.learner_maingrid_id+'\');" id="learner_add" value="Register Learner"/>'],
 					      colModel:[
 					        {name:'firstName', editable:false},						        
 					        {name:'lastName', editable:false},
@@ -350,11 +347,8 @@ $(document).ready(function() {
 					        for(var i=0;i < ids.length;i++)
 					            { 
 					            	var cl = ids[i]; 
-						            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#submodule_list').editRow('"+cl+"');\" />"; 
-						            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#submodule_list').saveRow('"+cl+"');\" />"; 
-						            ce = "<input style='height:22px;width:42px;' type='button' value='Cancel' onclick=\"jQuery('#submodule_list').restoreRow('"+cl+"');clearSelection('"+ cland_params.learner_maingrid_id + "');\" />"; 
-						            de = "<input style='height:22px;width:82px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
-						            rm = "<input style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"');\" />";
+						          
+						            rm = "<input style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            
 						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rm}); //be+se+ce+de forall actions 
 					            }
@@ -407,8 +401,15 @@ $(document).ready(function() {
 		      else
 		        alert("Please Select Row to delete!");
 		  }
-		  function removeGridRow(id){
-			  alert("Removing " + id)
+		  function removeGridRow(id, grid_id){
+		  
+			 if (id!= null) jQuery('#' + grid_id).jqGrid('setSelection',id);
+			  var gr = $("#" + grid_id).jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
+		      
+		      if( gr != null && gr != "" )
+		        $("#" + grid_id).jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+		      else
+		        alert("Please Select Row to delete!");
 			  }
 		  function addRow(row_id, subgrid_id, caption){
 			 grid = $("#" + subgrid_id)
@@ -418,26 +419,38 @@ $(document).ready(function() {
 		              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13]}
 		      );
 			}
-		  function addModuleRow(course_id){		  	 
+		  function addModuleRow(course_id,grid_id){		  	 
 		  	 var $dialog = $('<div></div>')
            
                         .load('../addmodule?id=' + course_id)
                         .dialog({
                             autoOpen: false,
                             width:350,
+                            beforeClose: function(event,ui){
+                            	
+                            },
+                            close: function(event){
+                            	$("#" + grid_id).trigger('reloadGrid')
+                            },
                             title: 'Add Module to Course'                         
                         });
                             
                         $dialog.dialog('open');
                         
 		  }
-		  function addLearnerRow(course_id){
+		  function addLearnerRow(course_id, grid_id){
 		  	 var $dialog = $('<div></div>')
            
                         .load('../../registration/register?course.id=' + course_id)
                         .dialog({
                             autoOpen: false,
                             width:350,
+                            beforeClose: function(event,ui){
+                            	
+                            },
+                            close: function(event){                                                     
+                            	$("#" + grid_id).trigger('reloadGrid')
+                            },
                             title: 'Register Learner'                         
                         });
                             
