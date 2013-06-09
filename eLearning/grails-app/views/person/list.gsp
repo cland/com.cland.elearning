@@ -9,10 +9,10 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'person.id',default:'Id')}"/>
-                <z:longbox id="idLongbox"/>
+                <z:label value="${message(code:'person.firstName',default:'Firstname')}"/>
+                  <z:textbox id="keywordBox"/>
                 <z:space/>
-                <z:button id="searchButton" label="${message(code:'search')}"/>
+               
             </z:hlayout>
             <g:if test="${flash.message}">
                 <z:window mode="popup" border="normal">
@@ -25,12 +25,10 @@
                 </z:window>
             </g:if>
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
-                <z:columns sizable="true">
-                    <z:column label="${message(code: 'person.id.label', default: 'Id')}"/>
-                    <z:column label="${message(code: 'person.username.label', default: 'Username')}"/>
-                    <z:column label="${message(code: 'person.password.label', default: 'Password')}"/>
+                <z:columns sizable="true">                                                         
                     <z:column label="${message(code: 'person.firstName.label', default: 'First Name')}"/>
                     <z:column label="${message(code: 'person.lastName.label', default: 'Last Name')}"/>
+                      <z:column label="${message(code: 'person.username.label', default: 'Username')}"/> 
                     <z:column label="${message(code: 'person.idNo.label', default: 'Id No')}"/>
                     <z:column width="150px"/>
                 </z:columns>

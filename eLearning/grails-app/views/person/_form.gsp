@@ -5,12 +5,12 @@
         <z:label value="${message(code:'person.username.label',default:'Username')}"/>
         <z:textbox name="username" value="${personInstance?.username}" />
     </z:row>
-
-    <z:row>
+<g:if test="${params.action=='create'}">
+ <z:row>
         <z:label value="${message(code:'person.password.label',default:'Password')}"/>
-        <z:textbox name="password" value="${personInstance?.password}" />
+        <z:textbox name="password" type="password" value="${personInstance?.firstName}" />
     </z:row>
-
+</g:if>    
     <z:row>
         <z:label value="${message(code:'person.firstName.label',default:'First Name')}"/>
         <z:textbox name="firstName" value="${personInstance?.firstName}" />

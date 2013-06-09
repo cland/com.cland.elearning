@@ -13,7 +13,11 @@ class RegistrationController {
         registrationInstance.properties = params
         return [registrationInstance: registrationInstance]
     }
-
+	def register = {
+		def registrationInstance = new Registration()
+		registrationInstance.properties = params
+		return [registrationInstance: registrationInstance]
+	}
     def edit = {
         def registrationInstance = Registration.get(params.id)
         if (!registrationInstance) {

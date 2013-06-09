@@ -15,16 +15,16 @@
 //<![CDATA[
 var cland_params = {
 		thisId : ${params.id},
-		modules_list_url : "../jq_list_modules",
-		modules_edit_url : "../jq_list_modules", //to fix
+		modules_list_url : "../jq_list_modules?id=" + ${params.id},
+		modules_edit_url : "../jq_list_modules?id=" + ${params.id}, //to fix
 		module_maingrid_id		: "module_list",
 		module_maingrid_id_pager : "module_list_pager",
 		
 		submodule_subgrid_id	: "submodule_list",
 		submodule_list_url :  "../jq_list_exam",
 
-		learners_list_url : "../jq_list_learners",
-		learners_edit_url : "../jq_list_learners", //to fix
+		learners_list_url : "../jq_list_learners?id=" + ${params.id},
+		learners_edit_url : "../jq_list_learners?id=" + ${params.id}, //to fix
 		learner_maingrid_id		: "learner_list",
 		learner_maingrid_id_pager : "learner_list_pager",
 		
@@ -125,9 +125,7 @@ var cland_params = {
 		</div>
 	</div>
 	<!--  End tabs -->
-<script type="text/javascript">
-var a = "";
-</script>
+	
 <script type="text/javascript">
 
 /* when the page has finished loading.. execute the follow */
@@ -180,7 +178,7 @@ $(document).ready(function() {
 					    pager: jQuery('#' + cland_params.module_maingrid_id_pager),
 					    viewrecords: true,
 					    gridview: true,
-					   	postData:{id:cland_params.thisId},
+					   	//postData:{id:cland_params.thisId},
 					    cellEdit:false,
 					    cellsubmit: 'remote',
 					   	cellurl:cland_params.module_maingrid_edit_url,
@@ -286,7 +284,7 @@ $(document).ready(function() {
 					    pager: jQuery('#' + cland_params.learner_maingrid_id_pager),
 					    viewrecords: true,
 					    gridview: true,
-					   	postData:{id:cland_params.thisId},
+					  // 	postData:{id:cland_params.thisId},
 					    cellEdit:false,
 					    cellsubmit: 'remote',
 					   	cellurl:cland_params.learner_maingrid_edit_url,
@@ -420,13 +418,33 @@ $(document).ready(function() {
 		              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13]}
 		      );
 			}
-		  function addModuleRow(course_id){
-		  	 alert("Add module for courseid : " + course_id)
+		  function addModuleRow(course_id){		  	 
+		  	 var $dialog = $('<div></div>')
+           
+                        .load('../addmodule?id=' + course_id)
+                        .dialog({
+                            autoOpen: false,
+                            width:350,
+                            title: 'Add Module to Course'                         
+                        });
+                            
+                        $dialog.dialog('open');
+                        
 		  }
 		  function addLearnerRow(course_id){
-		  	 alert("Add module for courseid : " + course_id)
+		  	 var $dialog = $('<div></div>')
+           
+                        .load('../../registration/register?course.id=' + course_id)
+                        .dialog({
+                            autoOpen: false,
+                            width:350,
+                            title: 'Register Learner'                         
+                        });
+                            
+                        $dialog.dialog('open');
 		  }
 		  function clearSelection(grid_id){jQuery('#' + grid_id).jqGrid('resetSelection'); }
+
 
 
 </script>

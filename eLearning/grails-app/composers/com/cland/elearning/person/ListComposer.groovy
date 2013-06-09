@@ -3,13 +3,16 @@ package com.cland.elearning.person
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
+
 import com.cland.elearning.Person
 
 class ListComposer {
     Grid grid
     ListModelList listModel = new ListModelList()
     Paging paging
-    Longbox idLongbox
+       //Longbox idLongbox
+	def springSecurityService
+	Textbox keywordBox
 
     def afterCompose = {Component comp ->
         grid.setRowRenderer(rowRenderer as RowRenderer)
@@ -30,11 +33,18 @@ class ListComposer {
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
         def personInstanceList = Person.createCriteria().list(offset: offset, max: max) {
-            order('id','desc')
-            if (idLongbox.value) {
-                eq('id', idLongbox.value)
-            }
+		
+            order('firstName','asc')
+//            if (idLongbox.value) {
+//                eq('id', idLongbox.value)
+//            }
+			if(keywordBox.value){
+				ilike('firstName',keywordBox.value+"%")
+			}
         }
+		def roles = springSecurityService.getPrincipal().getAuthorities()
+		println(roles)
+		
         paging.totalSize = personInstanceList.totalCount
         listModel.clear()
         listModel.addAll(personInstanceList.id)
@@ -42,12 +52,11 @@ class ListComposer {
 
     private rowRenderer = {Row row, Object id, int index ->
         def personInstance = Person.get(id)
-        row << {
-                a(href: g.createLink(controller:"person",action:'edit',id:id), label: personInstance.id)
-                label(value: personInstance.username)
-                label(value: personInstance.password)
+		
+        row << {                                             
                 label(value: personInstance.firstName)
                 label(value: personInstance.lastName)
+				a(href: g.createLink(controller:"person",action:'edit',id:id), label: personInstance.username)
                 label(value: personInstance.idNo)
                 hlayout{
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "person", action: 'edit', id: id))
@@ -58,4 +67,9 @@ class ListComposer {
                 }
         }
     }
-}
+	//** CUSTOM TESTS
+	 void onChanging_keywordBox(InputEvent e) {
+		 keywordBox.value = e.value
+		 redraw()
+	 }
+} //end class

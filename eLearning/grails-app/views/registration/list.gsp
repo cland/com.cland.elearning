@@ -9,10 +9,10 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'registration.id',default:'Id')}"/>
-                <z:longbox id="idLongbox"/>
+                <z:label value="${message(code:'registration.learner',default:'Lastname: ')}"/>
+                <z:textbox id="keywordBox"/>
                 <z:space/>
-                <z:button id="searchButton" label="${message(code:'search')}"/>
+                
             </z:hlayout>
             <g:if test="${flash.message}">
                 <z:window mode="popup" border="normal">
@@ -25,13 +25,12 @@
                 </z:window>
             </g:if>
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
-                <z:columns sizable="true">
-                    <z:column label="${message(code: 'registration.id.label', default: 'Id')}"/>
+                <z:columns sizable="true">                    
                     <z:column label="${message(code: 'registration.learner.label', default: 'Learner')}"/>
                     <z:column label="${message(code: 'registration.course.label', default: 'Course')}"/>
-                    <z:column label="${message(code: 'registration.tutor.label', default: 'Tutor')}"/>
-                    <z:column label="${message(code: 'registration.dateCreated.label', default: 'Date Created')}"/>
+                    <z:column label="${message(code: 'registration.tutor.label', default: 'Tutor')}"/>                    
                     <z:column label="${message(code: 'registration.regDate.label', default: 'Reg Date')}"/>
+                    <z:column label="${message(code: 'registration.dateCreated.label', default: 'Date Created')}"/>
                     <z:column width="150px"/>
                 </z:columns>
             </z:grid>
