@@ -233,7 +233,32 @@ class BootStrap {
 				//	course.addToCourseevents(courseEvent)
 				break
 			case "PRODUCTION" :
+			def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
+			def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
+			def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
+			def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
 
+		//* Admin user
+			def adminUser = new Person(username: 'admin',
+			enabled: true,
+			password: 'elearning',
+			firstName: 'System',
+			lastName: 'Admin',
+			idNo :"9999999999",
+			region:"Western Cape",
+			country:"South Africa",
+			contactNo : "021334232",
+			dateOfBirth:(new Date() - 365*30),
+			gender:"M",
+			address:"123 Main St",
+			city:"Cape Town",
+			email:"system@mail.com")
+
+			adminUser.save()
+			if(adminUser.hasErrors()){
+				println adminUser.errors
+			}
+			PersonRole.create(adminUser, adminRole, true)
 				break
 		}
 	} //end init
