@@ -14,6 +14,7 @@
 <script type="text/javascript">
 //<![CDATA[
 var cland_params = {
+		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
 		thisId : ${params.id},
 		modules_list_url : "../jq_list_modules?courseid=" + ${params.id},
 		modules_edit_url : "../jq_remove_module?courseid=" + ${params.id}, //to fix
@@ -61,6 +62,7 @@ var cland_params = {
 </head>
 
 <body>
+
 	<z:window style="">
 		<z:window style="padding:5px">
 			<div class="bread-crump">
@@ -70,6 +72,7 @@ var cland_params = {
 					Course: ${courseInstance.name }
 				</span>
 			</div>
+			<div id="message"></div>
 			<g:if test="${flash.message}">
 				<z:window mode="popup" border="normal" style="margin-bottom:5px">
 					<z:hlayout>
@@ -126,12 +129,13 @@ var cland_params = {
 	</div>
 	<!--  End tabs -->
 	
-<script type="text/javascript">
+<r:script>
 
 /* when the page has finished loading.. execute the follow */
-$(document).ready(function() {			
+$(document).ready(function() {		
 					$("#tabs").tabs(
 									{
+									active:cland_params.active_tab(),
 										beforeLoad : function(event, ui) {
 											ui.jqXHR.error(function() {
 												ui.panel
@@ -139,7 +143,8 @@ $(document).ready(function() {
 											});
 										}
 									});
-
+			
+			
 					//field set functions
 					$("legend").click(
 							function() {
@@ -366,7 +371,7 @@ $(document).ready(function() {
 
 /** helper functions **/
  
-  function afterSubmitEvent(response, postdata) {
+  function afterSubmitEvent(response, postdata) {  
 		      var success = true;
 		  
 		      var json = eval('(' + response.responseText + ')');
@@ -460,6 +465,6 @@ $(document).ready(function() {
 
 
 
-</script>
+</r:script>
 </body>
 </html>

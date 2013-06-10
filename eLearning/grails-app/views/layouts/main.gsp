@@ -20,7 +20,7 @@
 		<z:resources/>
 	</head>
 	<body>
-		<div id="grailsLogo" role="banner"><a href="/eLearning"><img src="${resource(dir: 'images', file: 'cland_logo.png')}" alt="Cland"/></a></div>
+		<div id="grailsLogo" role="banner"><a href="/eLearning"><img src="${resource(dir: 'images', file: 'elearning_logo.png')}" alt="Cland"/></a></div>
 		<g:render template="/layouts/navigator" />
 		<g:layoutBody/>
 		<g:render template="/layouts/footer" />

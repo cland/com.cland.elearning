@@ -15,17 +15,7 @@ class CourseController {
         courseInstance.properties = params
         return [courseInstance: courseInstance]
     }
-	def addmodule = {
-		//println("addmodule: ${params}")
-		def courseInstance = Course.get(params.id as Long)
-        if (!courseInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'course.label', default: 'Course'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            return [courseInstance: courseInstance]
-        }
-	}
+
     def edit = {
         def courseInstance = Course.get(params.id)
         if (!courseInstance) {
@@ -53,6 +43,17 @@ class CourseController {
 		tutors_list_url	: "../jq_list_tutors",
 		events_list_url	: "../jq_list_events",
 	 */
+	def addmodule = {
+		//println("addmodule: ${params}")
+		def courseInstance = Course.get(params.id as Long)
+		if (!courseInstance) {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'course.label', default: 'Course'), params.id])}"
+			redirect(action: "list")
+		}
+		else {
+			return [courseInstance: courseInstance]
+		}
+	}
 	def jq_list_modules = {
 		//println("jq_list_modules: ${params}")
 		def courseInstance = Course.get(params.courseid)
@@ -77,38 +78,50 @@ class CourseController {
 	} //end jq_list_modules
 	
 	def jq_remove_module = {
-		println("jq_list_modules: ${params}")
+		def message = ""
+		def state = "FAIL"
+		//println("jq_list_modules: ${params}")
 		def courseInstance = Course.get(params.courseid)
 		if (!courseInstance) {
 			//println("null course instance")
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'course.label', default: 'Course'), params.id])}"
 			redirect(action: "show",params:params)
 		}
-		println("Removing module: ")
+		
 		def module = Module.get(params.id)
 		if(module){
 			courseInstance.modules.remove(module)
 			courseInstance.save(flush:true)
+			message = module.toString() + " has been removed!"
+			state = "OK"
 		}
-		//def modules = courseInstance.modules
-		render "ok"
+		
+		def response = [message:message,state:state,id:params.id]		
+		render response as JSON
 	}
 	def jq_remove_learner = {
-		println("jq_remove_learner: ${params}")
+		def message = ""
+		def state = "FAIL"
+	//println("jq_remove_learner: ${params}")
 		def courseInstance = Course.get(params.courseid)
 		if (!courseInstance) {
 			//println("null course instance")
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'course.label', default: 'Course'), params.id])}"
 			redirect(action: "show",params:params)
 		}
-		println("Removing learner: " + params.id + " - course id: " + params.courseid)
+		//println("Removing learner: " + params.id + " - course id: " + params.courseid)
 		def reg = Registration.get(params.id) //findAllWhere("learner.id":params.id as Long,"course.id":params.courseid as Long)
 		if(reg){
 			reg.delete()
+			message = reg.learner.toString() + " has been de-registered!"
+			state = "OK"
 		}else{
 			println("reg is null " + reg)
+			message = "No registration found!"
 		}
-		render "ok"
+		def response = [message:message,state:state,id:params.id]		
+		render response as JSON
+		
 	}
 	def jq_list_learners = {
 		//println("jq_list_learners: ${params}")

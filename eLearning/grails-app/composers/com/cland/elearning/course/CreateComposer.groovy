@@ -23,7 +23,7 @@ class CreateComposer {
         }
     } //end onClic_saveButton
 	
-	def onClick_addModuleButton(Event e) {
+	void onClick_addModuleButton(Event e) {
 		def message = ""
 		def state = "FAIL"
 		def params = self.params
@@ -42,28 +42,31 @@ class CreateComposer {
 		for(int i=0;i<idlist.size();i++){							
 			module = Module.get(idlist[i] as Long)
 			if (module){
-				
-				courseInstance.addToModules(module)
-				courseInstance.save(flush:true)
-				if(courseInstance.hasErrors()){
-					println courseInstance.errors
-					message = "Error saving the course after adding module"
+				if(courseInstance.modules.contains(module)){
+					//message += (i+1) + ") Module '" + module.toString() + "' already exists<br/>"
 				}else{
-					message = "Module added successfully!"
-					state = "OK"
-				}
-				
+					courseInstance.addToModules(module)
+					courseInstance.save(flush:true)
+					if(courseInstance.hasErrors()){
+						println courseInstance.errors
+						message += "Error saving the course after adding module!"
+						state = "FAIL"
+					}else{
+						message += (i+1) + ") Module '" + module.toString() + "' added successfully!<br/>"
+						state = "OK"
+					}
+				} //end else does not already exists
 			}else{
 				println("No module found")
-				message = "could not find the module with id "
+				message += (i+1) + " Could not find the module with id '" + idlist[i] + "' <br/>"
 			}
 		}
 						
 		def response = [message:message,state:state]
 		
-		println(message + " - " + state)
-		flash.message = response //g.message(code: 'default.created.message', args: [g.message(code: 'course.label', default: 'Course'), courseInstance.id])
+		println(message + " Status - " + state)
+		flash.message = message + " - " + state 
 		//return response // as JSON
-		
+		redirect(controller: "course", action: "show", params:[id:courseInstance.id, tab:0])
 	} //end addModuleButton 
 }// end class

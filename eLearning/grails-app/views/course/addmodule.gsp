@@ -10,7 +10,16 @@
 
  <z:longbox name="id" value="${courseInstance.id}" visible="false"/>
     <z:longbox name="version" value="${courseInstance.version}" visible="false"/>
-    
+    <g:if test="${flash.message}">
+        <z:window mode="popup" border="normal" style="margin-bottom:5px">
+            <z:hlayout>
+                <z:image src="/images/skin/information.png"/>
+                <z:div>
+                    ${flash.message}
+                </z:div>
+            </z:hlayout>
+        </z:window>
+    </g:if>
     <z:window title="Module List" border="normal" width="300px">
     <z:vlayout>
         <g:each var="i" in="${com.cland.elearning.Module.list()}">
