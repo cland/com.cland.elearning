@@ -1,24 +1,27 @@
 package com.cland.elearning
 
 class CourseEvent {
-	Date eventDate
-	Person tutor
-	Person counsellor
+	String title
+	String description
+	Date startDate
+	Date endDate	
 	Venue venue
 	String region
 	SubModule subModule
+	Person facilitator
 	Exam exam			//** This is defines the type of event 	
 	static belongsTo = [course:Course]
-	static hasMany = [results:EventResult]
+	
 	static constraints = {
+		title()
+		startDate()
+		endDate()
 		course()
 		subModule(blank:false)
 		exam()
-		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
-		eventDate()
-		tutor()
-		counsellor()
+		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])		
 		venue()			
+		facilitator()
 	}
 	def beforeInsert = {
 		// your code goes here

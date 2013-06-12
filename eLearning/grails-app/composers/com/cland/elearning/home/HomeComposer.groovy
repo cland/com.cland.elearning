@@ -67,22 +67,25 @@ class HomeComposer {
 		reglistModel.addAll(registerInstanceList.id)
 		
 		//for the results
-		def courseResultInstanceList = CourseResult.createCriteria().list() {
+		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
 			eq "learner.id", curPerson.id as long
-			order('resultDate','desc')
+			order('module','asc')
 		}
 		listModel.clear()
-		listModel.addAll(courseResultInstanceList.id)
+		listModel.addAll(resultSummaryInstanceList.id)
 		
 	}//end function
 
 	private rowRenderer = {Row row, Object id, int index ->
-		def courseResultInstance = CourseResult.get(id)
+		def resultSummaryInstance = ResultSummary.get(id)
 		row << {
-			a(href: g.createLink(controller:"courseResult",action:'edit',id:id), label: courseResultInstance.subModule.toString())
+			label(value: resultSummaryInstance.learner.firstLastName())
+			a(href: g.createLink(controller:"ResultSummary",action:'edit',id:id), label: resultSummaryInstance.module.toString())
 
-			label(value: courseResultInstance.percentMark)
-			label(value: courseResultInstance.resultDate.format('dd/MM/yyyy'))
+		//	label(value: resultSummaryInstance.status)
+			label(value: resultSummaryInstance.result)
+		//	label(value: resultSummaryInstance.certNumber)
+			
 			//	hlayout{
 			//		toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "course", action: 'edit', id: id))
 			//		toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {

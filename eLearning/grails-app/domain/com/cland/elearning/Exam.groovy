@@ -15,7 +15,7 @@ class Exam {
 			"Multiply",
 			"Subtract",
 			"Add"])
-		status(inList:["active","inactive"])
+		status(inList:["Active","Inactive"])
     }
 	def beforeInsert = {
 	// your code goes here

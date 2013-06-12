@@ -1,7 +1,7 @@
 
 import com.cland.elearning.Course
 import com.cland.elearning.CourseEvent
-import com.cland.elearning.EventResult
+import com.cland.elearning.ResultSummary
 import com.cland.elearning.Exam
 import com.cland.elearning.Module
 import com.cland.elearning.Person
@@ -162,8 +162,8 @@ class BootStrap {
 				
 			//** Module-Submodule-exam 01
 
-				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide", status:"active")
-				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide",status:"active")
+				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide", status:"Active")
+				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide",status:"Active")
 
 				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:"Assignment")
 
@@ -178,8 +178,8 @@ class BootStrap {
 
 			//** Module-Submodule-exam 02
 
-				def exam3 = new Exam(testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide",status:"active")
-				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide",status:"active")
+				def exam3 = new Exam(testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide",status:"Active")
+				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide",status:"Active")
 
 				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Attendance Exercises")
 
@@ -215,50 +215,35 @@ class BootStrap {
 				if(course2.hasErrors()){
 					println course2.errors
 				}
-			//** Person registration
-			//	def reg1 = new Registration(learner:someUser,tutor:staffUser,regDate: new Date())
-			//	def reg2 = new Registration(learner:someUser1,tutor:staffUser,regDate: new Date())
-			//	staffUser.addToRegistrations(reg1)
-			//	staffUser.addToRegistrations(reg2)
-			//	someUser.addToRegistrations(reg1)
-			//	someUser1.addToRegistrations(reg2)
-			//	course.addToRegistrations(reg1)
-			//	course.addToRegistrations(reg1)
-
-				//** Course Event 
-				//	def courseEvent = new CourseEvent(eventDate:new Date(),tutor:staffUser,counsellor:staffUser,venue:venue1,subModule:submodule,exam:exam)
-				//	def eventResult = new EventResult(mark:59,percentMark:66.0,contributionMark:5.6)
-				//	courseEvent.addToEventresults(eventResult)
-	
-				//	course.addToCourseevents(courseEvent)
+			
 				break
 			case "PRODUCTION" :
-			def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
-			def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
-			def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
-			def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
-
-		//* Admin user
-			def adminUser = new Person(username: 'admin',
-			enabled: true,
-			password: 'elearning',
-			firstName: 'System',
-			lastName: 'Admin',
-			idNo :"9999999999",
-			region:"Western Cape",
-			country:"South Africa",
-			contactNo : "021334232",
-			dateOfBirth:(new Date() - 365*30),
-			gender:"M",
-			address:"123 Main St",
-			city:"Cape Town",
-			email:"system@mail.com")
-
-			adminUser.save()
-			if(adminUser.hasErrors()){
-				println adminUser.errors
-			}
-			PersonRole.create(adminUser, adminRole, true)
+//			def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
+//			def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
+//			def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
+//			def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
+//
+//		//* Admin user
+//			def adminUser = new Person(username: 'admin',
+//			enabled: true,
+//			password: 'elearning',
+//			firstName: 'System',
+//			lastName: 'Admin',
+//			idNo :"9999999999",
+//			region:"Western Cape",
+//			country:"South Africa",
+//			contactNo : "021334232",
+//			dateOfBirth:(new Date() - 365*30),
+//			gender:"M",
+//			address:"123 Main St",
+//			city:"Cape Town",
+//			email:"system@mail.com")
+//
+//			adminUser.save()
+//			if(adminUser.hasErrors()){
+//				println adminUser.errors
+//			}
+//			PersonRole.create(adminUser, adminRole, true)
 				break
 		}
 	} //end init

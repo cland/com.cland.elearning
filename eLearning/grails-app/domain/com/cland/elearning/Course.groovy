@@ -8,7 +8,7 @@ class Course {
 	Date endDate
 	String region
 	String status
-	static hasMany = [modules:Module,registrations:Registration,courceResults:CourseResult, courceEvents:CourseEvent]
+	static hasMany = [modules:Module,registrations:Registration,results:ResultSummary, events:CourseEvent]
     static constraints = {
 		name(blank:false)
 		startDate() //validator: {return (it >= new Date())})

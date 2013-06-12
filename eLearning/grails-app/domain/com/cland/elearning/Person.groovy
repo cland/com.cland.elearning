@@ -29,7 +29,7 @@ class Person {
 	static hasMany = [
 		tutorRegistrations:Registration,
 		learnerRegistrations:Registration,
-		eventResults:EventResult
+		results:ResultSummary
 		]
 	static constraints = {
 		username blank: false, unique: true

@@ -57,12 +57,11 @@
 									<z:grid id="myResultsGrid"
 										emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
 										<z:columns sizable="true">
-											<z:column width="150px"
-												label="${message(code: 'courseEvent.submodule.name.label', default: 'Course')}" />
-											<z:column
-												label="${message(code: 'courseEvent.percentMark.label', default: 'Mark')}" />
-											<z:column
-												label="${message(code: 'courseEvent.resultDate.label', default: 'Date')}" />
+										<z:column label="${message(code: 'resultSummary.learner.name.label', default: 'Learner')}" />
+										<z:column label="${message(code: 'resultSummary.module.name.label', default: 'Module')}" />
+										
+										<z:column label="${message(code: 'resultSummary.result.label', default: 'Result')}" /> 
+												
 											<z:column />
 										</z:columns>
 									</z:grid>
