@@ -29,6 +29,6 @@ class ResultSummary {
 	}
 	
 	String toString(){
-		"Status: ${status}, Result: ${result} "
+		"Learner: ${learner.toString()} - Course: ${course.name} - Module: ${module.name} Status: ${status} - Result: ${result} "
 	}
 } //end of class

@@ -32,12 +32,13 @@ class ListComposer {
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
         def resultSummaryInstanceList = ResultSummary.createCriteria().list(offset: offset, max: max) {
+			createAlias('learner','p')
             order('learner','asc')
 //            if (idLongbox.value) {
 //                eq('id', idLongbox.value)
 //            }
 			if(keywordBox.value){
-				ilike('result',"%"+keywordBox.value+"%")
+				ilike('p.firstName',"%"+keywordBox.value+"%") 
 			}
         }
         paging.totalSize = resultSummaryInstanceList.totalCount
@@ -48,13 +49,14 @@ class ListComposer {
     private rowRenderer = {Row row, Object id, int index ->
         def resultSummaryInstance = ResultSummary.get(id)
         row << {
-                a(href: g.createLink(controller:"resultSummary",action:'edit',id:id), label: resultSummaryInstance.learner)
+                a(href: g.createLink(controller:"resultSummary",action:'show',id:id), label: resultSummaryInstance.learner)
 				label(value: resultSummaryInstance.course.name)
 				label(value: resultSummaryInstance.module)
                 label(value: resultSummaryInstance.status)
                 label(value: resultSummaryInstance.result)
                 label(value: resultSummaryInstance.certNumber)                               
                 hlayout{
+					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "resultSummary", action: 'show', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "resultSummary", action: 'edit', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
                         ResultSummary.get(id).delete(flush: true)

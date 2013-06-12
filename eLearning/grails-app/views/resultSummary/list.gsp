@@ -9,7 +9,7 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'resultSummary.result',default:'Result')}"/>
+                <z:label value="${message(code:'resultSummary.result',default:'Learner')}"/>
                 <z:textbox id="keywordBox" />
                 <z:space/>
                
@@ -33,7 +33,7 @@
                     <z:column label="${message(code: 'resultSummary.result.label', default: 'Result')}"/>
                     <z:column label="${message(code: 'resultSummary.certNumber.label', default: 'Cert Number')}"/>
                                         
-                    <z:column width="150px"/>
+                    <z:column width="180px"/>
                 </z:columns>
             </z:grid>
             <z:paging autohide="true" id="paging" pageSize="15"/>

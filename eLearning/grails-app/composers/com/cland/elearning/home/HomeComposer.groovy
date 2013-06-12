@@ -18,7 +18,8 @@ class HomeComposer {
 	ListModelList reglistModel = new ListModelList()
 	//def courseService
 	def springSecurityService
-	Person curPerson
+	
+	
 	def afterCompose = {Component comp ->
 
 		if(!springSecurityService.isLoggedIn()) return;
@@ -26,7 +27,7 @@ class HomeComposer {
 		myResultsGrid.setModel(listModel)
 		myRegGrid.setRowRenderer(rowRegRenderer as RowRenderer)
 		myRegGrid.setModel(reglistModel)
-				curPerson = (Person) springSecurityService.currentUser
+	
 		redraw()
 	}
 
@@ -53,7 +54,7 @@ class HomeComposer {
 		//def courseInstanceList = Course.findAll("Course as c, registration r, person p where p.id=? and p.id=r.person_id and r.course_id=c.id order by c.name asc",[curPerson.id],[offset:offset,max:max])
 
 		def registerInstanceList = Registration.createCriteria().list(offset:offset,max:max) {
-			eq "learner.id", curPerson.id as long
+			eq "learner.id", springSecurityService.principal.id as long
 			order('regDate','desc')
 		}
 	//	def courseInstanceList = Course.createCriteria().list(offset: offset, max: max) {
@@ -68,7 +69,7 @@ class HomeComposer {
 		
 		//for the results
 		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
-			eq "learner.id", curPerson.id as long
+			eq "learner.id", springSecurityService.principal.id as long  
 			order('module','asc')
 		}
 		listModel.clear()
