@@ -69,7 +69,8 @@ class HomeComposer {
 		
 		//for the results
 		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
-			eq "learner.id", springSecurityService.principal.id as long  
+			createAlias("register","reg")
+			eq "reg.learner.id", springSecurityService.principal.id as long  
 			order('module','asc')
 		}
 		listModel.clear()
@@ -80,11 +81,13 @@ class HomeComposer {
 	private rowRenderer = {Row row, Object id, int index ->
 		def resultSummaryInstance = ResultSummary.get(id)
 		row << {
-			label(value: resultSummaryInstance.learner.firstLastName())
-			a(href: g.createLink(controller:"ResultSummary",action:'edit',id:id), label: resultSummaryInstance.module.toString())
+			label(value: resultSummaryInstance.register.learner.firstLastName())
+			label(value: resultSummaryInstance.register.course.name)
+			label(value: resultSummaryInstance.module.name)
+			a(href: g.createLink(controller:"ResultSummary",action:'show',id:id), label: resultSummaryInstance.result)
 
 		//	label(value: resultSummaryInstance.status)
-			label(value: resultSummaryInstance.result)
+			
 		//	label(value: resultSummaryInstance.certNumber)
 			
 			//	hlayout{

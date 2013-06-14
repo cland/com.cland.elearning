@@ -21,7 +21,10 @@ class PersonController {
             redirect(action: "list")
         }
         else {
-            return [personInstance: personInstance]
+			//get the roles
+			def roleMap = personInstance.getAuthorities()
+			
+            return [personInstance: personInstance,roleMap:roleMap]
         }
     }
 

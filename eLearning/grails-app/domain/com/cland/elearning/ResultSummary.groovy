@@ -5,15 +5,14 @@ class ResultSummary {
 	String result
 	String certNumber	
 	Module module
-	Person learner
 	static hasMany =[results:ExamResult]
-	static belongsTo = [course:Course,learner:Person]
+	static belongsTo = [register:Registration]
     static constraints = {
 		status(inList:["Not Started","In Progress","Completed"])
 		result(inList:["Pass","Fail","None"])
-		certNumber()
+		certNumber(blank:true)
 		module()
-		learner()
+		register()
     }
 	def beforeInsert = {
 	// your code goes here
@@ -25,10 +24,10 @@ class ResultSummary {
 	// your code goes here
 	}
 	def onLoad = {
-	// your code goes here
+	// your code goes here 
 	}
 	
 	String toString(){
-		"Learner: ${learner.toString()} - Course: ${course.name} - Module: ${module.name} Status: ${status} - Result: ${result} "
+		"Learner: ${register.learner.toString()} - Course: ${register.course.name} - Module: ${module.name} Status: ${status} - Result: ${result} "
 	}
 } //end of class

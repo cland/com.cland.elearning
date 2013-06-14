@@ -20,13 +20,15 @@ class ExamResult {
 		percentMark(min:new Double(0.0),max:new Double(100.0))
 		contributionMark(min:new Double(0.0),max:new Double(100.0))
 		
-		tutor()
-		counsellor()
-		venue()
-		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
+		subModule()
+		exam()
 		
-		subModule(blank:false)
-		exam()	
+		tutor(nullable:true)
+		counsellor(nullable:true)
+		venue(nullable:true)
+		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"], nullable:true)
+		
+		
 	}
 
 	def beforeInsert = {

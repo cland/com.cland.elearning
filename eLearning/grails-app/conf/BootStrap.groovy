@@ -166,11 +166,12 @@ class BootStrap {
 				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide",status:"Active")
 
 				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:"Assignment")
-
+				def submodule3 = new SubModule(name:"Tutor Tester",description:"Tutor Marked Assessment", type:"Tutor Marked Assessment")
 				submodule.addToExams(exam)
 				submodule.addToExams(exam2)
 				def module = new Module(name:"Module01",description:"First module")
 				module.addToSubmodules(submodule)
+				module.addToSubmodules(submodule3)
 				module.save()
 				if(module.hasErrors()){
 					println module.errors
@@ -182,11 +183,12 @@ class BootStrap {
 				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide",status:"Active")
 
 				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Attendance Exercises")
-
+				
 				submodule2.addToExams(exam3)
 				submodule2.addToExams(exam4)
 				def module2 = new Module(name:"Module02",description:"Second module")
 				module2.addToSubmodules(submodule2)
+				
 				module2.save()
 				if(module2.hasErrors()){
 					println module2.errors

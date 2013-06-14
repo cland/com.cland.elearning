@@ -6,6 +6,7 @@ class Registration {
 	Date regDate
 	Person tutor
 	static belongsTo = [learner:Person,course:Course]
+	static hasMany = [results:ResultSummary]
 
     static constraints = {
 		learner()

@@ -30,6 +30,7 @@
                     <z:column label="${message(code: 'person.lastName.label', default: 'Last Name')}"/>
                       <z:column label="${message(code: 'person.username.label', default: 'Username')}"/> 
                     <z:column label="${message(code: 'person.idNo.label', default: 'Id No')}"/>
+                    <z:column label="${message(code: 'person.idNo.label', default: 'Roles')}"/>
                     <z:column width="150px"/>
                 </z:columns>
             </z:grid>

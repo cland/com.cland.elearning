@@ -1,9 +1,12 @@
 package com.cland.elearning.person
 
+import javax.annotation.security.RolesAllowed;
+import com.cland.elearning.*;
+
 import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.event.Event
 import org.zkoss.zul.*
-import com.cland.elearning.Person
+//import com.cland.elearning.Person
 
 class EditComposer {
     Window self
@@ -25,6 +28,14 @@ class EditComposer {
             }
             personInstance.properties = params
             if (!personInstance.hasErrors() && personInstance.save(flush: true)) {
+				//update the roles here
+				PersonRole.removeAll(personInstance)				
+				def roles = Role.list()				
+				for(Role r : roles){					
+					def tmp = params.list("role_${r.authority}")
+					if (tmp[0]) PersonRole.create(personInstance, r, true)					
+				}				
+								
                 flash.message = g.message(code: 'default.updated.message', args: [g.message(code: 'person.label', default: 'Person'), personInstance.id])
                 redirect(controller: "person", action: "edit", id: personInstance.id)
             }else {
@@ -38,4 +49,5 @@ class EditComposer {
         }
 
     }
-}
+	
+} //end class 

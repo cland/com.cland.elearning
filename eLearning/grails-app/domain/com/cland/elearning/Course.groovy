@@ -8,7 +8,7 @@ class Course {
 	Date endDate
 	String region
 	String status
-	static hasMany = [modules:Module,registrations:Registration,results:ResultSummary, events:CourseEvent]
+	static hasMany = [modules:Module,registrations:Registration,events:CourseEvent]
     static constraints = {
 		name(blank:false)
 		startDate() //validator: {return (it >= new Date())})
@@ -17,6 +17,11 @@ class Course {
 		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
 		status(inList:["active","inactive","open","closed"])
     }
+	static mapping = {
+	//	modules lazy:false
+	//	registrations lazy:false
+	}
+	
 	def beforeInsert = {
 	// your code goes here
 	}

@@ -6,6 +6,9 @@ class Module {
 	String description
 	
 	static hasMany = [submodules:SubModule]
+	static mapping = {
+	//	submodules lazy:false
+	}
     static constraints = {
     }
 	def beforeInsert = {

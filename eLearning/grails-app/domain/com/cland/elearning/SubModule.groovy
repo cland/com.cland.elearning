@@ -14,6 +14,9 @@ class SubModule {
 			"Practical Attendance Exercises",
 			"Tutor Marked Assessment"])
     }
+	static mapping = {
+	//	exams lazy:false
+	}
 	def beforeInsert = {
 	// your code goes here
 	}

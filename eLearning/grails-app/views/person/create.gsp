@@ -14,6 +14,13 @@
         </z:columns>
         <tmpl:form/>
     </z:grid>
+     <z:hlayout>
+      <z:window title="Roles" border="normal" width="350px">
+		<g:each var="auth" in="${com.cland.elearning.Role.list()}">
+    		<z:checkbox name="role_${auth.authority}" id="${auth.id}"  label="${auth.authority}"/>
+		</g:each>
+	</z:window>
+    </z:hlayout>
     <z:hlayout>
         <z:button id="saveButton" label="${message(code: 'default.button.create.label', default: 'Create')}"/>
         <z:button href="${createLink(action:'list')}" label="${message(code: 'default.list.label', args:[entityName])}"/>

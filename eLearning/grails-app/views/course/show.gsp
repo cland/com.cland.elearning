@@ -277,7 +277,7 @@ $(document).ready(function() {
 					        {name:'regDate', editable:false},
 					        {name:'tutor', editable:false},        
 					        {name:'id',hidden:true},
-					        {name:'act',index:'act', width:100,sortable:false,search:false}
+					        {name:'act',index:'act', width:162,sortable:false,search:false}
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
 					     ],
 					     rowNum:10,
@@ -327,7 +327,8 @@ $(document).ready(function() {
 								   var subids = thisgrid.jqGrid('getDataIDs');
 								   for(var i=0;i<subids.length;i++){
 									   	var _id =subids[i];
-									   	de = "<input style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";		            
+									   		            
+									   	de = "<input style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";
 							            thisgrid.jqGrid('setRowData',_id,{subact: de}); //be+se+ce+de forall actions
 									}
 								},  
@@ -353,9 +354,9 @@ $(document).ready(function() {
 					            { 
 					            	var cl = ids[i]; 
 						          
-						            rm = "<input style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
-						            
-						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rm}); //be+se+ce+de forall actions 
+						            rs = "<input style='height:22px;width:80px;' type='button' value='Results' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
+						            rm = "<input style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
+						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
 					            }
 					    } 
 					    }).navGrid('#' + cland_params.learner_maingrid_id_pager,

@@ -32,8 +32,10 @@
 </style>
 <script type="text/javascript">
 var cland_params = {
-		maingrid_list_url : "../jq_list_results",
-		maingrid_edit_url : "../jq_edit_results",
+		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
+		thisId : ${params.id},
+		maingrid_list_url : "../jq_list_results?resultSumId=" + ${params.id},
+		maingrid_edit_url : "../jq_edit_results?resultSumId=" + ${params.id},
 		maingrid_id		: "examresults_list",
 		maingrid_id_pager : "examtresults_list_pager",
 			
@@ -56,7 +58,7 @@ var cland_params = {
 			<g:link controller="person" action="list">Person</g:link>
 			<span class="r-arrow"></span>			
 			<span class="current-crump">
-				Result for: ${resultSummaryInstance.learner.toString() }
+				Result for: ${resultSummaryInstance.register.learner.toString() }
 			</span>
 		</div>
 		<g:if test="${flash.message}">
@@ -76,10 +78,10 @@ var cland_params = {
 			<b>&raquo;</b> Result Summary
 		</legend>
 		<h1>
-			${resultSummaryInstance.learner.toString()}
+			${resultSummaryInstance.register.learner.toString()}
 		</h1>
 		<div class="content">
-			${resultSummaryInstance.course.name} - ${resultSummaryInstance.module.name}<br/>
+			${resultSummaryInstance.register.course.name} - ${resultSummaryInstance.module.name}<br/>
 			Result: ${resultSummaryInstance.result}<br/>
 			Status: ${resultSummaryInstance.status}
 		</div>
@@ -139,8 +141,10 @@ var cland_params = {
       autowidth: true,
       height:"100%",
       datatype: "json",
-      colNames:['Mark','% Mark','Tutor','id','Actions',"Summary Result Id"],
+      colNames:['Type','Exam No.','Mark','% Mark','Tutor','id','Actions',"Summary Result Id"],
       colModel:[
+		{name:'submodule', editable:true,editrules:{required:true}},
+		{name:'examname', editable:true,editrules:{required:true}},
         {name:'mark', editable:true,editrules:{required:true}},
         {name:'percentMark', editable:true,editrules:{required:true}},     
         {name:'tutor', editable:true,editrules:{required:true}},   
@@ -219,10 +223,10 @@ var cland_params = {
         for(var i=0;i < ids.length;i++)
             { 
             	var cl = ids[i]; 
-	            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#submodule_list').editRow('"+cl+"');\" />"; 
-	            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#submodule_list').saveRow('"+cl+"');\" />"; 
-	            ce = "<input style='height:22px;width:42px;' type='button' value='Cancel' onclick=\"jQuery('#submodule_list').restoreRow('"+cl+"');clearSelection();\" />"; 
-	            de = "<input style='height:22px;width:82px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
+	            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').editRow('"+cl+"');\" />"; 
+	            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"');\" />"; 
+	            ce = "<input style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
+	            de = "<input style='height:22px;width:44px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
 	            
 	            jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+se+ce+de}); //be+se+ce+de forall actions 
             }
@@ -233,7 +237,7 @@ var cland_params = {
             {addCaption:'New Record',afterSubmit:afterSubmitEvent,savekey:[true,13],closeAfterEdit:false},  // add options            
            {afterShowForm: centerForm}          // delete options
         );
-    $("#" + cland_params.maingrid_id).jqGrid('filterToolbar',{autosearch:true});
+    //$("#" + cland_params.maingrid_id).jqGrid('filterToolbar',{autosearch:true});
    
   });  
 // ]]>

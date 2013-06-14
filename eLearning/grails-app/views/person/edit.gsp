@@ -27,6 +27,21 @@
         <tmpl:form/>
     </z:grid>
     <z:hlayout>
+       <z:window title="Roles" border="normal" width="350px">
+		<g:each var="auth" in="${com.cland.elearning.Role.list()}">
+			<g:set var="isRoleChecked" value="false" />
+    		<g:each var="sel" in="${roleMap.authority }">    		
+        		 <g:if test="${auth?.authority==sel}">           		  
+        		 	<g:set var="isRoleChecked" value="true" />
+        		 </g:if>        		      		
+    		</g:each>
+    		
+    		 <z:checkbox name="role_${auth.authority}" id="${auth.id}" checked="${isRoleChecked}" label="${auth.authority}"/>
+    		 
+		</g:each>
+	</z:window>
+    </z:hlayout>
+    <z:hlayout>
         <z:button id="saveButton" label="${message(code: 'default.button.update.label', default: 'Update')}"/>
         <z:button href="${createLink(action:'list')}" label="${message(code: 'default.list.label', args:[entityName])}"/>
     </z:hlayout>

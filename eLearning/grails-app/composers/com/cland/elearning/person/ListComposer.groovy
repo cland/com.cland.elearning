@@ -41,9 +41,7 @@ class ListComposer {
 			if(keywordBox.value){
 				ilike('firstName',keywordBox.value+"%")
 			}
-        }
-		def roles = springSecurityService.getPrincipal().getAuthorities()
-		println(roles)
+        }		
 		
         paging.totalSize = personInstanceList.totalCount
         listModel.clear()
@@ -52,12 +50,13 @@ class ListComposer {
 
     private rowRenderer = {Row row, Object id, int index ->
         def personInstance = Person.get(id)
-		
+		def roles = personInstance.getAuthorities()
         row << {                                             
                 label(value: personInstance.firstName)
                 label(value: personInstance.lastName)
 				a(href: g.createLink(controller:"person",action:'edit',id:id), label: personInstance.username)
                 label(value: personInstance.idNo)
+				label(value: roles.toListString())
                 hlayout{
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "person", action: 'edit', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {

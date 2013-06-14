@@ -40,7 +40,7 @@ class ModuleController {
 	}
 
 	def jq_list_submodule = {
-	//	println("jq_submodule_list: ${params}")
+		println("jq_submodule_list: ${params}")
 		def sortIndex = params.sidx ?: 'name'
 		def sortOrder  = params.sord ?: 'asc'
 
@@ -49,14 +49,10 @@ class ModuleController {
 
 		def rowOffset = currentPage == 1 ? 0 : (currentPage - 1) * maxRows
 
-		def submodules = SubModule.createCriteria().list(max:maxRows, offset:rowOffset) {
-			// first name case insensitive where the field begins with the search term
-			if (params.name)
-				ilike('name',params.name + '%')
-			// set the order and direction
-			order(sortIndex, sortOrder)
-		}
-		def totalRows = submodules.totalCount
+		def moduleInstance = Module.get(params.modid)
+		def submodules = moduleInstance.submodules //SubModule.createCriteria().list(max:maxRows, offset:rowOffset) {
+		
+		def totalRows = submodules.size() //totalCount
 		def numberOfPages = Math.ceil(totalRows / maxRows)
 
 		def jsonCells = submodules.collect {

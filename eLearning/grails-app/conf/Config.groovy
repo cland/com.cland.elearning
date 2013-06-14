@@ -118,10 +118,10 @@ grails.plugins.springsecurity.controllerAnnotations.staticRules=[
 	//** GENERAL AUTHENTICATED USER
 	'/home/**': ['IS_AUTHENTICATED_FULLY'],
 	'/course/**': ['IS_AUTHENTICATED_FULLY'],
-	'/courseResult/**': ['IS_AUTHENTICATED_FULLY'],
+	'/ResultSummary/**': ['IS_AUTHENTICATED_FULLY'],	
 	'/courseEvent/**': ['IS_AUTHENTICATED_FULLY'],
 	'/module/**': ['IS_AUTHENTICATED_FULLY'],
-	'/eventResult/**': ['IS_AUTHENTICATED_FULLY'],
+	'/ExamResult/**': ['IS_AUTHENTICATED_FULLY'],
 	'/organisation/**': ['IS_AUTHENTICATED_FULLY'],	
 	'/login/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
 	'/logout/**': ['IS_AUTHENTICATED_ANONYMOUSLY']

@@ -40,7 +40,7 @@ var cland_params = {
 		subgrid_list_url :  "../jq_list_exam",
 		subgrid_edit_url :  "../jq_edit_exam",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
-		states : "active:active;inactive:inactive",
+		states : "Active:Active;Inactive:Inactive",
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add",		
 		thisId : ${params.id}
 	}
@@ -144,13 +144,13 @@ var cland_params = {
         {name:'act',index:'act', width:180,sortable:false,search:false},
         {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
      ],
-     rowNum:10,
-     rowList:[10,20,30,40,50],
+     rowNum:50,
+    // rowList:[10,20,30,40,50],
      multiselect: false,
     pager: jQuery('#' + cland_params.maingrid_id_pager),
     viewrecords: true,
     gridview: true,
-   // postData:{modid:cland_params.thisid},
+    postData:{modid:cland_params.thisId},
     cellEdit:false,
     cellsubmit: 'remote',
    	cellurl:cland_params.maingrid_edit_url,
