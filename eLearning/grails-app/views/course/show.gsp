@@ -354,7 +354,7 @@ $(document).ready(function() {
 					            { 
 					            	var cl = ids[i]; 
 						          
-						            rs = "<input style='height:22px;width:80px;' type='button' value='Results' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
+						            rs = "<input style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            rm = "<input style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
 					            }
@@ -443,6 +443,10 @@ $(document).ready(function() {
                             
                         $dialog.dialog('open');
                         
+		  }
+		  function viewResults(id,grid_id){
+		  	document.location.href= "/eLearning/resultSummary/show/" + id
+		  	
 		  }
 		  function addLearnerRow(course_id, grid_id){
 		  	 var $dialog = $('<div></div>')
