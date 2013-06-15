@@ -3,11 +3,16 @@ package com.cland.elearning
 class Organisation {
 
 	String name
-	
-	static hasMany = [people:Person]
+	String phoneNo
+	String email
+	String address
+	//static hasMany = [people:Person]
 	
     static constraints = {
 		name()
+		phoneNo()
+		email(email:true)
+		address(blank:true, nullable:true)
     }
 	def beforeInsert = {
 	// your code goes here

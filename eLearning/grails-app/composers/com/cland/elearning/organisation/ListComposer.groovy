@@ -45,6 +45,9 @@ class ListComposer {
         row << {
                 a(href: g.createLink(controller:"organisation",action:'edit',id:id), label: organisationInstance.id)
                 label(value: organisationInstance.name)
+                label(value: organisationInstance.phoneNo)
+                label(value: organisationInstance.email)
+                label(value: organisationInstance.address)
                 hlayout{
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "organisation", action: 'edit', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {

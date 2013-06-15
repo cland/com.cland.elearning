@@ -48,12 +48,12 @@
 
     <z:row>
         <z:label value="${message(code:'person.region.label',default:'Region')}"/>
-        <zkui:select name="region" from="${personInstance.constraints.region.inList}" value="${personInstance?.region}" valueMessagePrefix="person.region"  />
+        <zkui:select name="region" from="${com.cland.elearning.Region.list().sort(false){it.name}}" value="${personInstance?.region}" valueMessagePrefix="person.region"  />
     </z:row>
 
     <z:row>
-        <z:label value="${message(code:'person.country.label',default:'Country')}"/>
-        <z:textbox name="country" value="${personInstance?.country}" />
+        <z:label value="${message(code:'person.country.label',default:'Country')}"/>        
+        <zkui:select name="Country" from="${com.cland.elearning.Country.list().sort(false){it.name}}" value="${personInstance?.country}" valueMessagePrefix="person.country"  />
     </z:row>
 
     <z:row>

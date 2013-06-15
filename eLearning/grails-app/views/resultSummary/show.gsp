@@ -61,6 +61,7 @@ var cland_params = {
 				Result for: ${resultSummaryInstance.register.learner.toString() }
 			</span>
 		</div>
+		
 		<g:if test="${flash.message}">
 			<z:window mode="popup" border="normal" style="margin-bottom:5px">
 				<z:hlayout>
@@ -78,15 +79,15 @@ var cland_params = {
 			<b>&raquo;</b> Result Summary
 		</legend>
 		<h1>
-			${resultSummaryInstance.register.learner.toString()}
+			&nbsp;${resultSummaryInstance.register.learner.toString()}
 		</h1>
 		<div class="content">
-			${resultSummaryInstance.register.course.name} - ${resultSummaryInstance.module.name}<br/>
-			Result: ${resultSummaryInstance.result}<br/>
-			Status: ${resultSummaryInstance.status}
+			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code}) - ${resultSummaryInstance.module.name}<br/>
+			<b>Result:</b> ${resultSummaryInstance.result}<br/>
+			<b>Status:</b> ${resultSummaryInstance.status}
 		</div>
 	</fieldset>
-
+<div id="message"></div>
 	<div id="myGrid" style="padding: 5px;">
 		<!-- table tag will hold our grid -->
 		<table id="examresults_list" class="scroll jqTable"></table>
@@ -141,16 +142,17 @@ var cland_params = {
       autowidth: true,
       height:"100%",
       datatype: "json",
-      colNames:['Type','Exam No.','Mark','% Mark','Tutor','id','Actions',"Summary Result Id"],
+      colNames:['Type','Exam No.','Mark','Max Mark','% Mark','Tutor','id','Actions'],
       colModel:[
 		{name:'submodule', editable:true,editrules:{required:true}},
 		{name:'examname', editable:true,editrules:{required:true}},
         {name:'mark', editable:true,editrules:{required:true}},
-        {name:'percentMark', editable:true,editrules:{required:true}},     
-        {name:'tutor', editable:true,editrules:{required:true}},   
+        {name:'maxMark', editable:false},
+        {name:'percentMark', editable:false},     
+        {name:'tutor', editable:false},   
         {name:'id',hidden:true},
-        {name:'act',index:'act', width:180,sortable:false,search:false},
-        {name:'resultSumid',index:'resultSumid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
+        {name:'act',index:'act', width:180,sortable:false,search:false}
+        //{name:'resultSumid',index:'resultSumid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
      ],
      rowNum:10,
      rowList:[10,20,30,40,50],
@@ -158,65 +160,12 @@ var cland_params = {
     pager: jQuery('#' + cland_params.maingrid_id_pager),
     viewrecords: true,
     gridview: true,
+    afterSubmit:afterSubmitEvent,
    // postData:{modid:cland_params.thisid},
     cellEdit:false,
     cellsubmit: 'remote',
-   	cellurl:cland_params.maingrid_edit_url,
-   subGridRowExpanded: function(subgrid_id,row_id){
-	   //subgrid_id: id of the div tag created within table data
-	   //id of this element is combination of the "sg_" + id of the row
-	   return;
-	   var subgrid_table_id, pager_id;
-	   subgrid_table_id = subgrid_id + "_t";
-	   pager_id = "p_" + subgrid_table_id;
-	   console.log(subgrid_table_id + " - " + pager_id);
-	   
-	   $("#"+subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
-	   jQuery("#"+subgrid_table_id).jqGrid({
-		   url:cland_params.subgrid_list_url,
-		   editurl:cland_params.subgrid_edit_url,
-		   datatype:"json",
-		   colNames:['Exam Number','Max Mark','Weight','Factor','Factor Operand','Status','id',' <input type="button" name="Add_Exam" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="exam_add" value="Add Exam"/>','Sub Id'],
-		   colModel:[ {name:'testNumber', editable:true,width:100,editrules:{required:true,integer:true},align:'left'},
-		              {name:'maxMark', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
-		              {name:'weight', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
-		              {name:'factor', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
-		              {name:'factorOperand',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.operands}},
-		              {name:'status',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states}},
-		              {name:'id',hidden:true},
-		              {name:'subact',index:'subact', width:90,sortable:false,search:false,align:'center'},
-		              {name:'subid',index:'subid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:row_id}}
-		              ],		              
-		   //rowNum:2,
-		   pager:pager_id,
-		   sortname:'testNumber',
-		   sortorder:'asc',
-		   height:"100%",
-		   autowidth:true,
-		   gridComplete: function(){
-			   thisgrid = jQuery("#" + subgrid_table_id);
-			   var subids = thisgrid.jqGrid('getDataIDs');
-			   for(var i=0;i<subids.length;i++){
-				   	var _id =subids[i];
-				   	de = "<input style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";		            
-		            thisgrid.jqGrid('setRowData',_id,{subact: de}); //be+se+ce+de forall actions
-				}
-			},  
-		   cellEdit:true,
-		    cellsubmit: 'remote',
-		   	cellurl:cland_params.subgrid_edit_url,
-		   postData:{id:row_id}           
-		   });
-	  // jQuery("#"+subgrid_table_id).setGridParam({id:row_id})''
-	   jQuery("#"+subgrid_table_id).jqGrid('navGrid'),"#"+pager_id,{edit:false,add:false,del:false}
-	   },
-	subGridRowColapsed: function(subgrid_id,row_id){
-		//This functiona is called before removing the data
-		//var subgrid_table_id;
-		//subgrid_table_id = subgrid_id+"_t";
-		//jQuery("#"+subgrid_table_id).remove();
-		},   
-    subGrid : true,
+   	cellurl:cland_params.maingrid_edit_url,  
+    subGrid :false,
     gridComplete: function(){ 
         var ids = jQuery("#" + cland_params.maingrid_id).jqGrid('getDataIDs'); 
         
@@ -224,7 +173,7 @@ var cland_params = {
             { 
             	var cl = ids[i]; 
 	            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').editRow('"+cl+"');\" />"; 
-	            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"');\" />"; 
+	            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"',afterSubmitEvent);\" />"; 
 	            ce = "<input style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
 	            de = "<input style='height:22px;width:44px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
 	            
@@ -241,21 +190,23 @@ var cland_params = {
    
   });  
 // ]]>
-  function afterSubmitEvent(response, postdata) {
+  function afterSubmitEvent(response, postdata) {	
+	  $("#" + cland_params.maingrid_id).trigger('reloadGrid')
       var success = true;
-  
+  	  var display = $('#message'); 
       var json = eval('(' + response.responseText + ')');
       var message = json.message;
 
       if(json.state == 'FAIL') {
           success = false;
-      } else {
-        $('#message').html(message);
-        $('#message').show().fadeOut(10000);
-      }
-      
+          display.addClass("errors")
+      }else{
+    	  display.addClass("message")
+          }      
+        display.html(message);
+        display.show().fadeOut(10000);            
       var new_id = json.id
-      return [success,message,new_id];
+      return success; //[success,message,new_id];
   }
   function deleteGridRow(id,grid_id){
 	  grid = $("#" + grid_id)
@@ -284,7 +235,7 @@ var cland_params = {
               {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13]}
       );
 	}
-  function clearSelection(){jQuery('#submodule_list').jqGrid('resetSelection'); }
+  function clearSelection(){jQuery('#' + cland_params.maingrid_id).jqGrid('resetSelection'); }
 </script>
 
 </body>

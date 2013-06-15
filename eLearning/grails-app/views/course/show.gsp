@@ -69,7 +69,7 @@ var cland_params = {
 				<span class="r-arrow"></span>
 				<g:link controller="course" action="list">Courses</g:link>
 				<span class="r-arrow"></span> <span class="current-crump">
-					Course: ${courseInstance.name }
+					Course: ${courseInstance.name } (${courseInstance.code })
 				</span>
 			</div>
 			<div id="message"></div>
@@ -90,7 +90,7 @@ var cland_params = {
 			<b>&raquo;</b> Course
 		</legend>
 		<h1>
-			<g:fieldValue bean="${courseInstance}" field="name" />
+			&nbsp;<g:fieldValue bean="${courseInstance}" field="name" /> (Code: ${courseInstance.code })
 		</h1>
 		<div class="content">
 			Status:
@@ -373,20 +373,21 @@ $(document).ready(function() {
 /** helper functions **/
  
   function afterSubmitEvent(response, postdata) {  
-		      var success = true;
-		  
-		      var json = eval('(' + response.responseText + ')');
-		      var message = json.message;
+		            var success = true;
+  	  var display = $('#message'); 
+      var json = eval('(' + response.responseText + ')');
+      var message = json.message;
 
-		      if(json.state == 'FAIL') {
-		          success = false;
-		      } else {
-		        $('#message').html(message);
-		        $('#message').show().fadeOut(10000);
-		      }
-		      
-		      var new_id = json.id
-		      return [success,message,new_id];
+      if(json.state == 'FAIL') {
+          success = false;
+          display.addClass("errors")
+      }else{
+    	  display.addClass("message")
+          }      
+        display.html(message);
+        display.show().fadeOut(10000);            
+      var new_id = json.id
+      return [success,message,new_id];
 		  }
 		  function deleteGridRow(id,grid_id){
 			  grid = $("#" + grid_id)

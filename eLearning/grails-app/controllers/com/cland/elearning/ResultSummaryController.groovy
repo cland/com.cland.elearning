@@ -54,7 +54,7 @@ class ResultSummaryController {
 
 	//	def rowOffset = currentPage == 1 ? 0 : (currentPage - 1) * maxRows
 
-		def results = resultSummaryInstance.results.sort(false){it.subModule.type} //.reverse() 
+		def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.exam.testNumber]} //.reverse() 
 	//	def results = ExamResult.createCriteria().list(max:maxRows, offset:rowOffset) {
 			// first name case insensitive where the field begins with the search term
 			//if (params.name)
@@ -69,7 +69,8 @@ class ResultSummaryController {
 			[cell: [it.subModule.type + ": " + it.subModule.name,
 					it.exam.testNumber,
 					it.mark,
-					it.percentMark,
+					it.exam.maxMark,
+					String.format( '%.1f', it.percentMark) ,
 					it.tutor.toString(),
 				], id: it.id]
 		}
@@ -79,6 +80,33 @@ class ResultSummaryController {
 	
 	def jq_edit_results = {
 		println("jq_edit_results" + params)
-		render "ok"
+		def examResult = null
+		def message = ""
+		def state = "FAIL"
+		def id
+		switch (params.oper) {
+			case 'add':
+			break
+			case 'del':
+			break
+			default: //edit
+			examResult = ExamResult.get(params.id)
+			if (examResult) {
+				// set the properties according to passed in parameters
+				examResult.properties = params
+				if (! examResult.hasErrors() && examResult.save()) {
+					message = "Exam result  ${examResult.toString()} Updated"
+					id = examResult.id
+					state = "OK"
+				} else {
+					message = "Could Not Update Record"
+					println(examResult.errors)
+				}
+			}
+			break
+		}
+		
+		def response = [message:message,state:state,id:id]
+		render response as JSON
 	}
 } //end class

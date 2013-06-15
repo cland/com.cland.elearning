@@ -1,5 +1,6 @@
 package com.cland.elearning
 
+
 class ExamResult {
 	Date examDate
 	int mark
@@ -26,16 +27,20 @@ class ExamResult {
 		tutor(nullable:true)
 		counsellor(nullable:true)
 		venue(nullable:true)
-		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"], nullable:true)
-		
-		
+		region(nullable:true)				
 	}
 
+	void computeResults(){
+		
+		//percentMark
+		percentMark = ((mark/exam.maxMark) * 100)
+		contributionMark = (percentMark * exam.weight)
+	}
 	def beforeInsert = {
-		// your code goes here
+		computeResults()
 	}
 	def beforeUpdate = {
-		// your code goes here
+		computeResults()
 	}
 	def beforeDelete = {
 		// your code goes here

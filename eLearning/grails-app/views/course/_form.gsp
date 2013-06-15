@@ -18,7 +18,7 @@
 
     <z:row>
         <z:label value="${message(code:'course.region.label',default:'Region')}"/>
-        <zkui:select name="region" from="${courseInstance.constraints.region.inList}" value="${courseInstance?.region}" valueMessagePrefix="course.region"  />
+        <zkui:select name="region" from="${com.cland.elearning.Region.list().sort(false){it.name}}" value="${courseInstance?.region}" valueMessagePrefix="course.region"  />
     </z:row>
 
     <z:row>

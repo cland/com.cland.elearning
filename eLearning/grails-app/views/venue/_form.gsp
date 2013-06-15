@@ -33,7 +33,7 @@
 
     <z:row>
         <z:label value="${message(code:'venue.region.label',default:'Region')}"/>
-        <zkui:select name="region" from="${venueInstance.constraints.region.inList}" value="${venueInstance?.region}" valueMessagePrefix="venue.region"  />
+        <zkui:select name="region" from="${com.cland.elearning.Region.list().sort(false){it.name}}" value="${venueInstance?.region}" valueMessagePrefix="venue.region"  />
     </z:row>
 
 </z:rows>

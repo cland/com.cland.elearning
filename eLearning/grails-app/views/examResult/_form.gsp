@@ -11,15 +11,6 @@
         <z:textbox name="mark" value="${fieldValue(bean: examResultInstance, field: 'mark')}" />
     </z:row>
 
-    <z:row>
-        <z:label value="${message(code:'examResult.percentMark.label',default:'Percent Mark')}"/>
-        <z:textbox name="percentMark" value="${fieldValue(bean: examResultInstance, field: 'percentMark')}" />
-    </z:row>
-
-    <z:row>
-        <z:label value="${message(code:'examResult.contributionMark.label',default:'Contribution Mark')}"/>
-        <z:textbox name="contributionMark" value="${fieldValue(bean: examResultInstance, field: 'contributionMark')}" />
-    </z:row>
 
     <z:row>
         <z:label value="${message(code:'examResult.tutor.label',default:'Tutor')}"/>
@@ -38,7 +29,7 @@
 
     <z:row>
         <z:label value="${message(code:'examResult.region.label',default:'Region')}"/>
-        <zkui:select name="region" from="${examResultInstance.constraints.region.inList}" value="${examResultInstance?.region}" valueMessagePrefix="examResult.region"  />
+        <zkui:select name="region" from="${Region.list()}" value="${examResultInstance?.region}" valueMessagePrefix="examResult.region"  />
     </z:row>
 
     <z:row>

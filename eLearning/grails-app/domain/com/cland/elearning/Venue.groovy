@@ -16,7 +16,7 @@ class Venue {
 		contactName()
 		contactNumber()
 		directions()
-region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])			
+		region()			
 	}
 	def beforeInsert = {
 		// your code goes here

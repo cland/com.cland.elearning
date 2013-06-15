@@ -19,7 +19,7 @@ class CourseEvent {
 		course()
 		subModule(blank:false)
 		exam()
-		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])		
+		region()		
 		venue()			
 		facilitator()
 	}

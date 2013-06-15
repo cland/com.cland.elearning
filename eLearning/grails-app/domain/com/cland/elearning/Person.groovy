@@ -25,11 +25,13 @@ class Person {
 	String email	
 	String contactNo
 	Date dateCreated
+	Organisation company
 	static mappedBy = [tutorRegistrations:'tutor',learnerRegistrations:'learner']
 	static hasMany = [
 		tutorRegistrations:Registration,
 		learnerRegistrations:Registration,
-		results:ResultSummary
+		results:ResultSummary,
+		//worksFor:Organisation		
 		]
 	static constraints = {
 		username blank: false, unique: true
@@ -41,10 +43,11 @@ class Person {
 		gender(inList:["M", "F"])
 		address()	
 		city()
-		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
+		region()
 		country()
 		contactNo()
 		email(email:true)
+		company(nullable:true)
 		dateCreated()
 	}
 

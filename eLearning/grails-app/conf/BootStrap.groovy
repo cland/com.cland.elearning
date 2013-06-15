@@ -1,15 +1,5 @@
 
-import com.cland.elearning.Course
-import com.cland.elearning.CourseEvent
-import com.cland.elearning.ResultSummary
-import com.cland.elearning.Exam
-import com.cland.elearning.Module
-import com.cland.elearning.Person
-import com.cland.elearning.Registration
-import com.cland.elearning.Role
-import com.cland.elearning.PersonRole
-import com.cland.elearning.SubModule
-import com.cland.elearning.Venue
+import com.cland.elearning.*
 import grails.util.*
 import org.springframework.web.context.support.*;
 import org.codehaus.groovy.grails.commons.*;
@@ -48,6 +38,21 @@ class BootStrap {
 				def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
 				def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
 
+				def sa = new Country(name:"South Africa")
+				sa.addToRegions(new Region(name:"Western Cape"))
+				sa.addToRegions(new Region(name:"KZN"))
+				sa.addToRegions(new Region(name:"Limpopo"))
+				sa.addToRegions(new Region(name:"Mpumalanga"))
+				sa.addToRegions(new Region(name:"Gauteng"))
+				sa.addToRegions(new Region(name:"North West"))
+				sa.addToRegions(new Region(name:"Free State"))
+				sa.addToRegions(new Region(name:"Eastern Cape"))
+				sa.addToRegions(new Region(name:"Northern Cape"))
+				sa.save()
+				if(sa.hasErrors()){
+					println(sa.errors)
+				}
+				
 			//* Admin user
 				def adminUser = new Person(username: 'admin',
 				enabled: true,
@@ -202,7 +207,7 @@ class BootStrap {
 
 
 			//** course
-				def course = new Course(name:"Introduction To Paint 101",startDate:new Date(),endDate: new Date() + 1,region:"Western Cape",status:"active" )
+				def course = new Course(name:"Introduction To Paint 101",startDate:new Date(),endDate: new Date() + 1,region:"KZN",status:"active",code:"INTRO-PAINT-KZN101" )
 				course.addToModules(module)
 							
 				course.save()
@@ -210,7 +215,7 @@ class BootStrap {
 					println course.errors
 				}
 				
-				def course2 = new Course(name:"How To Paint 221",startDate:new Date(),endDate: new Date() + 1, region:"Western Cape",status:"active" )
+				def course2 = new Course(name:"How To Paint 221",startDate:new Date(),endDate: new Date() + 1, region:"Western Cape",status:"active",code:"HW-PAINT-WC221" )
 				course2.addToModules(module)
 							
 				course2.save()

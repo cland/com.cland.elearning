@@ -4,6 +4,7 @@ package com.cland.elearning
 class Course {
 
 	String name
+	String code
 	Date startDate
 	Date endDate
 	String region
@@ -14,7 +15,7 @@ class Course {
 		startDate() //validator: {return (it >= new Date())})
 		endDate() //validator: {return (it >= new Date())})
 		modules(blank:false)
-		region(inList:["Western Cape","Gauteng","KZN","Northern Province","Free State","Eastern Cape","Limpopo"])
+		region()
 		status(inList:["active","inactive","open","closed"])
     }
 	static mapping = {
