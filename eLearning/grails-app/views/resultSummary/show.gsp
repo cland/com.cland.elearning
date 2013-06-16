@@ -37,14 +37,13 @@ var cland_params = {
 		maingrid_list_url : "../jq_list_results?resultSumId=" + ${params.id},
 		maingrid_edit_url : "../jq_edit_results?resultSumId=" + ${params.id},
 		maingrid_id		: "examresults_list",
-		maingrid_id_pager : "examtresults_list_pager",
+		maingrid_id_pager : "examresults_list_pager",
 			
 		subgrid_list_url :  "../jq_list_exam",
 		subgrid_edit_url :  "../jq_edit_exam",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
 		states : "Active:Active;Inactive:Inactive",
-		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add",		
-		thisId : ${params.id}
+		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add"
 	}
 </script>
 </head>
@@ -55,7 +54,7 @@ var cland_params = {
 			<span class="r-arrow"></span>
 			<g:link controller="course" action="list">Course</g:link>
 			<span class="r-arrow"></span>
-			<g:link controller="person" action="list">Person</g:link>
+			<g:link controller="registration" action="show" id="${resultSummaryInstance.register.id }">Register</g:link>
 			<span class="r-arrow"></span>			
 			<span class="current-crump">
 				Result for: ${resultSummaryInstance.register.learner.toString() }

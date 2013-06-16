@@ -446,7 +446,7 @@ $(document).ready(function() {
                         
 		  }
 		  function viewResults(id,grid_id){
-		  	document.location.href= "/eLearning/resultSummary/show/" + id
+		  	document.location.href= "../../registration/show/" + id
 		  	
 		  }
 		  function addLearnerRow(course_id, grid_id){

@@ -44,6 +44,7 @@ class CourseController {
 		events_list_url	: "../jq_list_events",
 	 */
 	def addmodule = {
+		//Used to just instantiate the dialog box. On submit of that dialog box is handled by the onClick_addModuleButton course CreateComposer
 		//println("addmodule: ${params}")
 		def courseInstance = Course.get(params.id as Long)
 		if (!courseInstance) {

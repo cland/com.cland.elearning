@@ -54,6 +54,8 @@ class CreateComposer {
 					}else{
 						message += (i+1) + ") Module '" + module.toString() + "' added successfully!<br/>"
 						state = "OK"
+						//TODO: For all already registered users, create result stubs for these new modules - if they don't exist already.
+						
 					}
 				} //end else does not already exists
 			}else{
