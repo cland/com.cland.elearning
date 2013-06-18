@@ -25,7 +25,7 @@ class CreateComposer {
 	
 	void onClick_saveDialogButton(Event e) {
 		def params = self.params
-		println(params)
+	//	println(params)
 	//	for(def key: params.keySet()){
 	//		println(key + " - " + params.getAt(key))
 	//	}
@@ -90,11 +90,11 @@ class CreateComposer {
 				)	
 		//def module = resultSummary.module
 		def submodules = module.submodules
-		println("Submodules size: " + submodules.size())
+	//	println("Submodules size: " + submodules.size())
 		def examResult = null
 		def exams = null
 		for(SubModule submod : submodules){
-			println(">> SubModule:" + submod.name)
+	//		println(">> SubModule:" + submod.name)
 			exams = submod.exams		
 			for(Exam e : exams){
 				examResult = new ExamResult(

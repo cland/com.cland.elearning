@@ -53,6 +53,11 @@ class BootStrap {
 					println(sa.errors)
 				}
 				
+				new Race(name:"Black").save()
+				new Race(name:"White").save()
+				new Race(name:"Indian").save()
+				new Race(name:"Other").save()
+				
 			//* Admin user
 				def adminUser = new Person(username: 'admin',
 				enabled: true,

@@ -141,7 +141,7 @@ var cland_params = {
       autowidth: true,
       height:"100%",
       datatype: "json",
-      colNames:['Type','Exam No.','Mark','Max Mark','% Mark','Tutor','id','Actions'],
+      colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id','Actions'],
       colModel:[
 		{name:'submodule', editable:true,editrules:{required:true}},
 		{name:'examname', editable:true,editrules:{required:true}},

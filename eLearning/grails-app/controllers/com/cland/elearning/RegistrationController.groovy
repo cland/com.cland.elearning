@@ -41,7 +41,7 @@ class RegistrationController {
 	}
 	
 	def jq_list_results = {
-		println("jq_list_results" + params)
+		//println("jq_list_results" + params)
 		//get the registration instance
 		def regInstance = Registration.get(params.regId)
 		if (!regInstance) {			
@@ -63,7 +63,7 @@ class RegistrationController {
 	}
 	
 	def jq_edit_results = {
-		println("jq_edit_results" + params)
+		//println("jq_edit_results" + params)
 		def resultSummary = null
 		def message = ""
 		def state = "FAIL"

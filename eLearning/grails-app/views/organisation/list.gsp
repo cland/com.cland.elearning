@@ -30,7 +30,8 @@
                     <z:column label="${message(code: 'organisation.name.label', default: 'Name')}"/>
                     <z:column label="${message(code: 'organisation.phoneNo.label', default: 'Phone No')}"/>
                     <z:column label="${message(code: 'organisation.email.label', default: 'Email')}"/>
-                    <z:column label="${message(code: 'organisation.address.label', default: 'Address')}"/>
+                    <z:column label="${message(code: 'organisation.phyAddress.label', default: 'Phy Address')}"/>
+                    <z:column label="${message(code: 'organisation.isMember.label', default: 'Is Member')}"/>
                     <z:column width="150px"/>
                 </z:columns>
             </z:grid>

@@ -3,6 +3,9 @@
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'person.label', default: 'Person')}" />
     <title><g:message code="default.edit.label" args="[entityName]" /></title>
+    <link rel="stylesheet"	href="${resource(dir:'css/south-street',file:'jquery-ui-1.10.3.custom.min.css')}" />
+<g:javascript library="jquerymin" />
+<g:javascript library="jqueryuilatest" />
 </head>
 
 <body>
@@ -19,32 +22,19 @@
             </z:hlayout>
         </z:window>
     </g:if>
-    <z:grid>
-        <z:columns sizable="true">
-            <z:column label="${message(code:'name',default:'Name')}" width="100px"/>
-            <z:column label="${message(code:'value',default:'Value')}"/>
-        </z:columns>
-        <tmpl:form/>
-    </z:grid>
-    <z:hlayout>
-       <z:window title="Roles" border="normal" width="350px">
-		<g:each var="auth" in="${com.cland.elearning.Role.list()}">
-			<g:set var="isRoleChecked" value="false" />
-    		<g:each var="sel" in="${roleMap.authority }">    		
-        		 <g:if test="${auth?.authority==sel}">           		  
-        		 	<g:set var="isRoleChecked" value="true" />
-        		 </g:if>        		      		
-    		</g:each>
-    		
-    		 <z:checkbox name="role_${auth.authority}" id="${auth.id}" checked="${isRoleChecked}" label="${auth.authority}"/>
-    		 
-		</g:each>
-	</z:window>
-    </z:hlayout>
+  
+     <tmpl:form/>
+  
     <z:hlayout>
         <z:button id="saveButton" label="${message(code: 'default.button.update.label', default: 'Update')}"/>
         <z:button href="${createLink(action:'list')}" label="${message(code: 'default.list.label', args:[entityName])}"/>
     </z:hlayout>
 </z:window>
+<script type="text/javascript">
+  /* when the page has finished loading.. execute the follow */
+  $(document).ready(function () {
+	  $( "body" ).css("height","1520px")
+  });
+</script>
 </body>
 </html>

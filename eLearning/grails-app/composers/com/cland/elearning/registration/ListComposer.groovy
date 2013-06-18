@@ -49,12 +49,13 @@ class ListComposer {
     private rowRenderer = {Row row, Object id, int index ->
         def registrationInstance = Registration.get(id)
         row << {
-                a(href: g.createLink(controller:"registration",action:'edit',id:id), label: registrationInstance.learner.firstLastName())                
-                label(value: registrationInstance.course.name)
+                a(href: g.createLink(controller:"registration",action:'show',id:id), label: registrationInstance.learner.firstLastName())                
+                label(value: registrationInstance.course.name + " (" + registrationInstance.course.code + ")")
                 label(value: registrationInstance.tutor.firstLastName())
 				label(value: registrationInstance.regDate.format("dd MMM yyyy"))
                 label(value: registrationInstance.dateCreated.format("dd MMM yyyy"))                
                 hlayout{
+					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "registration", action: 'show', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "registration", action: 'edit', id: id))
                     toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
                         Registration.get(id).delete(flush: true)

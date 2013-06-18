@@ -13,19 +13,29 @@ class Person {
 	boolean accountLocked
 	boolean passwordExpired
 	//* Custom fields
+	String salutation
 	String firstName
 	String lastName
-	String idNo
+	String middleName
+	String idNo	
+	String homeLanguage
 	Date dateOfBirth
 	String gender
+	String maritalStatus
+	Race race
 	String address
 	String city	
 	String region
 	String country
 	String email	
 	String contactNo
+	String communicationMode //sms,email
 	Date dateCreated
 	Organisation company
+	String tertiaryQualification
+	String schoolQualification
+	String disabilityYN
+	String disabilityList
 	static mappedBy = [tutorRegistrations:'tutor',learnerRegistrations:'learner']
 	static hasMany = [
 		tutorRegistrations:Registration,
@@ -38,9 +48,19 @@ class Person {
 		password blank: false
 		firstName(blank:false)
 		lastName(blank:false)
+		middleName(nullable:true)
+		homeLanguage(nullable:true)
+		salutation(inList:["Mr","Mrs","Ms","Miss"],nullable:true)
 		idNo()
 		dateOfBirth()
 		gender(inList:["M", "F"])
+		race(nullable:true)
+		maritalStatus(nullable:true,inList:["Single","Married","Divorced","Widowed"])
+		disabilityYN(inList:["Yes","No"],nullable:true)
+		disabilityList(nullable:true)
+		communicationMode(nullable:true,inList:["Email","SMS"])
+		schoolQualification(nullable:true)
+		tertiaryQualification(nullable:true) 
 		address()	
 		city()
 		region()
@@ -68,7 +88,6 @@ class Person {
 			encodePassword()
 		}
 	}
-
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}

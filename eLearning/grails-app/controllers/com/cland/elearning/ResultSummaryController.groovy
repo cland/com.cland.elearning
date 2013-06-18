@@ -37,7 +37,7 @@ class ResultSummaryController {
 	}
 
 	def jq_list_results = {
-		println("jq_list_results" + params)
+		//println("jq_list_results" + params)
 		//get the exam summary instance
 		def resultSummaryInstance = ResultSummary.get(params.resultSumId)
 		if (!resultSummaryInstance) {
@@ -71,7 +71,7 @@ class ResultSummaryController {
 					it.mark,
 					it.exam.maxMark,
 					String.format( '%.1f', it.percentMark) ,
-					it.tutor.toString(),
+					String.format( '%.1f', it.contributionMark),
 				], id: it.id]
 		}
 		def jsonData= [rows: jsonCells]  //,page:currentPage,records:totalRows,total:numberOfPages]
@@ -79,10 +79,11 @@ class ResultSummaryController {
 	}
 	
 	def jq_edit_results = {
-		println("jq_edit_results" + params)
+		//println("jq_edit_results" + params)
 		def examResult = null
 		def message = ""
 		def state = "FAIL"
+		def resultsType = "exam"
 		def id
 		switch (params.oper) {
 			case 'add':
@@ -106,7 +107,7 @@ class ResultSummaryController {
 			break
 		}
 		
-		def response = [message:message,state:state,id:id]
+		def response = [message:message,state:state,id:id,grid_id:params.grid_id]
 		render response as JSON
 	}
 } //end class

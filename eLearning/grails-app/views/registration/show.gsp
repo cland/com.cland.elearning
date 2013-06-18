@@ -38,8 +38,8 @@ var cland_params = {
 		maingrid_id		: "results_summary_list",
 		maingrid_id_pager : "results_summary_list_pager",
 			
-		subgrid_list_url :  "../jq_list_exam",
-		subgrid_edit_url :  "../jq_edit_exam",
+		subgrid_list_url :  "../../resultSummary/jq_list_results",
+		subgrid_edit_url :  "../../resultSummary/jq_edit_results",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
 		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed",		
 		result_types: "Pass:Pass;Fail:Fail;None:None",
@@ -159,8 +159,7 @@ var cland_params = {
    // postData:{modid:cland_params.thisid},
     cellEdit:false,
     cellsubmit: 'remote',
-   	cellurl:cland_params.maingrid_edit_url,  
-    subGrid :false,
+   	cellurl:cland_params.maingrid_edit_url,      
     gridComplete: function(){ 
         var ids = jQuery("#" + cland_params.maingrid_id).jqGrid('getDataIDs'); 
         
@@ -173,7 +172,65 @@ var cland_params = {
 	            
 	            jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+se+ce}); //be+se+ce+de forall actions 
             }
-    } 
+    },
+    subGrid :true,
+    subGridRowExpanded: function(subgrid_id,row_id){
+ 	   //subgrid_id: id of the div tag created within table data
+ 	   //id of this element is combination of the "sg_" + id of the row
+ 	   var subgrid_table_id, pager_id;
+ 	   subgrid_table_id = subgrid_id + "_t";
+ 	   pager_id = "p_" + subgrid_table_id;
+ 	  	   
+ 	   $("#"+subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+ 	   jQuery("#"+subgrid_table_id).jqGrid({
+ 		   url:cland_params.subgrid_list_url,
+ 		   editurl:cland_params.subgrid_edit_url,
+ 		   datatype:"json",
+ 		  colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id',' <input type="button" name="Add_Result" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="result_add" value="Add Result"/>','Sub Id'],
+ 	      colModel:[
+		 			{name:'submodule', editable:true,editrules:{required:true}},
+		 			{name:'examname', editable:true,editrules:{required:true}},
+		 	        {name:'mark', editable:true,editrules:{required:true}},
+		 	        {name:'maxMark', editable:false},
+		 	        {name:'percentMark', editable:false},     
+		 	        {name:'tutor', editable:false},   
+		 	        {name:'id',hidden:true},		 	        
+		 	       	{name:'subact',index:'subact', width:150,sortable:false,search:false,align:'center'},
+		            {name:'resultSumId',index:'resultSumId',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:row_id}}
+ 		              ],		              
+ 		   //rowNum:2,
+ 		   //pager:pager_id,
+ 		   sortname:'testNumber',
+ 		   sortorder:'asc',
+ 		   height:"100%",
+ 		   autowidth:true,
+ 		   gridComplete: function(){
+ 			   thisgrid = jQuery("#" + subgrid_table_id);
+ 			   var subids = thisgrid.jqGrid('getDataIDs');
+ 			   for(var i=0;i<subids.length;i++){
+ 				   	var _id =subids[i];
+ 				    de = "<input style='height:22px;' type='button' value='Add Result' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";
+ 				   	be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ subgrid_table_id+"').editRow('"+_id+"');\" />"; 
+ 		            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ subgrid_table_id+"').saveRow('"+_id+"',afterSubmitEvent,null,{'grid_id':'" +subgrid_table_id+"'});\" />"; 
+ 		            ce = "<input style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ subgrid_table_id+"').restoreRow('"+_id+"');clearSelection();\" />";  		            
+ 		             		            		            
+ 		            thisgrid.jqGrid('setRowData',_id,{subact: be+se+ce}); //be+se+ce+de forall actions
+ 				}
+ 			},  
+ 		   cellEdit:true,
+ 		    cellsubmit: 'remote',
+ 		   	cellurl:cland_params.subgrid_edit_url,
+ 		   postData:{resultSumId:row_id}           
+ 		   });
+ 	  // jQuery("#"+subgrid_table_id).setGridParam({id:row_id})''
+ 	   jQuery("#"+subgrid_table_id).jqGrid('navGrid'),"#"+pager_id,{edit:false,add:false,del:false,refresh:true}
+ 	   },
+ 	subGridRowColapsed: function(subgrid_id,row_id){
+ 		//This functiona is called before removing the data
+ 		//var subgrid_table_id;
+ 		//subgrid_table_id = subgrid_id+"_t";
+ 		//jQuery("#"+subgrid_table_id).remove();
+ 		}, 
     }).navGrid('#' + cland_params.maingrid_id_pager,
             {add:false,edit:false,del:false,search:false,refresh:true}, // which buttons to show?
             {closeAfterEdit:true, afterSubmit:afterSubmitEvent,savekey:[true,13],afterShowForm: centerForm},  // edit options
@@ -185,7 +242,8 @@ var cland_params = {
   });  
 // ]]>
   function afterSubmitEvent(response, postdata) {	
-	  $("#" + cland_params.maingrid_id).trigger('reloadGrid')
+	  
+	  
       var success = true;
   	  var display = $('#message'); 
       var json = eval('(' + response.responseText + ')');
@@ -200,6 +258,12 @@ var cland_params = {
         display.html(message);
         display.show().fadeOut(10000);            
       var new_id = json.id
+
+      //reload the grid
+      var grid_id = json.grid_id;
+      if(!grid_id) grid_id = cland_params.maingrid_id;
+
+      $("#" + grid_id).trigger('reloadGrid')
       return success; //[success,message,new_id];
   }
   function deleteGridRow(id,grid_id){

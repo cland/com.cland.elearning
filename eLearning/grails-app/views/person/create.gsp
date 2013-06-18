@@ -6,25 +6,20 @@
 </head>
 
 <body>
-<z:window style="padding:5px" apply="com.cland.elearning.person.CreateComposer">
-    <z:grid>
-        <z:columns sizable="true">
-            <z:column label="${message(code:'name',default:'Name')}" width="100px"/>
-            <z:column label="${message(code:'value',default:'Value')}"/>
-        </z:columns>
+<z:window style="padding:5px" apply="com.cland.elearning.person.CreateComposer">   
         <tmpl:form/>
-    </z:grid>
-     <z:hlayout>
-      <z:window title="Roles" border="normal" width="350px">
-		<g:each var="auth" in="${com.cland.elearning.Role.list()}">
-    		<z:checkbox name="role_${auth.authority}" id="${auth.id}"  label="${auth.authority}"/>
-		</g:each>
-	</z:window>
-    </z:hlayout>
+    
     <z:hlayout>
         <z:button id="saveButton" label="${message(code: 'default.button.create.label', default: 'Create')}"/>
         <z:button href="${createLink(action:'list')}" label="${message(code: 'default.list.label', args:[entityName])}"/>
     </z:hlayout>
 </z:window>
+<script type="text/javascript">
+  /* when the page has finished loading.. execute the follow */
+  $(document).ready(function () {
+	  $( "body" ).css("height","1520px")
+  });
+</script>
+  
 </body>
 </html>

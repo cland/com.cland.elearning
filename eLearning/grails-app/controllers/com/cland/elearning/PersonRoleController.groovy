@@ -1,7 +1,9 @@
 package com.cland.elearning
 
-class PersonRoleController {
 
+class PersonRoleController {
+	
+	
     def index = {
         redirect(action: "list", params: params)
     }
@@ -25,4 +27,5 @@ class PersonRoleController {
         }
     }
 
-}
+	
+} //end class
