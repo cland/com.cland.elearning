@@ -9,6 +9,7 @@ class SubModule {
 	static hasMany = [exams:Exam]
 	static belongsTo = [module:Module]
     static constraints = {
+		name(blank:false)
 		type(inList:["Assignment",
 			"Computer Marked Asessment",
 			"Practical Attendance Exercises",

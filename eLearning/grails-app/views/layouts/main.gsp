@@ -18,6 +18,27 @@
 		<g:layoutHead/>
 		<r:layoutResources />
 		<z:resources/>
+		<style>
+		/* Custom rules */
+		.ui-jqgrid .ui-jqgrid-htable th div {
+	height: auto;
+	overflow: hidden;
+	padding-right: 4px;
+	padding-top: 2px;
+	position: relative;
+	vertical-align: text-top;
+	white-space: normal !important;
+}
+.ui-jqgrid .ui-jqgrid-htable th {
+    height: 32px;
+    padding: 0 2px;
+}
+.ui-jqgrid .ui-jqgrid-view {
+    font-size: 12px; 
+}
+		
+.subgrid-data .ui-state-default { background:#768074;border:1px solid #ccc;}
+		</style>
 	</head>
 	<body>
 		<div id="grailsLogo" role="banner"><a href="/eLearning"><img src="${resource(dir: 'images', file: 'elearning_logo.png')}" alt="Cland"/></a></div>

@@ -2,7 +2,7 @@
     <head>
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'module.label', default: 'Module')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <title><g:appTitle title=""><g:message code="default.list.label" args="[entityName]" /></g:appTitle></title>
     </head>
     <body>
         <z:window style="padding:5px" apply="com.cland.elearning.module.ListComposer">

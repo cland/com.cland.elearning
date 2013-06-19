@@ -67,7 +67,7 @@
 	<z:row>
 		<z:label
 			value="${message(code:'person.address.label',default:'Address')}" />
-		<z:textbox name="address" value="${personInstance?.address}" />
+		<z:textbox rows="3" name="address" value="${personInstance?.address}" />
 	</z:row>
 
 	<z:row>
@@ -80,7 +80,7 @@
 			value="${message(code:'person.region.label',default:'Region')}" />
 		<zkui:select name="region"
 			from="${com.cland.elearning.Region.list().sort(false){it.name}}"
-			value="${personInstance?.region}" valueMessagePrefix="person.region" />
+			value="${personInstance?.region}" valueMessagePrefix="person.region" noSelection="['': '']" />
 	</z:row>
 
 	<z:row>
@@ -262,7 +262,7 @@
 				<z:rows>
 	<z:row>
 		<z:label
-			value="${message(code:'person.disabilityYN.label',default:'Disability YN')}" />
+			value="${message(code:'person.disabilityYN.label',default:'Disability Yes/No?')}" />
 		<zkui:select name="disabilityYN"
 			from="${personInstance.constraints.disabilityYN.inList}"
 			value="${personInstance?.disabilityYN}"
@@ -272,8 +272,7 @@
 	<z:row>
 		<z:label
 			value="${message(code:'person.disabilityList.label',default:'Disability List')}" />
-		<z:textbox name="disabilityList"
-			value="${personInstance?.disabilityList}" />
+		<z:textbox rows="4" name="disabilityList" value="${personInstance?.disabilityList}" />
 	</z:row>
 				</z:rows>
 			</z:grid>

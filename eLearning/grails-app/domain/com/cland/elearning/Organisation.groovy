@@ -10,6 +10,10 @@ class Organisation {
 	String postalAddress
 	String postalPostCode
 	String contactPerson
+	String city
+	Region region
+	Country country
+	String comments
 	String isMember
 	//static hasMany = [people:Person]
 	
@@ -18,7 +22,8 @@ class Organisation {
 		phoneNo()
 		email(email:true)
 		phyAddress(blank:true, nullable:true)
-		
+		region(nullable:true)
+		country(nullable:true)
 		isMember(nullable:true,inList:["Yes","No"])
     }
 	def beforeInsert = {

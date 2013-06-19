@@ -3,7 +3,7 @@
 <meta name="layout" content="main" />
 <g:set var="entityName"
 	value="${message(code: 'module.name', default: moduleInstance.toString())}" />
-<title><g:message code="default.show.label" args="[entityName]" /></title>
+<title><g:appTitle title=""><g:message code="default.show.label" args="[entityName]" /></g:appTitle></title>
 </head>
 
 <body>

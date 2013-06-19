@@ -2,12 +2,12 @@
     <head>
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'registration.label', default: 'Registration')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <title><g:appTitle title=""><g:message code="default.list.label" args="[entityName]" /></g:appTitle></title>
     </head>
     <body>
         <z:window style="padding:5px" apply="com.cland.elearning.registration.ListComposer">
             <z:hlayout>
-                <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
+                <z:toolbarbutton style="display:none" href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
                 <z:label value="${message(code:'registration.learner',default:'Lastname: ')}"/>
                 <z:textbox id="keywordBox"/>

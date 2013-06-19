@@ -13,6 +13,6 @@
 		<div id="grailsLogo">
 		<a href="/eLearning/"> <img
 			src="${resource(dir: 'images', file: 'cland_logo.png')}"
-			alt="Grails" /></a>
+			alt="${AppName }" /></a>
 	</div>
 </div>

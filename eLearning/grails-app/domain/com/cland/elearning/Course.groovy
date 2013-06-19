@@ -9,6 +9,7 @@ class Course {
 	Date endDate
 	String region
 	String status
+	String comments
 	static hasMany = [modules:Module,registrations:Registration,events:CourseEvent]
     static constraints = {
 		name(blank:false)
@@ -17,6 +18,7 @@ class Course {
 		modules(blank:false)
 		region()
 		status(inList:["active","inactive","open","closed"])
+		comments(nullable:true)
     }
 	static mapping = {
 	//	modules lazy:false
@@ -37,6 +39,6 @@ class Course {
 	}
 	
 	String toString(){
-		"${name}, ${startDate.format('dd/MM/yyyy')} - ${endDate.format('dd/MM/yyyy')}"
+		"${name} (${code})"
 	}
 } //end of class

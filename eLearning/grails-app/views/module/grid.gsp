@@ -3,7 +3,7 @@
 <meta name="layout" content="main" />
 <g:set var="entityName"
 	value="${message(code: 'module.name', default: moduleInstance.toString())}" />
-<title><g:message code="default.show.label" args="[entityName]" /></title>
+<title><g:appTitle title=""><g:message code="default.show.label" args="[entityName]" /></g:appTitle></title>
 <link rel="stylesheet"
 	href="${resource(dir:'css',file:'ui.jqgrid.css')}" />
 <link rel="stylesheet"
@@ -12,24 +12,7 @@
 <g:javascript library="jqueryuilatest" />
 <g:javascript library="jquerygridlocale" />
 <g:javascript library="jquerygrid" />
-<style>
-.ui-jqgrid .ui-jqgrid-htable th div {
-	height: auto;
-	overflow: hidden;
-	padding-right: 4px;
-	padding-top: 2px;
-	position: relative;
-	vertical-align: text-top;
-	white-space: normal !important;
-}
-.ui-jqgrid .ui-jqgrid-htable th {
-    height: 32px;
-    padding: 0 2px;
-}
-.ui-jqgrid .ui-jqgrid-view {
-    font-size: 12px; 
-}
-</style>
+
 <script type="text/javascript">
 var cland_params = {
 		maingrid_list_url : "../jq_list_submodule",
@@ -71,10 +54,10 @@ var cland_params = {
 
 	<fieldset>
 		<legend>
-			<b>&raquo;</b> Module
+			<b>&raquo;</b>Module
 		</legend>
 		<h1>
-			<g:fieldValue bean="${moduleInstance}" field="name" />
+			&nbsp;<g:fieldValue bean="${moduleInstance}" field="name" />
 		</h1>
 		<div class="content">
 			<g:fieldValue bean="${moduleInstance}" field="description" />
@@ -228,7 +211,7 @@ var cland_params = {
             {addCaption:'New Record',afterSubmit:afterSubmitEvent,savekey:[true,13],closeAfterEdit:false},  // add options            
            {afterShowForm: centerForm}          // delete options
         );
-    $("#" + cland_params.maingrid_id).jqGrid('filterToolbar',{autosearch:true});
+    //$("#" + cland_params.maingrid_id).jqGrid('filterToolbar',{autosearch:true});
    
   });  
 // ]]>

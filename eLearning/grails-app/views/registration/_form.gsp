@@ -6,14 +6,14 @@
     </z:row>
     <z:row>
         <z:label value="${message(code:'registration.learner.label',default:'Learner')}"/>
-        <zkui:select name="learner.id" from="${com.cland.elearning.Person.list()}" optionKey="id" value="${registrationInstance?.learner?.id}"  />
+        <zkui:select name="learner.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('LEARNER'))?.person}" optionKey="id" value="${registrationInstance?.learner?.id}"  />
     </z:row>
 
     
 
     <z:row>
         <z:label value="${message(code:'registration.tutor.label',default:'Tutor')}"/>
-        <zkui:select name="tutor.id" from="${com.cland.elearning.Person.list()}" optionKey="id" value="${registrationInstance?.tutor?.id}"  />
+        <zkui:select name="tutor.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person}" optionKey="id" value="${registrationInstance?.tutor?.id}"  />
     </z:row>
 
     <z:row>

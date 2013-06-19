@@ -28,7 +28,7 @@ class ModuleController {
 		redirect(action: "grid", params: params)
 	}
 	def grid = {
-		//println("grid: ${params}")
+		////println("grid: ${params}")
 		def moduleInstance = Module.get(params.id  as Long)
 		if (!moduleInstance) {
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'module.label', default: 'Module'), params.id])}"
@@ -40,7 +40,7 @@ class ModuleController {
 	}
 
 	def jq_list_submodule = {
-		println("jq_submodule_list: ${params}")
+		//println("jq_submodule_list: ${params}")
 		def sortIndex = params.sidx ?: 'name'
 		def sortOrder  = params.sord ?: 'asc'
 

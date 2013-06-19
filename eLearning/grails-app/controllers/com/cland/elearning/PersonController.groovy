@@ -70,4 +70,5 @@ class PersonController {
 		render jsonData as JSON
 		
 	}
+	
 } //end class

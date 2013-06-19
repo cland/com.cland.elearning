@@ -10,6 +10,7 @@ class Module {
 	//	submodules lazy:false
 	}
     static constraints = {
+		name(blank:false)
     }
 	def beforeInsert = {
 	// your code goes here

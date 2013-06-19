@@ -11,6 +11,8 @@ class Exam {
 	static belongsTo = [submodule:SubModule]
 	
     static constraints = {
+		testNumber(blank:false,min:1)
+		
 		factorOperand(inList:["Divide",
 			"Multiply",
 			"Subtract",

@@ -30,24 +30,7 @@ var cland_params = {
 	}
 //]]>
 </script>
-<style>
-.ui-jqgrid .ui-jqgrid-htable th div {
-	height: auto;
-	overflow: hidden;
-	padding-right: 4px;
-	padding-top: 2px;
-	position: relative;
-	vertical-align: text-top;
-	white-space: normal !important;
-}
-.ui-jqgrid .ui-jqgrid-htable th {
-    height: 32px;
-    padding: 0 2px;
-}
-.ui-jqgrid .ui-jqgrid-view {
-    font-size: 12px; 
-}
-</style>
+
 </head>
 
 <body>
@@ -89,11 +72,11 @@ var cland_params = {
 	</fieldset>
 
 	<!-- The tabs -->
-	<div id="tabs">
+	<div id="tabs" style="display:none;">
 		<ul>
 			<li><a href="#tab-person">Personal Details</a></li>
 			<li><a href="#tab-employee">Employee Details</a></li>
-			<li><a href="#tab-learner">Courses & Results</a></li>			
+			<li id='tab_learner_head'><a href="#tab-learner">Courses & Results</a></li>			
 		</ul>
 		<div id="tab-person">
 			Personal Details
@@ -119,7 +102,14 @@ $(document).ready(function() {
 					$("#tabs").tabs(
 									{
 									active:cland_params.active_tab(),
-										beforeLoad : function(event, ui) {
+									create: function (event,ui){	
+										//executed after is created								
+										$('#tabs').show()
+									},
+									show: function(event,ui){
+										//on every tabs clicked
+									},
+									beforeLoad : function(event, ui) {
 											ui.jqXHR.error(function() {
 												ui.panel
 												.html("Couldn't load this tab. We'll try to fix this as soon as possible. ");

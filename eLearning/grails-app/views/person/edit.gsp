@@ -2,7 +2,7 @@
 <head>
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'person.label', default: 'Person')}" />
-    <title><g:message code="default.edit.label" args="[entityName]" /></title>
+    <title><g:appTitle title=""><g:message code="default.edit.label" args="[entityName]" /></g:appTitle></title>
     <link rel="stylesheet"	href="${resource(dir:'css/south-street',file:'jquery-ui-1.10.3.custom.min.css')}" />
 <g:javascript library="jquerymin" />
 <g:javascript library="jqueryuilatest" />
@@ -33,7 +33,7 @@
 <script type="text/javascript">
   /* when the page has finished loading.. execute the follow */
   $(document).ready(function () {
-	  $( "body" ).css("height","1520px")
+	  $( "body" ).css("height","1730px")
   });
 </script>
 </body>

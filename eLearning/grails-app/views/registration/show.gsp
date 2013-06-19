@@ -2,7 +2,7 @@
 <head>
 <meta name="layout" content="main" />
 <g:set var="entityName" value="${message(code: 'registration.label', default: 'Registration')}" />
-<title><g:message code="default.show.label" args="[entityName]" /></title>
+<title><g:appTitle title=""><g:message code="default.show.label" args="[entityName]" /></g:appTitle></title>
 <link rel="stylesheet"
 	href="${resource(dir:'css',file:'ui.jqgrid.css')}" />
 <link rel="stylesheet"
@@ -11,24 +11,7 @@
 <g:javascript library="jqueryuilatest" />
 <g:javascript library="jquerygridlocale" />
 <g:javascript library="jquerygrid" />
-<style>
-.ui-jqgrid .ui-jqgrid-htable th div {
-	height: auto;
-	overflow: hidden;
-	padding-right: 4px;
-	padding-top: 2px;
-	position: relative;
-	vertical-align: text-top;
-	white-space: normal !important;
-}
-.ui-jqgrid .ui-jqgrid-htable th {
-    height: 32px;
-    padding: 0 2px;
-}
-.ui-jqgrid .ui-jqgrid-view {
-    font-size: 12px; 
-}
-</style>
+
 <script type="text/javascript">
 var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
@@ -52,10 +35,14 @@ var cland_params = {
 	<z:window style="padding:5px">
 		<div class="bread-crump">
 			<span class="r-arrow"></span>
-			<g:link controller="course" action="list">Course</g:link>			
+			<g:link controller="course" action="list">Courses</g:link>			
+			<span class="r-arrow"></span>
+			<g:link controller="course" action="show" id="${registrationInstance.course.id}" params="[tab:1]">${registrationInstance.course.toString() }</g:link>
 			<span class="r-arrow"></span>			
 			<span class="current-crump">
-				Register and results for: ${registrationInstance.learner.toString() }
+			<g:link controller="person" action="show" id="${registrationInstance.learner.id}" params="[tab:2]">${registrationInstance.learner.toString() }</g:link>
+			<span class="r-arrow"></span>
+				Course Register 
 			</span>
 		</div>
 		
@@ -222,6 +209,7 @@ var cland_params = {
  		   	cellurl:cland_params.subgrid_edit_url,
  		   postData:{resultSumId:row_id}           
  		   });
+ 	  
  	  // jQuery("#"+subgrid_table_id).setGridParam({id:row_id})''
  	   jQuery("#"+subgrid_table_id).jqGrid('navGrid'),"#"+pager_id,{edit:false,add:false,del:false,refresh:true}
  	   },

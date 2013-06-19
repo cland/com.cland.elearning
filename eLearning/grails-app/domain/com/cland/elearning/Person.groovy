@@ -25,8 +25,8 @@ class Person {
 	Race race
 	String address
 	String city	
-	String region
-	String country
+	Region region
+	Country country
 	String email	
 	String contactNo
 	String communicationMode //sms,email
@@ -63,8 +63,8 @@ class Person {
 		tertiaryQualification(nullable:true) 
 		address()	
 		city()
-		region()
-		country()
+		region(nullable:true)
+		country(nullable:true)
 		contactNo()
 		email(email:true)
 		company(nullable:true)

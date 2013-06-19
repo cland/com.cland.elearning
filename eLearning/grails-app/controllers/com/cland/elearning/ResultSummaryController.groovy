@@ -96,7 +96,7 @@ class ResultSummaryController {
 				// set the properties according to passed in parameters
 				examResult.properties = params
 				if (! examResult.hasErrors() && examResult.save()) {
-					message = "Exam result  ${examResult.toString()} Updated"
+					message = "Result for ${examResult.subModule.name} ${examResult.subModule.type} exam test ${examResult.exam.testNumber} updated successfully"
 					id = examResult.id
 					state = "OK"
 				} else {
