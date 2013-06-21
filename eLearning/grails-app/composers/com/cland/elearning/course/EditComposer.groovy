@@ -12,7 +12,9 @@ class EditComposer {
     }
 
     void onClick_saveButton(Event e) {
+		
         def params=self.params
+		//println(params)
         def courseInstance = Course.get(params.id)
         if (courseInstance) {
             if (params.version != null) {

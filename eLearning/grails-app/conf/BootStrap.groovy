@@ -202,7 +202,7 @@ class BootStrap {
 
 
 			//** course
-				def course = new Course(name:"Introduction To Paint 101",startDate:new Date(),endDate: new Date() + 1,region:"KZN",status:"active",code:"INTRO-PAINT-KZN101" )
+				def course = new Course(name:"Introduction To Paint 101",startDate:new Date(),endDate: new Date() + 1,status:"active",code:"INTRO-PAINT-KZN101" )
 				course.addToModules(module)
 							
 				course.save()
@@ -210,7 +210,7 @@ class BootStrap {
 					println course.errors
 				}
 				
-				def course2 = new Course(name:"How To Paint 221",startDate:new Date(),endDate: new Date() + 1, region:"Western Cape",status:"active",code:"HW-PAINT-WC221" )
+				def course2 = new Course(name:"How To Paint 221",startDate:new Date(),endDate: new Date() + 1, status:"active",code:"HW-PAINT-WC221" )
 				course2.addToModules(module)
 							
 				course2.save()
@@ -220,32 +220,52 @@ class BootStrap {
 			
 				break
 			case "PRODUCTION" :
-//			def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
-//			def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
-//			def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
-//			def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
+				
+				//else do the initial setup
+//				def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
+//				def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
+//				def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
+//				def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
 //
-//		//* Admin user
-//			def adminUser = new Person(username: 'admin',
-//			enabled: true,
-//			password: 'elearning',
-//			firstName: 'System',
-//			lastName: 'Admin',
-//			idNo :"9999999999",
-//			region:"Western Cape",
-//			country:"South Africa",
-//			contactNo : "021334232",
-//			dateOfBirth:(new Date() - 365*30),
-//			gender:"M",
-//			address:"123 Main St",
-//			city:"Cape Town",
-//			email:"system@mail.com")
+//				def sa = new Country(name:"South Africa")
+//				sa.addToRegions(new Region(name:"Western Cape"))
+//				sa.addToRegions(new Region(name:"KZN"))
+//				sa.addToRegions(new Region(name:"Limpopo"))
+//				sa.addToRegions(new Region(name:"Mpumalanga"))
+//				sa.addToRegions(new Region(name:"Gauteng"))
+//				sa.addToRegions(new Region(name:"North West"))
+//				sa.addToRegions(new Region(name:"Free State"))
+//				sa.addToRegions(new Region(name:"Eastern Cape"))
+//				sa.addToRegions(new Region(name:"Northern Cape"))
+//				sa.save()
+//				if(sa.hasErrors()){
+//					println(sa.errors)
+//				}
+//				
+//				new Race(name:"Black").save()
+//				new Race(name:"White").save()
+//				new Race(name:"Indian").save()
+//				new Race(name:"Other").save()
+//				
+//			//* Admin user
+//				def adminUser = new Person(username: 'admin',
+//				enabled: true,
+//				password: 'password',
+//				firstName: 'System',
+//				lastName: 'Admin',
+//				idNo :"3456753463453",
+//				contactNo : "021334232",
+//				dateOfBirth:(new Date() - 365*30),
+//				gender:"M",
+//				address:"123 Main St",
+//				city:"Cape Town",
+//				email:"jay@whereever.com")
 //
-//			adminUser.save()
-//			if(adminUser.hasErrors()){
-//				println adminUser.errors
-//			}
-//			PersonRole.create(adminUser, adminRole, true)
+//				adminUser.save()
+//				if(adminUser.hasErrors()){
+//					println adminUser.errors
+//				}
+//				PersonRole.create(adminUser, adminRole, true)
 				break
 		}
 	} //end init

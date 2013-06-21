@@ -18,7 +18,7 @@
 <sec:ifAnyGranted roles="ADMIN">
 <g:link controller="region" action="list" >Regions</g:link> |
 <g:link controller="country" action="list" >Countries</g:link> |
-<g:link controller="admin" action="index">System Admin</g:link>
+<g:link controller="admin" action="index">Technical</g:link>
 </sec:ifAnyGranted>
 </sec:ifLoggedIn>
 <br/>

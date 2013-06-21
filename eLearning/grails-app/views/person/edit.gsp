@@ -30,11 +30,6 @@
         <z:button href="${createLink(action:'list')}" label="${message(code: 'default.list.label', args:[entityName])}"/>
     </z:hlayout>
 </z:window>
-<script type="text/javascript">
-  /* when the page has finished loading.. execute the follow */
-  $(document).ready(function () {
-	  $( "body" ).css("height","1730px")
-  });
-</script>
+
 </body>
 </html>

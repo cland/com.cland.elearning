@@ -17,7 +17,7 @@ var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
 		thisId : ${params.id},		
 		course_list_url : "../jq_list_courses?personid=" + ${params.id},
-		course_edit_url : "../jq_list_courses?personid=" + ${params.id}, //to fix
+		course_edit_url : "../jq_remove_course", 
 		course_maingrid_id		: "course_list",
 		course_maingrid_id_pager : "course_list_pager",
 		
@@ -64,35 +64,17 @@ var cland_params = {
 			&nbsp; ${personInstance.toString() }
 		</h1>
 		<div class="content">
-		Roles: 
+		<b>Contact No.:</b> ${personInstance.contactNo}<br/>
+		<b>Email:</b> ${personInstance.email}<br/>
+		<b>Roles: </b>
 			<g:each var="auth" in="${roleMap }">
 			[${auth.authority }] 
-			</g:each>
+			</g:each><br/>
 		</div>
 	</fieldset>
 
 	<!-- The tabs -->
-	<div id="tabs" style="display:none;">
-		<ul>
-			<li><a href="#tab-person">Personal Details</a></li>
-			<li><a href="#tab-employee">Employee Details</a></li>
-			<li id='tab_learner_head'><a href="#tab-learner">Courses & Results</a></li>			
-		</ul>
-		<div id="tab-person">
-			Personal Details
-		</div>
-		<div id="tab-employee">
-			Employee Details
-		</div>
-		<div id="tab-learner">
-			<div id="course_grid" style="padding: 5px;">
-				<table id="course_list" class="scroll jqTable"></table>
-				<!-- pager will hold our paginator -->
-				<div id="course_list_pager" class="scroll"
-					style="text-align: center;"></div>
-			</div>
-		</div>
-	</div>
+	<tmpl:tabs/>
 	<!--  End tabs -->
 	
 <script type="text/javascript">
@@ -131,8 +113,7 @@ $(document).ready(function() {
 					
 					  centerForm = function ($form) {
 		                    $form.closest('div.ui-jqdialog').position({
-		                        my: "center",
-		                        of: grid.closest('div.ui-jqgrid')
+		                        my: "center"
 		                    });
 		                };		             
   
@@ -210,7 +191,7 @@ $(document).ready(function() {
 			  if (id!= null) grid.jqGrid('setSelection',id);
 			  var gr = grid.jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'		      
 		      if( gr != null && gr != "" )
-		        grid.jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+		        grid.jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:250,width:650});
 		      else
 		        alert("Please Select Row to delete!");
 			
@@ -221,7 +202,7 @@ $(document).ready(function() {
 			  var gr = $("#" + grid_id).jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
 		      
 		      if( gr != null && gr != "" )
-		        $("#" + grid_id).jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+		        $("#" + grid_id).jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:250,width:650});
 		      else
 		        alert("Please Select Row to delete!");
 		}
@@ -233,7 +214,7 @@ $(document).ready(function() {
 		  function addLearnerRow(course_id, grid_id){
 		  	 var $dialog = $('<div></div>')
            
-                        .load('../../registration/register?learner.id=' + course_id)
+                        .load('../../registration/register?src=learner&learner.id=' + course_id)
                         .dialog({
                             autoOpen: false,
                             width:350,

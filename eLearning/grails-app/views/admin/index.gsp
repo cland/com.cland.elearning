@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>Welcome: Developer Section</title>
+		<title><g:appTitle title="">Developer Section</g:appTitle></title>
 		<style type="text/css" media="screen">
 			#status {
 				background-color: #eee;
@@ -78,6 +78,7 @@
 					margin-top: 0;
 				}
 			}
+			
 		</style>
 	</head>
 	<body>

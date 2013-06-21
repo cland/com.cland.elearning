@@ -25,7 +25,7 @@ class CreateComposer {
 	
 	void onClick_saveDialogButton(Event e) {
 		def params = self.params
-	//	println(params)
+		//println(params)
 	//	for(def key: params.keySet()){
 	//		println(key + " - " + params.getAt(key))
 	//	}
@@ -36,7 +36,12 @@ class CreateComposer {
 		def registrationInstance = Registration.findAllWhere("learner.id":learnerId as Long,"course.id":courseId as Long)
 		if(registrationInstance){
 			flash.message = registrationInstance.learner.toString() + " is already registered!" //g.message(code: 'default.exists.message', args: [g.message(code: 'registration.label', default: 'Registration'), registrationInstance.id])
-			redirect(controller: "course", action: "show", params:[id:courseId as Long, tab:active_tab])
+			if(params.src =="learner"){
+				active_tab = 2
+				redirect(controller: "person", action: "show", params:[id:learnerId as Long,tab:active_tab])
+			}else{
+				redirect(controller: "course", action: "show", params:[id:courseId as Long,tab:active_tab])
+			}
 			return
 		}
 		
@@ -49,7 +54,14 @@ class CreateComposer {
 			//if new one has been created successfully, generate the resultsummary and examresult stubs
 			createResultStubs(registrationInstance)
 			flash.message = g.message(code: 'default.created.message', args: [g.message(code: 'registration.label', default: 'Registration'), registrationInstance.id])
-			redirect(controller: "course", action: "show", params:[id:courseId as Long,tab:active_tab])
+			
+			if(params.src =="learner"){
+				active_tab = 2
+				redirect(controller: "person", action: "show", params:[id:learnerId as Long,tab:active_tab])
+			}else{
+				redirect(controller: "course", action: "show", params:[id:courseId as Long,tab:active_tab])
+			}
+			
 		}
 	} //end
 	

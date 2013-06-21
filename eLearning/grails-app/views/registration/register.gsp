@@ -7,6 +7,7 @@
 
 <body>
 <z:window style="padding:5px" apply="com.cland.elearning.registration.CreateComposer">
+<z:textbox name="src" value="${params.src}" visible="false"/>
 <g:if test="${flash.message}">
 				<z:window mode="popup" border="normal" style="margin-bottom:5px">
 					<z:hlayout>

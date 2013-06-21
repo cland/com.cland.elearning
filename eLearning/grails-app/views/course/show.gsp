@@ -146,8 +146,7 @@ $("#tabs").tabs(
 					
 					  centerForm = function ($form) {
 		                    $form.closest('div.ui-jqdialog').position({
-		                        my: "center",
-		                        of: grid.closest('div.ui-jqgrid')
+		                        my: "center"
 		                    });
 		                };
 
@@ -392,7 +391,7 @@ $("#tabs").tabs(
 			  var gr = $("#submodule_list").jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
 		      
 		      if( gr != null && gr != "" )
-		        $("#submodule_list").jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+		        $("#submodule_list").jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:300,width:700});
 		      else
 		        alert("Please Select Row to delete!");
 		  }
@@ -402,7 +401,7 @@ $("#tabs").tabs(
 			  var gr = $("#" + grid_id).jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
 		      
 		      if( gr != null && gr != "" )
-		        $("#" + grid_id).jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+		        $("#" + grid_id).jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:300,width:700});
 		      else
 		        alert("Please Select Row to delete!");
 			  }
@@ -411,7 +410,7 @@ $("#tabs").tabs(
 			 //grid.setGridParam({ postData: { id: row_id} });
 			 grid.jqGrid("editGridRow",
 		              "new",
-		              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13]}
+		              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13],height:350,width:750}
 		      );
 			}
 		  function addModuleRow(course_id,grid_id){		  	 

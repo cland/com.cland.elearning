@@ -8,8 +8,7 @@
 		<sec:ifAnyGranted roles="ADMIN">
 			<li><g:link controller="registration" action="list">Registrations</g:link></li>		
 			<li><g:link controller="resultSummary" action="list">Results</g:link></li>			
-			<li><g:link controller="organisation" action="list">Organisations</g:link></li>
-			<li><g:link controller="admin" action="index">Technical</g:link></li>
+			<li><g:link controller="organisation" action="list">Organisations</g:link></li>			
 		</sec:ifAnyGranted>
 	
 			<li><g:link controller="logout" action="index">Logout</g:link></li>

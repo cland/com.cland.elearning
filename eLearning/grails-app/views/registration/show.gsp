@@ -115,8 +115,8 @@ var cland_params = {
       //initialize the grid
       centerForm = function ($form) {
                     $form.closest('div.ui-jqdialog').position({
-                        my: "center",
-                        of: grid.closest('div.ui-jqgrid')
+                        my: "center" //,
+                       // of: grid.closest('div.ui-jqgrid')
                     });
                 };
                 
@@ -260,7 +260,7 @@ var cland_params = {
 	  var gr = grid.jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
       
       if( gr != null && gr != "" )
-        grid.jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+        grid.jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:300,width:700});
       else
         alert("Please Select Row to delete!");
 	  }
@@ -269,7 +269,7 @@ var cland_params = {
 	  var gr = $("#submodule_list").jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
       
       if( gr != null && gr != "" )
-        $("#submodule_list").jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+        $("#submodule_list").jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:300,width:700});
       else
         alert("Please Select Row to delete!");
   }
@@ -278,7 +278,7 @@ var cland_params = {
 	 //grid.setGridParam({ postData: { id: row_id} });
 	 grid.jqGrid("editGridRow",
               "new",
-              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13]}
+              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13],height:350,width:750}
       );
 	}
   function clearSelection(){jQuery('#' + cland_params.maingrid_id).jqGrid('resetSelection'); }

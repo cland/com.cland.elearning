@@ -69,6 +69,25 @@ class PersonController {
 
 		render jsonData as JSON
 		
+	} //end jq_list_courses
+	
+	def jq_remove_course = {
+		def message = ""
+		def state = "FAIL"
+	//println("jq_remove_course: ${params}")
+		
+		def reg = Registration.get(params.id) 
+		if(reg){
+			reg.delete()
+			message = reg.learner.toString() + " has been de-registered from course '${reg.course.name}'!"
+			state = "OK"
+		}else{
+			println("reg is null " + reg)
+			message = "No registration found!"
+		}
+		def response = [message:message,state:state,id:params.id]
+		render response as JSON
+		
 	}
 	
 } //end class

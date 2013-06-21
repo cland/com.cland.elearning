@@ -7,6 +7,7 @@
 
 <body>
 <z:window style="padding:5px" apply="com.cland.elearning.registration.CreateComposer">
+<z:textbox name="src" value="${params.src}" visible="false"/>
     <z:grid>
         <z:columns sizable="true">
             <z:column label="${message(code:'name',default:'Name')}" width="100px"/>

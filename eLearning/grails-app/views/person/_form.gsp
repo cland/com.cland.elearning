@@ -78,18 +78,17 @@
 	<z:row>
 		<z:label
 			value="${message(code:'person.region.label',default:'Region')}" />
-		<zkui:select name="region"
+		<zkui:select name="region.id" optionKey="id"
 			from="${com.cland.elearning.Region.list().sort(false){it.name}}"
-			value="${personInstance?.region}" valueMessagePrefix="person.region" noSelection="['': '']" />
+			value="${personInstance?.region?.id}" />
 	</z:row>
 
 	<z:row>
 		<z:label
 			value="${message(code:'person.country.label',default:'Country')}" />
-		<zkui:select name="Country"
+		<zkui:select name="country.id" optionKey="id"
 			from="${com.cland.elearning.Country.list().sort(false){it.name}}"
-			value="${personInstance?.country}"
-			valueMessagePrefix="person.country" />
+			value="${personInstance?.country?.id}" />
 	</z:row>
 
 	<z:row>
@@ -179,9 +178,9 @@
 
 	<z:row>
 		<z:label value="${message(code:'person.race.label',default:'Race')}" />
-		<zkui:select name="race"
+		<zkui:select name="race.id" optionKey="id"
 			from="${com.cland.elearning.Race.list().sort(false){it.name}}"
-			value="${personInstance?.race}" valueMessagePrefix="person.race" />
+			value="${personInstance?.race?.id}" />
 	</z:row>
 
 	<z:row>

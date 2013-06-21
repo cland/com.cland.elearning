@@ -7,7 +7,7 @@ class Course {
 	String code
 	Date startDate
 	Date endDate
-	String region
+	Region region
 	String status
 	String comments
 	static hasMany = [modules:Module,registrations:Registration,events:CourseEvent]
@@ -16,7 +16,7 @@ class Course {
 		startDate() //validator: {return (it >= new Date())})
 		endDate() //validator: {return (it >= new Date())})
 		modules(blank:false)
-		region()
+		region(nullable:true)
 		status(inList:["active","inactive","open","closed"])
 		comments(nullable:true)
     }

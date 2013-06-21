@@ -9,6 +9,7 @@
 <z:window style="padding:5px" apply="com.cland.elearning.registration.EditComposer">
     <z:longbox name="id" value="${registrationInstance.id}" visible="false"/>
     <z:longbox name="version" value="${registrationInstance.version}" visible="false"/>
+    <z:textbox name="src" value="${params.src}" visible="false"/>
     <g:if test="${flash.message}">
         <z:window mode="popup" border="normal" style="margin-bottom:5px">
             <z:hlayout>

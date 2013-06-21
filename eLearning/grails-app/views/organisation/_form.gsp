@@ -48,15 +48,15 @@
 
     <z:row>
         <z:label value="${message(code:'organisation.region.label',default:'Region')}"/>
-       <zkui:select name="region"
+       <zkui:select name="region.id" optionKey="id"
 			from="${com.cland.elearning.Region.list().sort(false){it.name}}"
-			value="${organisationInstance?.region}" valueMessagePrefix="organisation.region" />
+			value="${organisationInstance?.region?.id}" />
     </z:row>
     <z:row>
         <z:label value="${message(code:'organisation.country.label',default:'Country')}"/>
-        <zkui:select name="country"
+        <zkui:select name="country.id" optionKey="id"
 			from="${com.cland.elearning.Country.list().sort(false){it.name}}"
-			value="${organisationInstance?.country}" valueMessagePrefix="organisatin.country" />
+			value="${organisationInstance?.country?.id}"/>
     </z:row>
     <z:row>
         <z:label value="${message(code:'organisation.comments.label',default:'Comments')}"/>

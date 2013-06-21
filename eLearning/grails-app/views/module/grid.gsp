@@ -107,8 +107,7 @@ var cland_params = {
       //initialize the grid
       centerForm = function ($form) {
                     $form.closest('div.ui-jqdialog').position({
-                        my: "center",
-                        of: grid.closest('div.ui-jqgrid')
+                        my: "center"
                     });
                 };
                 
@@ -151,12 +150,12 @@ var cland_params = {
 		   editurl:cland_params.subgrid_edit_url,
 		   datatype:"json",
 		   colNames:['Exam Number','Max Mark','Weight','Factor','Factor Operand','Status','id',' <input type="button" name="Add_Exam" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="exam_add" value="Add Exam"/>','Sub Id'],
-		   colModel:[ {name:'testNumber', editable:true,width:100,editrules:{required:true,integer:true},align:'left'},
-		              {name:'maxMark', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
-		              {name:'weight', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
-		              {name:'factor', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
-		              {name:'factorOperand',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.operands}},
-		              {name:'status',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states}},
+		   colModel:[ {name:'testNumber', editable:true,width:100,editrules:{required:true,integer:true},align:'left',formoptions:{rowpos: 1, colpos: 1}},
+		              {name:'maxMark', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false,formoptions:{rowpos: 2, colpos: 1}},
+		              {name:'weight', editable:true,width:100,editrules:{required:true,double:true},align:'right',sortable:false,formoptions:{rowpos: 1, colpos: 2}},
+		              {name:'factor', editable:true,width:100,editrules:{required:true,double:true},align:'right',sortable:false,formoptions:{rowpos: 2, colpos: 2}},
+		              {name:'factorOperand',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.operands},formoptions:{rowpos: 3, colpos: 2}},
+		              {name:'status',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states},formoptions:{rowpos: 3, colpos: 1}},
 		              {name:'id',hidden:true},
 		              {name:'subact',index:'subact', width:90,sortable:false,search:false,align:'center'},
 		              {name:'subid',index:'subid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:row_id}}
@@ -237,7 +236,7 @@ var cland_params = {
 	  var gr = grid.jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
       
       if( gr != null && gr != "" )
-        grid.jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+        grid.jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:300,width:700});
       else
         alert("Please Select Row to delete!");
 	  }
@@ -246,7 +245,7 @@ var cland_params = {
 	  var gr = $("#submodule_list").jqGrid('getGridParam','selrow'); //if multi use: 'selarrrow'
       
       if( gr != null && gr != "" )
-        $("#submodule_list").jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent});
+        $("#submodule_list").jqGrid('delGridRow',gr , {afterSubmit:afterSubmitEvent,height:300,width:700});
       else
         alert("Please Select Row to delete!");
   }
@@ -255,7 +254,7 @@ var cland_params = {
 	 //grid.setGridParam({ postData: { id: row_id} });
 	 grid.jqGrid("editGridRow",
               "new",
-              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13]}
+              {addCaption:caption, afterSubmit:afterSubmitEvent,savekey:[true,13],height:350,width:750}
       );
 	}
   function clearSelection(){jQuery('#submodule_list').jqGrid('resetSelection'); }

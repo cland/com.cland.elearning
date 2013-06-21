@@ -5,7 +5,10 @@
         <z:label value="${message(code:'course.name.label',default:'Name')}"/>
         <z:textbox name="name" value="${courseInstance?.name}" />
     </z:row>
-
+	<z:row>
+        <z:label value="${message(code:'course.code.label',default:'code')}"/>
+        <z:textbox name="code" value="${courseInstance?.code}" />
+    </z:row>
     <z:row>
         <z:label value="${message(code:'course.startDate.label',default:'Start Date')}"/>
         <z:datebox name="startDate" value="${courseInstance?.startDate}"/>
@@ -18,7 +21,8 @@
 
     <z:row>
         <z:label value="${message(code:'course.region.label',default:'Region')}"/>
-        <zkui:select name="region" from="${com.cland.elearning.Region.list().sort(false){it.name}}" value="${courseInstance?.region}" valueMessagePrefix="course.region"  />
+        <zkui:select name="region.id" from="${com.cland.elearning.Region.list().sort(false){it.name}}" optionKey="id" value="${courseInstance?.region?.id}" />
+        
     </z:row>
 
     <z:row>
