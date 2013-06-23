@@ -6,15 +6,15 @@ class PersonController {
     def index = {
         redirect(action: "list", params: params)
     }
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def list = {}
-
+	@Secured(["hasRole('ADMIN')"])
     def create = {
         def personInstance = new Person()
         personInstance.properties = params
         return [personInstance: personInstance]
     }
-
+	@Secured(["hasRole('ADMIN')"])
     def edit = {
         def personInstance = Person.get(params.id)
         if (!personInstance) {
@@ -60,8 +60,7 @@ class PersonController {
 		def jsonCells =	registrations.collect {
 			[cell: [it.course.name,
 					it.course.code,
-					it.regDate.format('dd MMM yyyy'),
-					it.tutor.lastFirstName()
+					it.regDate.format('dd MMM yyyy'),					
 				], id: it.id]  // this is the id of the registration NOT the person. so when de-registering we simply delete this registration using this id.
 		}
 		
@@ -70,7 +69,7 @@ class PersonController {
 		render jsonData as JSON
 		
 	} //end jq_list_courses
-	
+	@Secured(["hasRole('ADMIN')"])
 	def jq_remove_course = {
 		def message = ""
 		def state = "FAIL"

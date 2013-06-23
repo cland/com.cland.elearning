@@ -6,6 +6,7 @@ class Country {
 	static constraints = {
 		name(blank:false)
 	}
+	
 	def beforeInsert = {
 		// your code goes here
 	}

@@ -33,6 +33,7 @@
 <script type="text/javascript">
 var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
+		canEdit :${org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")},
 		thisId : ${params.id},
 		maingrid_list_url : "../jq_list_results?resultSumId=" + ${params.id},
 		maingrid_edit_url : "../jq_edit_results?resultSumId=" + ${params.id},
@@ -42,7 +43,7 @@ var cland_params = {
 		subgrid_list_url :  "../jq_list_exam",
 		subgrid_edit_url :  "../jq_edit_exam",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
-		states : "Active:Active;Inactive:Inactive",
+		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt",
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add"
 	}
 </script>
@@ -83,6 +84,7 @@ var cland_params = {
 		<div class="content">
 			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code}) - ${resultSummaryInstance.module.name}<br/>
 			<b>Result:</b> ${resultSummaryInstance.result}<br/>
+			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}<br/>
 			<b>Status:</b> ${resultSummaryInstance.status}
 		</div>
 	</fieldset>
@@ -171,13 +173,14 @@ var cland_params = {
         for(var i=0;i < ids.length;i++)
             { 
             	var cl = ids[i]; 
-	            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').editRow('"+cl+"');\" />"; 
-	            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"',afterSubmitEvent);\" />"; 
-	            ce = "<input style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
-	            de = "<input style='height:22px;width:44px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
+	            be = "<input class='edit' style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').editRow('"+cl+"');\" />"; 
+	            se = "<input class='edit' style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"',afterSubmitEvent);\" />"; 
+	            ce = "<input class='edit' style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
+	            de = "<input class='edit' style='height:22px;width:44px;' type='button' value='Delete' onclick=\"deleteRow('"+cl+"');\" />";
 	            
 	            jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+se+ce+de}); //be+se+ce+de forall actions 
             }
+        if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
     } 
     }).navGrid('#' + cland_params.maingrid_id_pager,
             {add:true,edit:false,del:false,search:false,refresh:true}, // which buttons to show?

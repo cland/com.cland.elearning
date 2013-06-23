@@ -1,5 +1,6 @@
 package com.cland.elearning
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 class ModuleController {
 
 	def index = {
@@ -7,13 +8,13 @@ class ModuleController {
 	}
 
 	def list = {}
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def create = {
 		def moduleInstance = new Module()
 		moduleInstance.properties = params
 		return [moduleInstance: moduleInstance]
 	}
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def edit = {
 		def moduleInstance = Module.get(params.id)
 		if (!moduleInstance) {
@@ -64,7 +65,7 @@ class ModuleController {
 		def jsonData= [rows: jsonCells,page:currentPage,records:totalRows,total:numberOfPages]
 		render jsonData as JSON
 	} //end def
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_edit_submodule = {
 		//println("jq_edit_submodule: ${params}")
 		def submodule = null
@@ -150,6 +151,7 @@ class ModuleController {
 		def jsonData= [rows: jsonCells]
 		render jsonData as JSON
 	} //end list
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_edit_exam = {
 		//println("jq_edit_exam: ${params}")
 		def exam = null

@@ -14,7 +14,7 @@ class Registration {
 		tutor()
 		dateCreated()
 		regDate()
-		tutor()	
+		tutor(nullable:true)	
     }
 	def beforeInsert = {
 	// your code goes here

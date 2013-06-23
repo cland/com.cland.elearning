@@ -28,7 +28,7 @@
                 <z:columns sizable="true">                    
                     <z:column label="${message(code: 'registration.learner.label', default: 'Learner')}"/>
                     <z:column label="${message(code: 'registration.course.label', default: 'Course')}"/>
-                    <z:column label="${message(code: 'registration.tutor.label', default: 'Tutor')}"/>                    
+                                      
                     <z:column label="${message(code: 'registration.regDate.label', default: 'Reg Date')}"/>
                     <z:column label="${message(code: 'registration.dateCreated.label', default: 'Date Created')}"/>
                     <z:column width="150px"/>

@@ -9,13 +9,6 @@
         <zkui:select name="learner.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('LEARNER'))?.person}" optionKey="id" value="${registrationInstance?.learner?.id}"  />
     </z:row>
 
-    
-
-    <z:row>
-        <z:label value="${message(code:'registration.tutor.label',default:'Tutor')}"/>
-        <zkui:select name="tutor.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person}" optionKey="id" value="${registrationInstance?.tutor?.id}"  />
-    </z:row>
-
     <z:row>
         <z:label value="${message(code:'registration.regDate.label',default:'Reg Date')}"/>
         <z:datebox name="regDate" value="${registrationInstance?.regDate}"/>

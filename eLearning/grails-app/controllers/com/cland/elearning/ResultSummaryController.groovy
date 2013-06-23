@@ -1,5 +1,6 @@
 package com.cland.elearning
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 class ResultSummaryController {
 
     def index = {
@@ -8,12 +9,13 @@ class ResultSummaryController {
 
     def list = {}
 
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def create = {
         def resultSummaryInstance = new ResultSummary()
         resultSummaryInstance.properties = params
         return [resultSummaryInstance: resultSummaryInstance]
     }
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def edit = {
         def resultSummaryInstance = ResultSummary.get(params.id)
         if (!resultSummaryInstance) {
@@ -77,7 +79,7 @@ class ResultSummaryController {
 		def jsonData= [rows: jsonCells]  //,page:currentPage,records:totalRows,total:numberOfPages]
 		render jsonData as JSON
 	}
-	
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_edit_results = {
 		//println("jq_edit_results" + params)
 		def examResult = null

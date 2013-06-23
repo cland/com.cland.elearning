@@ -12,8 +12,10 @@
 			<h2>
 				Welcome
 				<sec:ifLoggedIn>
-					<span style="color: green"><i><sec:loggedInUserInfo
-								field="username" /></i></span>
+					<span style="color: green">
+					<i><sec:loggedInUserInfo field="username" /></i>
+					
+					</span>
 				</sec:ifLoggedIn>
 				to e-Learning
 			</h2>

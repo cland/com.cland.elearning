@@ -1,5 +1,5 @@
 package com.cland.elearning
-
+import grails.plugins.springsecurity.Secured
 class ExamResultController {
 
     def index = {
@@ -7,13 +7,13 @@ class ExamResultController {
     }
 
     def list = {}
-
+	@Secured(["hasRole('ADMIN')","hasRole('TUTOR')"])
     def create = {
         def examResultInstance = new ExamResult()
         examResultInstance.properties = params
         return [examResultInstance: examResultInstance]
     }
-
+	@Secured(["hasRole('ADMIN')","hasRole('TUTOR')"])
     def edit = {
         def examResultInstance = ExamResult.get(params.id)
         if (!examResultInstance) {

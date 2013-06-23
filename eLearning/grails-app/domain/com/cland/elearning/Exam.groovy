@@ -12,13 +12,16 @@ class Exam {
 	
     static constraints = {
 		testNumber(blank:false,min:1)
-		
+		factor(nullable:true)
 		factorOperand(inList:["Divide",
 			"Multiply",
 			"Subtract",
 			"Add"])
 		status(inList:["Active","Inactive"])
     }
+	static mapping = {
+		factor defaultValue:1
+	}
 	def beforeInsert = {
 	// your code goes here
 	}

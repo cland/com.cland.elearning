@@ -8,7 +8,7 @@
 
     <z:row>
         <z:label value="${message(code:'exam.factor.label',default:'Factor')}"/>
-        <z:textbox name="factor" value="${fieldValue(bean: examInstance, field: 'factor')}" />
+        <z:textbox name="factor" value="1" />
     </z:row>
 
     <z:row>

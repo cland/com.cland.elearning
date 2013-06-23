@@ -1,6 +1,7 @@
 package com.cland.elearning
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+
 class CourseController {
 
     def index = {
@@ -9,13 +10,13 @@ class CourseController {
     }
 
     def list = {}
-
+	@Secured(["hasRole('ADMIN')"])
     def create = {
         def courseInstance = new Course()
         courseInstance.properties = params
         return [courseInstance: courseInstance]
     }
-
+	@Secured(["hasRole('ADMIN')"])
     def edit = {
         def courseInstance = Course.get(params.id)
         if (!courseInstance) {
@@ -43,6 +44,7 @@ class CourseController {
 		tutors_list_url	: "../jq_list_tutors",
 		events_list_url	: "../jq_list_events",
 	 */
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def addmodule = {
 		//Used to just instantiate the dialog box. On submit of that dialog box is handled by the onClick_addModuleButton course CreateComposer
 		//println("addmodule: ${params}")
@@ -77,7 +79,7 @@ class CourseController {
 		render jsonData as JSON
 		
 	} //end jq_list_modules
-	
+	@Secured(["hasRole('ADMIN')"])
 	def jq_remove_module = {
 		def message = ""
 		def state = "FAIL"
@@ -100,6 +102,7 @@ class CourseController {
 		def response = [message:message,state:state,id:params.id]		
 		render response as JSON
 	}
+	@Secured(["hasRole('ADMIN')"])
 	def jq_remove_learner = {
 		def message = ""
 		def state = "FAIL"
@@ -124,6 +127,7 @@ class CourseController {
 		render response as JSON
 		
 	}
+
 	def jq_list_learners = {
 		//println("jq_list_learners: ${params}")
 		def courseInstance = Course.get(params.courseid)
@@ -138,7 +142,7 @@ class CourseController {
 			[cell: [it.learner.firstName,
 					it.learner.lastName,
 					it.regDate.format('dd MMM yyyy'),
-					it.tutor.lastFirstName()					
+					//it.tutor.lastFirstName()					
 				], id: it.id]  // this is the id of the registratin NOT the person. so when de-registering we simply delete this registration using this id.
 		}
 		

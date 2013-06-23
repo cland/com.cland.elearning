@@ -3,7 +3,7 @@ package com.cland.elearning.registration
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
-
+import org.codehaus.groovy.grails.plugins.springsecurity.*
 import com.cland.elearning.*
 
 class ListComposer {
@@ -12,7 +12,18 @@ class ListComposer {
     Paging paging
    //Longbox idLongbox
 	Textbox keywordBox
-
+	def springSecurityService
+	boolean canEdit = false
+	boolean canView = true
+	boolean canCreate = false
+	boolean canDelete = false
+	void setActionRights(){
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+			canEdit=true
+			canCreate=true
+			canDelete=true
+		}
+	}
     def afterCompose = {Component comp ->
         grid.setRowRenderer(rowRenderer as RowRenderer)
         grid.setModel(listModel)
@@ -51,7 +62,7 @@ class ListComposer {
         row << {
                 a(href: g.createLink(controller:"registration",action:'show',id:id), label: registrationInstance.learner.firstLastName())                
                 label(value: registrationInstance.course.name + " (" + registrationInstance.course.code + ")")
-                label(value: registrationInstance.tutor.firstLastName())
+               // label(value: registrationInstance?.tutor?.firstLastName())
 				label(value: registrationInstance.regDate.format("dd MMM yyyy"))
                 label(value: registrationInstance.dateCreated.format("dd MMM yyyy"))                
                 hlayout{

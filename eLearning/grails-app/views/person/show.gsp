@@ -15,6 +15,7 @@
 //<![CDATA[
 var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
+		canEdit :${org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")},
 		thisId : ${params.id},		
 		course_list_url : "../jq_list_courses?personid=" + ${params.id},
 		course_edit_url : "../jq_remove_course", 
@@ -124,12 +125,11 @@ $(document).ready(function() {
 					      autowidth: true,
 					      height:"100%",
 					      datatype: "json",
-					      colNames:['Course','Code','Registration Date','Tutor','id','<input type="button" name="Add_Learner" onClick="addLearnerRow(\''+cland_params.thisId+'\',\''+cland_params.course_maingrid_id+'\');" id="learner_add" value="Register"/>'],
+					      colNames:['Course','Code','Registration Date','id','<input class="edit" type="button" name="Add_Learner" onClick="addLearnerRow(\''+cland_params.thisId+'\',\''+cland_params.course_maingrid_id+'\');" id="learner_add" value="Register"/>'],
 					      colModel:[
 					        {name:'course', editable:false},						        
 					        {name:'code', editable:false},
-					        {name:'regDate', editable:false},
-					        {name:'tutor', editable:false},        
+					        {name:'regDate', editable:false},					             
 					        {name:'id',hidden:true},
 					        {name:'act',index:'act', width:162,sortable:false,search:false}
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
@@ -152,10 +152,11 @@ $(document).ready(function() {
 					            { 
 					            	var cl = ids[i]; 
 						          
-						            rs = "<input style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
-						            rm = "<input style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
+						            rs = "<input class='view' style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
+						            rm = "<input class='edit' style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
 						            jQuery("#" + cland_params.course_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
 					            }
+					        if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
 					    } 
 					    }).navGrid('#' + cland_params.course_maingrid_id_pager,
 					            {add:false,edit:false,del:false,search:false,refresh:true}, // which buttons to show?

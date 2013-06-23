@@ -7,7 +7,7 @@
 
 <body>
 <z:window style="padding:5px" apply="com.cland.elearning.person.CreateComposer">   
-        <tmpl:form/>
+        <tmpl:formTabs/>
     
     <z:hlayout>
         <z:button id="saveButton" label="${message(code: 'default.button.create.label', default: 'Create')}"/>

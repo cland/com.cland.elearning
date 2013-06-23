@@ -15,6 +15,7 @@
 <script type="text/javascript">
 var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
+		canEdit :${org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")},
 		thisId : ${params.id},
 		maingrid_list_url : "../jq_list_results?regId=" + ${params.id},
 		maingrid_edit_url : "../jq_edit_results?regId=" + ${params.id},
@@ -24,8 +25,9 @@ var cland_params = {
 		subgrid_list_url :  "../../resultSummary/jq_list_results",
 		subgrid_edit_url :  "../../resultSummary/jq_edit_results",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
-		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed",		
-		result_types: "Pass:Pass;Fail:Fail;None:None",
+		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt",	
+		tutors : ${tutorList},	
+		result_types: "Pass:Pass;Fail:Fail;None:None;Exempt:Exempt",
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add"
 	}
 </script>
@@ -66,8 +68,7 @@ var cland_params = {
 			&nbsp;${registrationInstance.learner.toString()}
 		</h1>
 		<div class="content">
-			<b>Course:</b> ${registrationInstance.course.name} (${registrationInstance.course.code})<br/>
-			<b>Tutor:</b> ${registrationInstance.tutor.toString()}<br/>
+			<b>Course:</b> ${registrationInstance.course.name} (${registrationInstance.course.code})<br/>			
 			<b>Registration date:</b> ${registrationInstance.regDate.format("dd MMM yyyy")}
 		</div>
 	</fieldset>
@@ -126,11 +127,12 @@ var cland_params = {
       autowidth: true,
       height:"100%",
       datatype: "json",
-      colNames:['Module','Result','Status','Cert Number','id','Actions'],
+      colNames:['Module','Result','Status','Tutor','Cert Number','id','Actions'],
       colModel:[
 		{name:'module', editable:false},	
 		{name:'result',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.result_types}},
-        {name:'status',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states}},
+        {name:'status',editable:true,width:70,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states}},
+        {name:'tutor.id',editable:true,width:90,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.tutors}},
         {name:'certNumber', editable:true},        
         {name:'id',hidden:true},
         {name:'act',index:'act', width:180,sortable:false,search:false}
@@ -153,12 +155,13 @@ var cland_params = {
         for(var i=0;i < ids.length;i++)
             { 
             	var cl = ids[i]; 
-	            be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').editRow('"+cl+"');\" />"; 
-	            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"',afterSubmitEvent);\" />"; 
-	            ce = "<input style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
+	            be = "<input class='edit' style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').editRow('"+cl+"');\" />"; 
+	            se = "<input class='edit' style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"',afterSubmitEvent);\" />"; 
+	            ce = "<input class='edit' style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
 	            
 	            jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+se+ce}); //be+se+ce+de forall actions 
             }
+        if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
     },
     subGrid :true,
     subGridRowExpanded: function(subgrid_id,row_id){
@@ -173,7 +176,7 @@ var cland_params = {
  		   url:cland_params.subgrid_list_url,
  		   editurl:cland_params.subgrid_edit_url,
  		   datatype:"json",
- 		  colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id',' <input type="button" name="Add_Result" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="result_add" value="Add Result"/>','Sub Id'],
+ 		  colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id',' <input class="edit" type="button" name="Add_Result" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="result_add" value="Add Result"/>','Sub Id'],
  	      colModel:[
 		 			{name:'submodule', editable:true,editrules:{required:true}},
 		 			{name:'examname', editable:true,editrules:{required:true}},
@@ -196,13 +199,14 @@ var cland_params = {
  			   var subids = thisgrid.jqGrid('getDataIDs');
  			   for(var i=0;i<subids.length;i++){
  				   	var _id =subids[i];
- 				    de = "<input style='height:22px;' type='button' value='Add Result' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";
- 				   	be = "<input style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ subgrid_table_id+"').editRow('"+_id+"');\" />"; 
- 		            se = "<input style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ subgrid_table_id+"').saveRow('"+_id+"',afterSubmitEvent,null,{'grid_id':'" +subgrid_table_id+"'});\" />"; 
- 		            ce = "<input style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ subgrid_table_id+"').restoreRow('"+_id+"');clearSelection();\" />";  		            
+ 				    de = "<input class='edit' style='height:22px;' type='button' value='Add Result' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";
+ 				   	be = "<input class='edit' style='height:22px;width:42px;' type='button' value='Edit' onclick=\"jQuery('#"+ subgrid_table_id+"').editRow('"+_id+"');\" />"; 
+ 		            se = "<input class='edit' style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ subgrid_table_id+"').saveRow('"+_id+"',afterSubmitEvent,null,{'grid_id':'" +subgrid_table_id+"'});\" />"; 
+ 		            ce = "<input class='edit' style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ subgrid_table_id+"').restoreRow('"+_id+"');clearSelection();\" />";  		            
  		             		            		            
  		            thisgrid.jqGrid('setRowData',_id,{subact: be+se+ce}); //be+se+ce+de forall actions
  				}
+ 			  if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
  			},  
  		   cellEdit:true,
  		    cellsubmit: 'remote',

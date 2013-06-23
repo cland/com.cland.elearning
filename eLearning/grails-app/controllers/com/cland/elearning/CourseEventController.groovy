@@ -1,5 +1,5 @@
 package com.cland.elearning
-
+import grails.plugins.springsecurity.Secured
 class CourseEventController {
 
     def index = {
@@ -7,13 +7,13 @@ class CourseEventController {
     }
 
     def list = {}
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def create = {
         def courseEventInstance = new CourseEvent()
         courseEventInstance.properties = params
         return [courseEventInstance: courseEventInstance]
     }
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def edit = {
         def courseEventInstance = CourseEvent.get(params.id)
         if (!courseEventInstance) {

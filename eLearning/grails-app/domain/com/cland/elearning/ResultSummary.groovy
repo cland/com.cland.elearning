@@ -5,14 +5,16 @@ class ResultSummary {
 	String result
 	String certNumber	
 	Module module
+	Person tutor
 	static hasMany =[results:ExamResult]
 	static belongsTo = [register:Registration]
     static constraints = {
-		status(inList:["Not Started","In Progress","Completed"])
-		result(inList:["Pass","Fail","None"])
+		status(inList:["Not Started","In Progress","Completed","Exempt"])
+		result(inList:["Pass","Fail","None","Exempt"])
 		certNumber(blank:true)
 		module()
 		register()
+		tutor(nullable:true)
     }
 	def beforeInsert = {
 	// your code goes here

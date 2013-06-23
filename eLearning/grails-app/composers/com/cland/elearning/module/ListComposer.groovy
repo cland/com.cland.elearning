@@ -12,7 +12,18 @@ class ListComposer {
     Paging paging
     //Longbox idLongbox
 	Textbox keywordBox
-
+	def springSecurityService
+	boolean canEdit = false
+	boolean canView = true
+	boolean canCreate = false
+	boolean canDelete = false
+	void setActionRights(){
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+			canEdit=true
+			canCreate=true
+			canDelete=true
+		}
+	}
     def afterCompose = {Component comp ->
         grid.setRowRenderer(rowRenderer as RowRenderer)
         grid.setModel(listModel)

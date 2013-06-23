@@ -10,7 +10,7 @@ class Course {
 	Region region
 	String status
 	String comments
-	static hasMany = [modules:Module,registrations:Registration,events:CourseEvent]
+	static hasMany = [modules:Module,registrations:Registration,premodules:PreModule,events:CourseEvent]
     static constraints = {
 		name(blank:false)
 		startDate() //validator: {return (it >= new Date())})

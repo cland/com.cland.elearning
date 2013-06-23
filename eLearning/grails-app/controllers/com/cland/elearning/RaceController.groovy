@@ -1,5 +1,5 @@
 package com.cland.elearning
-
+import grails.plugins.springsecurity.Secured
 class RaceController {
 
     def index = {
@@ -7,13 +7,13 @@ class RaceController {
     }
 
     def list = {}
-
+	@Secured(["hasRole('ADMIN')"])
     def create = {
         def raceInstance = new Race()
         raceInstance.properties = params
         return [raceInstance: raceInstance]
     }
-
+	@Secured(["hasRole('ADMIN')"])
     def edit = {
         def raceInstance = Race.get(params.id)
         if (!raceInstance) {

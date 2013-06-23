@@ -23,7 +23,7 @@
         </z:window>
     </g:if>
   
-     <tmpl:form/>
+     <tmpl:formTabs/>
   
     <z:hlayout>
         <z:button id="saveButton" label="${message(code: 'default.button.update.label', default: 'Update')}"/>

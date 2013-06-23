@@ -15,6 +15,7 @@
 //<![CDATA[
 var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
+		canEdit :${org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")},
 		thisId : ${params.id},
 		modules_list_url : "../jq_list_modules?courseid=" + ${params.id},
 		modules_edit_url : "../jq_remove_module?courseid=" + ${params.id}, //to fix
@@ -116,6 +117,8 @@ var cland_params = {
 
 /* when the page has finished loading.. execute the follow */
 $(document).ready(function() {		
+	
+	
 $("#tabs").tabs(
 									{
 									active:cland_params.active_tab(),
@@ -157,7 +160,7 @@ $("#tabs").tabs(
 					      autowidth: true,
 					      height:"100%",
 					      datatype: "json",
-					      colNames:['Name','Description','id','<input type="button" name="Add_Module" onClick="addModuleRow(\''+cland_params.thisId+'\',\''+cland_params.module_maingrid_id+'\');" id="module_add" value="Add Module"/>'],
+					      colNames:['Name','Description','id','<input class="edit" type="button" style="display:none;" name="Add_Module" onClick="addModuleRow(\''+cland_params.thisId+'\',\''+cland_params.module_maingrid_id+'\');" id="module_add" value="Add Module"/>'],
 					      colModel:[
 					        {name:'name', editable:false},						        
 					        {name:'description', editable:false},        
@@ -190,7 +193,7 @@ $("#tabs").tabs(
 							   url:cland_params.submodule_subgrid_list_url,
 							   editurl:cland_params.subgrid_edit_url,
 							   datatype:"json",
-							   colNames:['Exam Number','Max Mark','Weight','Factor','Factor Operand','Status','id',' <input type="button" name="Add_Exam" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="exam_add" value="Add Exam"/>','Sub Id'],
+							   colNames:['Exam Number','Max Mark','Weight','Factor','Factor Operand','Status','id',' <input class="edit"type="button" name="Add_Exam" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="exam_add" value="Add Exam"/>','Sub Id'],
 							   colModel:[ {name:'testNumber', editable:true,width:100,editrules:{required:true,integer:true},align:'left'},
 							              {name:'maxMark', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
 							              {name:'weight', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
@@ -212,9 +215,10 @@ $("#tabs").tabs(
 								   var subids = thisgrid.jqGrid('getDataIDs');
 								   for(var i=0;i<subids.length;i++){
 									   	var _id =subids[i];
-									   	de = "<input style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";		            
+									   	de = "<input class='edit' style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";		            
 							            thisgrid.jqGrid('setRowData',_id,{subact: de}); //be+se+ce+de forall actions
 									}
+									if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
 								},  
 							   cellEdit:true,
 							    cellsubmit: 'remote',
@@ -230,17 +234,18 @@ $("#tabs").tabs(
 							//subgrid_table_id = subgrid_id+"_t";
 							//jQuery("#"+subgrid_table_id).remove();
 							},   
-					    subGrid : true,
+					    subGrid : false,
 					    gridComplete: function(){ 
 					        var ids = jQuery("#" + cland_params.module_maingrid_id).jqGrid('getDataIDs'); 
 					        
 					        for(var i=0;i < ids.length;i++)
 					            { 
 					            	var cl = ids[i]; 						            
-						            rm = "<input style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.module_maingrid_id+"');\" />";
+						            rm = "<input class='edit' style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.module_maingrid_id+"');\" />";
 						            
 						            jQuery("#" + cland_params.module_maingrid_id).jqGrid('setRowData',ids[i],{act:rm}); //be+se+ce+de forall actions 
 					            }
+					         if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();   
 					    } 
 					    }).navGrid('#' + cland_params.module_maingrid_id_pager,
 					            {add:false,edit:false,del:false,search:false,refresh:true}, // which buttons to show?
@@ -257,12 +262,11 @@ $("#tabs").tabs(
 					      autowidth: true,
 					      height:"100%",
 					      datatype: "json",
-					      colNames:['Name','Surname','Registration Date','Tutor','id','<input type="button" name="Add_Learner" onClick="addLearnerRow(\''+cland_params.thisId+'\',\''+cland_params.learner_maingrid_id+'\');" id="learner_add" value="Register Learner"/>'],
+					      colNames:['Name','Surname','Registration Date','id','<input class="edit" type="button" name="Add_Learner" onClick="addLearnerRow(\''+cland_params.thisId+'\',\''+cland_params.learner_maingrid_id+'\');" id="learner_add" value="Register Learner"/>'],
 					      colModel:[
 					        {name:'firstName', editable:false},						        
 					        {name:'lastName', editable:false},
-					        {name:'regDate', editable:false},
-					        {name:'tutor', editable:false},        
+					        {name:'regDate', editable:false},					               
 					        {name:'id',hidden:true},
 					        {name:'act',index:'act', width:162,sortable:false,search:false}
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
@@ -292,7 +296,7 @@ $("#tabs").tabs(
 							   url:cland_params.learner_subgrid_list_url,
 							   editurl:cland_params.learner_subgrid_edit_url,
 							   datatype:"json",
-							   colNames:['Exam Number','Max Mark','Weight','Factor','Factor Operand','Status','id',' <input type="button" name="Add_Exam" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="exam_add" value="Add Exam"/>','Sub Id'],
+							   colNames:['Exam Number','Max Mark','Weight','Factor','Factor Operand','Status','id',' <input class="edit" type="button" name="Add_Exam" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="exam_add" value="Add Exam"/>','Sub Id'],
 							   colModel:[ {name:'testNumber', editable:true,width:100,editrules:{required:true,integer:true},align:'left'},
 							              {name:'maxMark', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
 							              {name:'weight', editable:true,width:100,editrules:{required:true,integer:true},align:'right',sortable:false},
@@ -315,9 +319,10 @@ $("#tabs").tabs(
 								   for(var i=0;i<subids.length;i++){
 									   	var _id =subids[i];
 									   		            
-									   	de = "<input style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";
+									   	de = "<input class='edit' style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";
 							            thisgrid.jqGrid('setRowData',_id,{subact: de}); //be+se+ce+de forall actions
 									}
+									if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
 								},  
 							   cellEdit:true,
 							    cellsubmit: 'remote',
@@ -333,7 +338,7 @@ $("#tabs").tabs(
 							//subgrid_table_id = subgrid_id+"_t";
 							//jQuery("#"+subgrid_table_id).remove();
 							},   
-					    subGrid : true,
+					    subGrid : false,
 					    gridComplete: function(){ 
 					        var ids = jQuery("#" + cland_params.learner_maingrid_id).jqGrid('getDataIDs'); 
 					        
@@ -341,10 +346,11 @@ $("#tabs").tabs(
 					            { 
 					            	var cl = ids[i]; 
 						          
-						            rs = "<input style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
-						            rm = "<input style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
+						            rs = "<input class='edit' style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
+						            rm = "<input class='edit' style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
 					            }
+					            if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
 					    } 
 					    }).navGrid('#' + cland_params.learner_maingrid_id_pager,
 					            {add:false,edit:false,del:false,search:false,refresh:true}, // which buttons to show?

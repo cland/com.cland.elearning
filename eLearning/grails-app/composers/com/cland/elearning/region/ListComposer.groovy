@@ -4,13 +4,25 @@ import org.zkoss.zk.ui.Component
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
 import com.cland.elearning.Region
+import org.codehaus.groovy.grails.plugins.springsecurity.*
 
 class ListComposer {
     Grid grid
     ListModelList listModel = new ListModelList()
     Paging paging
     Longbox idLongbox
-
+	def springSecurityService
+	boolean canEdit = false
+	boolean canView = true
+	boolean canCreate = false
+	boolean canDelete = false
+	void setActionRights(){
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+			canEdit=true
+			canCreate=true
+			canDelete=true
+		}
+	}
     def afterCompose = {Component comp ->
         grid.setRowRenderer(rowRenderer as RowRenderer)
         grid.setModel(listModel)
