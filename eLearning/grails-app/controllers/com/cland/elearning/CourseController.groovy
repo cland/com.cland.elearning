@@ -66,11 +66,24 @@ class CourseController {
 			redirect(action: "show",params:params)
 		}
 		
-		def modules = courseInstance.modules //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
+		def modules = courseInstance.modules.sort(false){it.name} //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
+		def premodules = courseInstance.premodules
+		def premapId = [:]
+		def premapValues = [:]
+		for(Module mod : modules){			
+			for(PreModule premod:premodules){
+				if(premod.current.name.equalsIgnoreCase(mod.name)){
+					premapId.putAt(mod.name ,premod.id as Long)
+					premapValues.putAt(mod.name ,premod.toString())
+				}
+			}
+		}				
 		
 		def jsonCells =	modules.collect {
 			[cell: [it.name,
 					it.description,
+					premapValues.get(it.name),
+					premapId.get(it.name)
 				], id: it.id]			
 		}
 		
@@ -92,8 +105,17 @@ class CourseController {
 		}
 		
 		def module = Module.get(params.id)
+		def premodule = null
 		if(module){
 			courseInstance.modules.remove(module)
+			//premodule = PreModule.find("from PreModule where current.id=:module.id and course.id=:courseInstance.id")
+			premodule = PreModule.findByCurrentAndCourse(module,courseInstance)
+			if(premodule){
+				courseInstance.premodules.remove(premodule)
+				premodule.delete()
+			}else{
+				println("No premodules found!")
+			}
 			courseInstance.save(flush:true)
 			message = module.toString() + " has been removed!"
 			state = "OK"

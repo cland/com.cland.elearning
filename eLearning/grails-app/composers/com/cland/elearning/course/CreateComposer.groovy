@@ -27,7 +27,7 @@ class CreateComposer {
 		def message = ""
 		def state = "FAIL"
 		def params = self.params
-		println(params);	
+		//println(params);	
 		def courseInstance = Course.get(params.id)
 		if (!courseInstance) {
 			//not such course
@@ -66,7 +66,6 @@ class CreateComposer {
 						
 		def response = [message:message,state:state]
 		
-		println(message + " Status - " + state)
 		flash.message = message + " - " + state 
 		//return response // as JSON
 		redirect(controller: "course", action: "show", params:[id:courseInstance.id, tab:0])

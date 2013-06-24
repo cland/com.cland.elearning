@@ -21,6 +21,8 @@ class PreModule {
 	}
 	
 	String toString(){
-	// TODO: make me interesting
+		prerequisites.collect {
+			it.name			
+		}				
 	}
 } //end of class

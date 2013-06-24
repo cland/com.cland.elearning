@@ -43,13 +43,14 @@ class ListComposer {
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
         def registrationInstanceList = Registration.createCriteria().list(offset: offset, max: max) {
+			createAlias('learner','p')
             order('learner','asc')
 //            if (idLongbox.value) {
 //                eq('id', idLongbox.value)
 //            }
 			if(keywordBox.value){
 				println("searching... '" + keywordBox.value + "'")
-				//ilike('learner',"%"+keywordBox.value+"%")
+				ilike('p.firstName',"%"+keywordBox.value+"%")
 			}
         }
         paging.totalSize = registrationInstanceList.totalCount
@@ -66,12 +67,12 @@ class ListComposer {
 				label(value: registrationInstance.regDate.format("dd MMM yyyy"))
                 label(value: registrationInstance.dateCreated.format("dd MMM yyyy"))                
                 hlayout{
-					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "registration", action: 'show', id: id))
-                    toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "registration", action: 'edit', id: id))
-                    toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
+					if(canView) toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "registration", action: 'show', id: id))
+                    if(canEdit) toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "registration", action: 'edit', id: id))
+                    if(canDelete) {toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
                         Registration.get(id).delete(flush: true)
                         listModel.remove(id)
-                    })
+                    })}
                 }
         }
     }

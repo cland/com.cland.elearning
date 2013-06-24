@@ -159,11 +159,13 @@ $("#tabs").tabs(
 					      editurl:cland_params.modules_edit_url,
 					      autowidth: true,
 					      height:"100%",
-					      datatype: "json",
-					      colNames:['Name','Description','id','<input class="edit" type="button" style="display:none;" name="Add_Module" onClick="addModuleRow(\''+cland_params.thisId+'\',\''+cland_params.module_maingrid_id+'\');" id="module_add" value="Add Module"/>'],
+					      datatype: "json",					      
+					      colNames:['Name','Description','Pre-Requisites','PreId','id','<input class="edit" type="button" style="display:none;" name="Add_Module" onClick="addModuleRow(\''+cland_params.thisId+'\',\''+cland_params.module_maingrid_id+'\');" id="module_add" value="Add Module"/>'],
 					      colModel:[
 					        {name:'name', editable:false},						        
-					        {name:'description', editable:false},        
+					        {name:'description', editable:false},
+					        {name:'prevalues', editable:false},   
+							{name:'preid', editable:false, hidden:true},     
 					        {name:'id',hidden:true},
 					        {name:'act',index:'act', width:100,sortable:false,search:false}
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
@@ -185,8 +187,7 @@ $("#tabs").tabs(
 						   
 						   var subgrid_table_id, pager_id;
 						   subgrid_table_id = subgrid_id + "_t";
-						   pager_id = "p_" + subgrid_table_id;
-						   console.log(subgrid_table_id + " - " + pager_id);
+						   pager_id = "p_" + subgrid_table_id;						  
 						   
 						   $("#"+submodule_subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
 						   jQuery("#"+subgrid_table_id).jqGrid({
@@ -236,14 +237,17 @@ $("#tabs").tabs(
 							},   
 					    subGrid : false,
 					    gridComplete: function(){ 
-					        var ids = jQuery("#" + cland_params.module_maingrid_id).jqGrid('getDataIDs'); 
+					    	var grid = jQuery("#" + cland_params.module_maingrid_id)
+					        var ids = grid.jqGrid('getDataIDs'); 
 					        
 					        for(var i=0;i < ids.length;i++)
 					            { 
-					            	var cl = ids[i]; 						            
+					            	var cl = ids[i]; 	
+					            	var rowdata = grid.jqGrid('getRowData',cl); 					            
 						            rm = "<input class='edit' style='height:22px;width:82px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.module_maingrid_id+"');\" />";
+						            pre = "<input class='edit' style='height:22px;width:92px;' type='button' value='Pre-Requisites' onclick=\"addPreModule('"+${params.id}+"','"+cl+"','"+rowdata.preid+"','"+cland_params.module_maingrid_id+"');\" />";
 						            
-						            jQuery("#" + cland_params.module_maingrid_id).jqGrid('setRowData',ids[i],{act:rm}); //be+se+ce+de forall actions 
+						            jQuery("#" + cland_params.module_maingrid_id).jqGrid('setRowData',ids[i],{act:pre+" " + rm}); //be+se+ce+de forall actions 
 					            }
 					         if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();   
 					    } 
@@ -253,7 +257,7 @@ $("#tabs").tabs(
 					            {addCaption:'New Record',afterSubmit:afterSubmitEvent,savekey:[true,13],closeAfterEdit:false},  // add options            
 					           {afterShowForm: centerForm}          // delete options
 					        );
-					    $("#" + cland_params.module_maingrid_id).jqGrid('filterToolbar',{autosearch:true});
+					   // $("#" + cland_params.module_maingrid_id).jqGrid('filterToolbar',{autosearch:true});
 
     //initialize the learnergrid
 					    jQuery("#" + cland_params.learner_maingrid_id).jqGrid({
@@ -340,12 +344,12 @@ $("#tabs").tabs(
 							},   
 					    subGrid : false,
 					    gridComplete: function(){ 
-					        var ids = jQuery("#" + cland_params.learner_maingrid_id).jqGrid('getDataIDs'); 
+					    	var grid = jQuery("#" + cland_params.learner_maingrid_id)
+					        var ids = grid.jqGrid('getDataIDs'); 
 					        
 					        for(var i=0;i < ids.length;i++)
 					            { 
-					            	var cl = ids[i]; 
-						          
+					            	var cl = ids[i]; 						          	
 						            rs = "<input class='edit' style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            rm = "<input class='edit' style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
@@ -433,6 +437,26 @@ $("#tabs").tabs(
                             	$("#" + grid_id).trigger('reloadGrid')
                             },
                             title: 'Add Module to Course'                         
+                        });
+                            
+                        $dialog.dialog('open');
+                        
+		  }
+		 function addPreModule(course_id,mod_id,pre_id,grid_id){
+		
+		  	 var $dialog = $('<div></div>')
+           
+                        .load('../../preModule/dialogcreate/'+pre_id +'?course.id=' + course_id + '&current.id=' +mod_id)
+                        .dialog({
+                            autoOpen: false,
+                            width:550,
+                            beforeClose: function(event,ui){
+                            	
+                            },
+                            close: function(event){
+                            	$("#" + grid_id).trigger('reloadGrid')
+                            },
+                            title: 'Add Module Pre-requisites'                         
                         });
                             
                         $dialog.dialog('open');
