@@ -60,7 +60,8 @@ var cland_params = {
 			&nbsp;<g:fieldValue bean="${moduleInstance}" field="name" />
 		</h1>
 		<div class="content">
-			<g:fieldValue bean="${moduleInstance}" field="description" />
+			<g:fieldValue bean="${moduleInstance}" field="description" /><br/>
+			<b>Max Possible Score:</b> ${moduleInstance.totalMaxMark()}
 		</div>
 	</fieldset>
 

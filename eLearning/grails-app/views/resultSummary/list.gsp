@@ -9,8 +9,11 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'resultSummary.register.learner',default:'Learner')}"/>
+                <z:label value="${message(code:'resultSummary.register.learner',default:'Learner lastname:')}"/>
                 <z:textbox id="keywordBox" />
+                <z:space/><z:space/>
+                <z:label value="${message(code:'resultSummary.tutor',default:'Tutor lastname:')}"/>
+                <z:textbox id="keywordBoxTutor" />
                 <z:space/>
                
             </z:hlayout>
@@ -31,6 +34,7 @@
                     <z:column label="${message(code: 'resultSummary.module.label', default: 'Module')}"/>
                     <z:column label="${message(code: 'resultSummary.status.label', default: 'Status')}"/>
                     <z:column label="${message(code: 'resultSummary.result.label', default: 'Result')}"/>
+                     <z:column label="${message(code: 'resultSummary.tutor.label', default: 'Tutor')}"/>
                     <z:column label="${message(code: 'resultSummary.certNumber.label', default: 'Cert Number')}"/>
                                         
                     <z:column width="230px"/>

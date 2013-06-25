@@ -1,9 +1,10 @@
 package com.cland.elearning
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
-
+import org.codehaus.groovy.grails.plugins.springsecurity.*
 class RegistrationController {
 
+	def springSecurityService
     def index = {
         redirect(action: "list", params: params)
     }
@@ -88,13 +89,29 @@ class RegistrationController {
 			break
 			default: //edit
 			resultSummary = ResultSummary.get(params.id)
-			tutorInstance = Person.get(params.tutor.id as Long)
+			def curTutor = resultSummary?.tutor
+			//If it's a tutor, verify if they are the tutors of the current resultSummary
+			if (SpringSecurityUtils.ifAnyGranted("TUTOR") && curTutor){
+				if(curTutor?.id !=  springSecurityService.principal.id){
+					//not allow
+					println("Not allow to edit this record!")
+					message = "You do not have sufficient rights to edit this record!"
+					break;
+				}
+			}	
+			tutorInstance = Person.get(params.tutor.id as Long) //selected tutor
 			if (resultSummary) {
 				// set the properties according to passed in parameters
 				resultSummary.properties = params
-				if(tutorInstance) resultSummary.tutor=tutorInstance
+				if(SpringSecurityUtils.ifAnyGranted("ADMIN")){
+					if(tutorInstance) resultSummary.tutor=tutorInstance
+				}else{
+					if(curTutor) resultSummary.tutor=curTutor
+				}
+				
+				
 				if (! resultSummary.hasErrors() && resultSummary.save()) {
-					message = "ResultSummary  ${resultSummary.toString()} Updated"
+					message = "Summary result for ${resultSummary.module.name} has been updated successfully!"
 					id = resultSummary.id									
 					state = "OK"
 				} else {
@@ -102,6 +119,7 @@ class RegistrationController {
 					println(resultSummary.errors)
 				}
 			}
+			
 			break
 		}
 		

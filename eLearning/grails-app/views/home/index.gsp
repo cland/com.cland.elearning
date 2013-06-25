@@ -63,7 +63,7 @@
 										<z:column label="${message(code: 'resultSummary.register.course.name.label', default: 'Course')}" />
 										<z:column label="${message(code: 'resultSummary.module.name.label', default: 'Module')}" />
 										<z:column label="${message(code: 'resultSummary.result.label', default: 'Result')}" /> 
-												
+										<z:column width="80px"/>		
 											
 										</z:columns>
 									</z:grid>

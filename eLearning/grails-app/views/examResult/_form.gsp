@@ -14,7 +14,8 @@
 
     <z:row>
         <z:label value="${message(code:'examResult.tutor.label',default:'Tutor')}"/>
-        <zkui:select name="tutor.id" from="${com.cland.elearning.Person.list()}" optionKey="id" value="${examResultInstance?.tutor?.id}"  />
+        <zkui:select name="tutor.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person}" optionKey="id" value="${resultSummaryInstance?.tutor?.id}"  />
+        
     </z:row>
 
     <z:row>
@@ -29,7 +30,7 @@
 
     <z:row>
         <z:label value="${message(code:'examResult.region.label',default:'Region')}"/>
-        <zkui:select name="region" from="${Region.list()}" value="${examResultInstance?.region}" valueMessagePrefix="examResult.region"  />
+        <zkui:select name="region.id" from="${com.cland.elearning.Region.list()}" value="${examResultInstance?.region?.id}" optionKey="id"  />
     </z:row>
 
     <z:row>

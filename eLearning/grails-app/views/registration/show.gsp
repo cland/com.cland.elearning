@@ -16,6 +16,7 @@
 var cland_params = {
 		active_tab : function(){ if (${params.tab==null}) return 0; else return ${params.tab};},
 		canEdit :${org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")},
+		isAdmin: ${org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.ifAnyGranted("ADMIN")},
 		thisId : ${params.id},
 		maingrid_list_url : "../jq_list_results?regId=" + ${params.id},
 		maingrid_edit_url : "../jq_edit_results?regId=" + ${params.id},
@@ -28,6 +29,7 @@ var cland_params = {
 		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt",	
 		tutors : ${tutorList},	
 		result_types: "Pass:Pass;Fail:Fail;None:None;Exempt:Exempt",
+		
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add"
 	}
 </script>
@@ -132,7 +134,7 @@ var cland_params = {
 		{name:'module', editable:false},	
 		{name:'result',editable:true,width:60,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.result_types}},
         {name:'status',editable:true,width:70,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states}},
-        {name:'tutor.id',editable:true,width:90,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.tutors}},
+        {name:'tutor.id',editable:cland_params.isAdmin,width:90,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.tutors}},
         {name:'certNumber', editable:true},        
         {name:'id',hidden:true},
         {name:'act',index:'act', width:180,sortable:false,search:false}
@@ -159,7 +161,7 @@ var cland_params = {
 	            se = "<input class='edit' style='height:22px;width:42px;' type='button' value='Save' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').saveRow('"+cl+"',afterSubmitEvent);\" />"; 
 	            ce = "<input class='edit' style='height:22px;width:44px;' type='button' value='Cancel' onclick=\"jQuery('#"+ cland_params.maingrid_id+"').restoreRow('"+cl+"');clearSelection();\" />"; 
 	            
-	            jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+se+ce}); //be+se+ce+de forall actions 
+	            if(cland_params.canEdit) jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+" "+se+" "+ce}); //be+se+ce+de forall actions 
             }
         if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
     },
@@ -176,10 +178,10 @@ var cland_params = {
  		   url:cland_params.subgrid_list_url,
  		   editurl:cland_params.subgrid_edit_url,
  		   datatype:"json",
- 		  colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id',' <input class="edit" type="button" name="Add_Result" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="result_add" value="Add Result"/>','Sub Id'],
+ 		  colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id',' <input style="display:none" class="" type="button" name="Add_Result" onClick="addRow(\''+row_id+'\',\''+subgrid_table_id+'\');" id="result_add" value="Add Result"/>','Sub Id'],
  	      colModel:[
-		 			{name:'submodule', editable:true,editrules:{required:true}},
-		 			{name:'examname', editable:true,editrules:{required:true}},
+		 			{name:'submodule', editable:false,editrules:{required:true}},
+		 			{name:'examname', editable:false,editrules:{required:true}},
 		 	        {name:'mark', editable:true,editrules:{required:true}},
 		 	        {name:'maxMark', editable:false},
 		 	        {name:'percentMark', editable:false},     
@@ -208,7 +210,7 @@ var cland_params = {
  				}
  			  if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
  			},  
- 		   cellEdit:true,
+ 		   cellEdit:false,
  		    cellsubmit: 'remote',
  		   	cellurl:cland_params.subgrid_edit_url,
  		   postData:{resultSumId:row_id}           
@@ -233,9 +235,7 @@ var cland_params = {
    
   });  
 // ]]>
-  function afterSubmitEvent(response, postdata) {	
-	  
-	  
+  function afterSubmitEvent(response, postdata) {	 
       var success = true;
   	  var display = $('#message'); 
       var json = eval('(' + response.responseText + ')');
@@ -243,8 +243,12 @@ var cland_params = {
 
       if(json.state == 'FAIL') {
           success = false;
+          //display.removeClass("message")
+          display.addClass("message")
           display.addClass("errors")
+          
       }else{
+          display.removeClass("errors")
     	  display.addClass("message")
           }      
         display.html(message);

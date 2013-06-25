@@ -31,6 +31,11 @@ class SubModule {
 	// your code goes here
 	}
 	
+	Integer totalMaxMark(){
+		def total = exams?.sum { it?.maxMark }
+		if(!total) total = 0
+		total
+	}
 	String moduleName(){
 		return "${module.name}"
 	}

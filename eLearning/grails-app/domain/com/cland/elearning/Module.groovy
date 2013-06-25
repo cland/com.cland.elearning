@@ -25,6 +25,12 @@ class Module {
 	// your code goes here
 	}
 	
+	Integer totalMaxMark(){
+		def total = submodules?.sum { it?.totalMaxMark() }		
+		if(!total) total = 0
+		total
+	}
+	
 	String toString(){
 		"${name}"
 	}

@@ -70,7 +70,8 @@ class HomeComposer {
 		//for the results
 		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
 			createAlias("register","reg")
-			eq "reg.learner.id", springSecurityService.principal.id as long  
+			//eq "reg.learner.id", springSecurityService.principal.id as long  
+			eq "tutor.id", springSecurityService.principal.id as long 
 			order('module','asc')
 		}
 		listModel.clear()
@@ -85,7 +86,9 @@ class HomeComposer {
 			label(value: resultSummaryInstance.register.course.name)
 			label(value: resultSummaryInstance.module.name)
 			a(href: g.createLink(controller:"ResultSummary",action:'show',id:id), label: resultSummaryInstance.result)
-
+			hlayout{
+				toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "registration", action: 'show', id: resultSummaryInstance.register.id))
+			}
 		//	label(value: resultSummaryInstance.status)
 			
 		//	label(value: resultSummaryInstance.certNumber)
@@ -106,6 +109,7 @@ class HomeComposer {
 			a(href: g.createLink(controller:"course",action:'show',id:regInstance.course.id), label: regInstance.course.name)
 			label(value: regInstance.course.startDate.format('dd/MM/yyyy'))
 			label(value: regInstance.learner.firstLastName())
+			
 		}
 	}
 } //end home composer class

@@ -13,6 +13,7 @@ class ListComposer {
     Paging paging
          //Longbox idLongbox
 	Textbox keywordBox
+	Textbox keywordBoxTutor
 	def springSecurityService
 	boolean canEdit = false
 	boolean canView = true
@@ -20,10 +21,9 @@ class ListComposer {
 	boolean canDelete = false
 	void setActionRights(){
 		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
-			canEdit=true
-			canCreate=true
-			canDelete=true
+		
 		}
+
 	}
     def afterCompose = {Component comp ->
         grid.setRowRenderer(rowRenderer as RowRenderer)
@@ -45,12 +45,17 @@ class ListComposer {
         int max = paging.pageSize
         def resultSummaryInstanceList = ResultSummary.createCriteria().list(offset: offset, max: max) {
 			createAlias('register','reg')
+			createAlias('tutor','tut')
+			createAlias('reg.learner','l')
             order('reg.learner','asc')
 //            if (idLongbox.value) {
 //                eq('id', idLongbox.value)
 //            }
 			if(keywordBox.value){
-				ilike('reg.learner.firstName',"%"+keywordBox.value+"%") 
+				ilike('l.lastName',"%"+keywordBox.value+"%") 
+			}
+			if(keywordBoxTutor.value){
+				ilike('tut.lastName',"%"+keywordBoxTutor.value+"%")
 			}
         }
         paging.totalSize = resultSummaryInstanceList.totalCount
@@ -66,22 +71,33 @@ class ListComposer {
 				label(value: resultSummaryInstance.module)
                 label(value: resultSummaryInstance.status)
                 label(value: resultSummaryInstance.result)
+				label(value: resultSummaryInstance.tutor.toString())
                 label(value: resultSummaryInstance.certNumber)                               
                 hlayout{
-					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "resultSummary", action: 'show', id: id))
-					toolbarbutton(label: g.message(code: 'default.button.add.label', default: 'Add'),image:'/images/skin/database_add.png',href:g.createLink(controller: "ExamResult", action: 'create', params:["resultSummary.id: id"]))
-                    toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "resultSummary", action: 'edit', id: id))
-                    toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
-                        ResultSummary.get(id).delete(flush: true)
-                        listModel.remove(id)
-                    })
+					if(canView) {						
+						toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'Results'),image:'/images/skin/database_table.png',href:g.createLink(controller: "registration", action: 'show', id: resultSummaryInstance.register.id))
+					}
+					if(canCreate) toolbarbutton(label: g.message(code: 'default.button.add.label', default: 'Add'),image:'/images/skin/database_add.png',href:g.createLink(controller: "ExamResult", action: 'create', params:["resultSummary.id: id"]))
+                    if(canEdit) toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "resultSummary", action: 'edit', id: id))
+                    if(canDelete) { 
+							toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
+                        	ResultSummary.get(id).delete(flush: true)
+                        	listModel.remove(id)
+                    	})
+                    }
                 }
         }
     }
 	
 	//** CUSTOM TESTS
 	 void onChanging_keywordBox(InputEvent e) {
-		 keywordBox.value = e.value
+		 keywordBox.value = e.value		 
+		// keywordBoxTutor.value = ""
+		 redraw()
+	 }
+	 void onChanging_keywordBoxTutor(InputEvent e) {
+		// keywordBox.value = ""
+		 keywordBoxTutor.value = e.value
 		 redraw()
 	 }
 } //end class
