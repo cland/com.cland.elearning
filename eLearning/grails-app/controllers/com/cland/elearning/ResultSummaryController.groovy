@@ -81,7 +81,7 @@ class ResultSummaryController {
 	}
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_edit_results = {
-		//println("jq_edit_results" + params)
+		println("ResultSummaryController - jq_edit_results: " + params)
 		def examResult = null
 		def message = ""
 		def state = "FAIL"
@@ -96,8 +96,10 @@ class ResultSummaryController {
 			examResult = ExamResult.get(params.id)
 			if (examResult) {
 				// set the properties according to passed in parameters
-				examResult.properties = params
-				if (! examResult.hasErrors() && examResult.save()) {
+				//examResult.properties = params
+				examResult.mark = params.mark as Integer
+				if (! examResult.hasErrors() && examResult.save(flush:true)) {
+					println("Saved new result: " + examResult.mark + " - " +  examResult.maxMark() + " - " + examResult.contributionMark )
 					message = "Result for ${examResult.subModule.name} ${examResult.subModule.type} exam test ${examResult.exam.testNumber} updated successfully"
 					id = examResult.id
 					state = "OK"
