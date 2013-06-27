@@ -18,6 +18,7 @@ class ResultSummary {
     }
 	def beforeInsert = {
 	// your code goes here
+		
 	}
 	def beforeUpdate = {
 	// your code goes here
@@ -28,7 +29,24 @@ class ResultSummary {
 	def onLoad = {
 	// your code goes here 
 	}
-	
+	Integer totalMark(){
+		def total = results?.sum { it?.mark }
+		if(!total) total = 0
+		total
+	}
+	Integer totalContributionMark(){
+		def total = results?.sum { it?.contributionMark }
+		if(!total) total = 0
+		total
+	}
+	Integer totalMaxMark(){
+		def total = module?.totalMaxMark()
+		if(!total) total = 0
+		total
+	}
+	Double totalPercentMark(){
+		((totalMark()/totalMaxMark()) * 100)
+	}
 	String toString(){
 		"Learner: ${register.learner.toString()} - Course: ${register.course.name} - Module: ${module.name} Status: ${status} - Result: ${result} "
 	}

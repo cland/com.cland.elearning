@@ -117,6 +117,24 @@ class BootStrap {
 					PersonRole.create(learnerUser2, learnerRole, true)
 
 			//** tutor/counsellor user
+					def tutorDefault = new Person(username: 'default.tutor',
+						enabled: true,
+						password: 'password',
+						firstName: 'No',
+						lastName: 'Tutor',
+						idNo :"44444",
+						contactNo : "0000",
+						dateOfBirth:(new Date() - 365*30),
+						gender:"F",
+						address:"none",
+						city:"Durban",
+						email:"default.tutor@whereever.com")
+		
+						tutorDefault.save()
+						if(tutorDefault.hasErrors()){
+							println tutorDefault.errors
+						}
+						PersonRole.create(tutorDefault, tutorRole, true)
 				def tutorUser1 = new Person(username: 'tutor1',
 				enabled: true,
 				password: 'password',

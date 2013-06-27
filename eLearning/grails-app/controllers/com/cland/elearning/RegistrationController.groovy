@@ -39,7 +39,7 @@ class RegistrationController {
 		  def registrationInstance = Registration.get(params.id)
         if (!registrationInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'registration.label', default: 'Registration'), params.id])}"
-            redirect(action: "list")
+            redirect(action: "list")''''''
         }
         else { 
 			def tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))*.person

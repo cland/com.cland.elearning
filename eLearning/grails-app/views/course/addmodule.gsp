@@ -23,7 +23,7 @@
     <z:window title="Module List" border="normal" width="300px">
     <z:vlayout>
         <g:each var="i" in="${com.cland.elearning.Module.list()}">
-        <z:checkbox name="modlist" value="${i.id }" id="${ i}" label=" ${i }"/>     
+        <z:checkbox name="modlist_${i.id }" checked ="false" id="${i.id }" label="${i }"  />     
         </g:each>
         </z:vlayout>
         </z:window>
@@ -31,6 +31,7 @@
         <z:button id="addModuleButton" label="${message(code: 'default.button.add.label', default: 'Add')}"/>   
          
     </z:hlayout>
+    
 </z:window>
 </body>
 </html>

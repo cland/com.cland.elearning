@@ -87,6 +87,7 @@ class PreModuleController {
     }
 
     def delete(Long id) {
+		println(params)
         def preModuleInstance = PreModule.get(id)
         if (!preModuleInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'preModule.label', default: 'PreModule'), id])
@@ -97,7 +98,11 @@ class PreModuleController {
         try {
             preModuleInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'preModule.label', default: 'PreModule'), id])
-            redirect(action: "list")
+			if(params.course.id){
+				redirect(controller:"course", action: "show", id:params.course.id)
+			}else{
+            	redirect(action: "list")
+			}
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'preModule.label', default: 'PreModule'), id])

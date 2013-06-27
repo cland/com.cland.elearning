@@ -28,7 +28,21 @@ class Registration {
 	def onLoad = {
 	// your code goes here
 	}
-	
+	Integer totalMark(){
+		def total = results?.totalMark()
+		if(!total) total = 0
+		total
+	}
+	Integer totalContributionMark(){
+		def total = results?.totalContributionMark()
+		if(!total) total = 0
+		total
+	}
+	Integer totalMaxMark(){
+		def total = results?.totalMaxMark()
+		if(!total) total = 0
+		total
+	}
 	String toString(){
 		"${learner.firstName} ${learner.lastName} Registered on: ${dateCreated.format('dd/MM/yyyy hh:mm')} - Tutor: ${learner.firstName} ${learner.lastName} (${course.name})"
 	}

@@ -43,9 +43,10 @@ var cland_params = {
 			<span class="r-arrow"></span>
 			<g:link controller="course" action="show" id="${registrationInstance.course.id}" params="[tab:1]">${registrationInstance.course.toString() }</g:link>
 			<span class="r-arrow"></span>			
-			<span class="current-crump">
+			
 			<g:link controller="person" action="show" id="${registrationInstance.learner.id}" params="[tab:2]">${registrationInstance.learner.toString() }</g:link>
 			<span class="r-arrow"></span>
+			<span class="current-crump">
 				Course Register 
 			</span>
 		</div>

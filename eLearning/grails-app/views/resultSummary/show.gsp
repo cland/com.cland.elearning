@@ -53,12 +53,12 @@ var cland_params = {
 	<z:window style="padding:5px">
 		<div class="bread-crump">
 			<span class="r-arrow"></span>
-			<g:link controller="course" action="list">Course</g:link>
+			<g:link controller="course" action="show" id="${resultSummaryInstance.register.course.id }">Course: ${resultSummaryInstance.register.course.name }</g:link>
 			<span class="r-arrow"></span>
-			<g:link controller="registration" action="show" id="${resultSummaryInstance.register.id }">Register</g:link>
+			<g:link controller="registration" action="show" id="${resultSummaryInstance.register.id }">Course Register</g:link>
 			<span class="r-arrow"></span>			
 			<span class="current-crump">
-				Result for: ${resultSummaryInstance.register.learner.toString() }
+				Module Result for: <g:link controller="person" action="show" id="${resultSummaryInstance.register.learner.id }">${resultSummaryInstance.register.learner.toString() }</g:link>
 			</span>
 		</div>
 		
@@ -76,14 +76,15 @@ var cland_params = {
 
 	<fieldset>
 		<legend>
-			<b>&raquo;</b> Result Summary
+			<b>&raquo;</b> Module Result
 		</legend>
 		<h1>
 			&nbsp;${resultSummaryInstance.register.learner.toString()}
 		</h1>
 		<div class="content">
-			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code}) - ${resultSummaryInstance.module.name}<br/>
-			<b>Result:</b> ${resultSummaryInstance.result}<br/>
+			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code})<br/>
+			<b>Module:</b> ${resultSummaryInstance.module.name} <br/>
+			<b>Result:</b> ${resultSummaryInstance.result} [ Mark: <b>${resultSummaryInstance.totalMark()}</b> out of <b>${resultSummaryInstance.totalMaxMark()}</b> - PERCENT: <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>% ]<br/>
 			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}<br/>
 			<b>Status:</b> ${resultSummaryInstance.status}
 		</div>
@@ -145,14 +146,14 @@ var cland_params = {
       datatype: "json",
       colNames:['Type','Exam No.','Mark','Max Mark','% Mark','% Contribution','id','Actions'],
       colModel:[
-		{name:'submodule', editable:true,editrules:{required:true}},
-		{name:'examname', editable:true,editrules:{required:true}},
+		{name:'submodule', editable:false,editrules:{required:true}},
+		{name:'examname', editable:false,editrules:{required:true}},
         {name:'mark', editable:true,editrules:{required:true}},
         {name:'maxMark', editable:false},
         {name:'percentMark', editable:false},     
         {name:'tutor', editable:false},   
         {name:'id',hidden:true},
-        {name:'act',index:'act', width:180,sortable:false,search:false}
+        {name:'act',index:'act', width:200,sortable:false,search:false}
         //{name:'resultSumid',index:'resultSumid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
      ],
      rowNum:10,

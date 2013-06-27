@@ -94,10 +94,13 @@ class CreateComposer {
 	} //end method
 	
 	ResultSummary createResultSummary(Module module, Registration register){
+		//TODO: use a default none tutor.
+		def defaultTutor = Person.findByUsername("default.tutor")
 		def resultSummary = new ResultSummary(
 				status:"Not Started",
 				result:"None",
 				module:module,
+				tutor:defaultTutor,
 				certNumber:""
 				)	
 		//def module = resultSummary.module
@@ -114,7 +117,7 @@ class CreateComposer {
 					mark:0,
 					percentMark:0.0,
 					contributionMark:0.0,
-					tutor:register.tutor,
+					tutor:defaultTutor,  //fix
 					subModule:submod,
 					exam:e,
 					region:"",

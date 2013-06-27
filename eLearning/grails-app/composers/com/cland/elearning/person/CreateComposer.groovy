@@ -6,12 +6,14 @@ import org.zkoss.zul.*
 import com.cland.elearning.*
 
 class CreateComposer {
+
     Window self
     def afterCompose = {Component comp ->
         //todo initialize components here
     }
 
     void onClick_saveButton(Event e) {	
+		
         def personInstance = new Person(self.params)
         if (!personInstance.save(flush: true) && personInstance.hasErrors()) {			
             log.error personInstance.errors

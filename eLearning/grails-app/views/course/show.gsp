@@ -170,8 +170,8 @@ $("#tabs").tabs(
 					        {name:'act',index:'act', width:100,sortable:false,search:false}
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
 					     ],
-					     rowNum:10,
-					     rowList:[10,20,30,40,50],
+					     rowNum:50,
+					     rowList:[10,20,30,40,50,100],
 					     multiselect: false,
 					    pager: jQuery('#' + cland_params.module_maingrid_id_pager),
 					    viewrecords: true,
@@ -276,7 +276,7 @@ $("#tabs").tabs(
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
 					     ],
 					     rowNum:10,
-					     rowList:[10,20,30,40,50],
+					     rowList:[10,20,30,40,50,100],
 					     multiselect: false,
 					    pager: jQuery('#' + cland_params.learner_maingrid_id_pager),
 					    viewrecords: true,
