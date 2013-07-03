@@ -99,6 +99,34 @@ class RegistrationController {
 					break;
 				}
 			}	
+			// Work out the list of pre-modules and for each test if it's completed
+			def premodule = PreModule.createCriteria().get(){
+				createAlias("course","c")
+				eq ("current.id",resultSummary.module.id)
+				and { eq ("c.id",resultSummary.register.course.id as Long) }
+			}
+			println("done searching for pre-module, now testing")
+			if((premodule) && !(resultSummary.status.equalsIgnoreCase("not started"))){
+				println("Pre-module found!")
+				//check all the pre-requisites
+				for(Module m: premodule.prerequisites){
+					println("Checking status of module: " + m.toString())
+					def resSummary = ResultSummary.createCriteria().get(){
+						createAlias("register","reg")
+						eq ("module.id",m.id)
+						and { eq ("reg.id",resultSummary.register.id as Long) }
+					}
+					println(resSummary)
+					if(resSummary){
+						if(!resSummary.status.equalsIgnoreCase("completed") & !resSummary.status.equalsIgnoreCase("exempt")){
+							message = "Pre-requisite '${m.name}' needs to be completed first."
+							break;
+						}
+					}
+				}
+			} else{
+				println("no pre-modules found!")
+			}//end for loop checking for pre-requisites
 			tutorInstance = Person.get(params.tutor.id as Long) //selected tutor
 			if (resultSummary) {
 				// set the properties according to passed in parameters
@@ -115,7 +143,7 @@ class RegistrationController {
 					id = resultSummary.id									
 					state = "OK"
 				} else {
-					message = "Could Not Update Record"
+					message = "Error! Could not update record."
 					println(resultSummary.errors)
 				}
 			}
