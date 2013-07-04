@@ -22,7 +22,7 @@
 		</sec:ifLoggedIn>
 
 		<sec:ifNotLoggedIn>
-			<li><g:link controller="login" action="index">Login</g:link></li>
+			<li><g:link controller="login" action="index">&nbsp;</g:link></li>
 		</sec:ifNotLoggedIn>
 	</ul>
 </div>

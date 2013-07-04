@@ -8,7 +8,6 @@ class RegistrationController {
     def index = {
         redirect(action: "list", params: params)
     }
-
     def list = {}
 	
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
@@ -81,7 +80,7 @@ class RegistrationController {
 		def tutorInstance = null
 		def message = ""
 		def state = "FAIL"
-		def id
+		def id = params.id
 		switch (params.oper) {
 			case 'add':
 			break
@@ -105,31 +104,33 @@ class RegistrationController {
 				eq ("current.id",resultSummary.module.id)
 				and { eq ("c.id",resultSummary.register.course.id as Long) }
 			}
-			println("done searching for pre-module, now testing")
-			if((premodule) && !(resultSummary.status.equalsIgnoreCase("not started"))){
-				println("Pre-module found!")
+			
+			if((premodule) && !(params.status.equalsIgnoreCase("not started"))){				
 				//check all the pre-requisites
-				for(Module m: premodule.prerequisites){
-					println("Checking status of module: " + m.toString())
+				for(Module m: premodule.prerequisites){				
 					def resSummary = ResultSummary.createCriteria().get(){
 						createAlias("register","reg")
 						eq ("module.id",m.id)
 						and { eq ("reg.id",resultSummary.register.id as Long) }
 					}
-					println(resSummary)
+					
 					if(resSummary){
-						if(!resSummary.status.equalsIgnoreCase("completed") & !resSummary.status.equalsIgnoreCase("exempt")){
+						println(resSummary.status)
+						// & !(resSummary.status.equalsIgnoreCase("exempt"))
+						if(!(resSummary.status.equalsIgnoreCase("completed"))){							
 							message = "Pre-requisite '${m.name}' needs to be completed first."
-							break;
+							println(message)
+							params.status =resultSummary.status
+							def result  =[message:message,state:state,id:id]
+							render result as JSON
+							return
 						}
 					}
 				}
-			} else{
-				println("no pre-modules found!")
 			}//end for loop checking for pre-requisites
 			tutorInstance = Person.get(params.tutor.id as Long) //selected tutor
 			if (resultSummary) {
-				// set the properties according to passed in parameters
+				// set the properties according to passed in parameters			
 				resultSummary.properties = params
 				if(SpringSecurityUtils.ifAnyGranted("ADMIN")){
 					if(tutorInstance) resultSummary.tutor=tutorInstance
