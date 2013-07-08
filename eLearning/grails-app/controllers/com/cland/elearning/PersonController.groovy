@@ -1,8 +1,10 @@
 package com.cland.elearning
 import grails.converters.JSON
+
 import grails.plugins.springsecurity.Secured
 class PersonController {
 	def springSecurityService
+	
     def index = {
         redirect(action: "list", params: params)
     }

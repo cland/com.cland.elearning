@@ -7,6 +7,7 @@
 	<z:tab label="Contact Details"/>
 	<z:tab label="Employee Details"/>
 	<z:tab label="Other Details"/>
+	<z:tab label="Supporting Documents"/>
 </z:tabs>
 	<z:tabpanels>
 		<z:tabpanel>
@@ -292,6 +293,17 @@
 	</z:row>
 				</z:rows>
 			</z:grid>
+		</z:panelchildren>
+	</z:panel>
+	</z:hbox>
+	</z:tabpanel>
+	
+	<z:tabpanel>
+	<z:hbox>
+	<z:panel width="100%" height="" title="Supporting Documents"
+		border="normal" collapsible="true">
+		<z:panelchildren>
+			attachments here...
 		</z:panelchildren>
 	</z:panel>
 	</z:hbox>

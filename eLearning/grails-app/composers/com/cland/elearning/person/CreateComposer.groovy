@@ -5,6 +5,7 @@ import org.zkoss.zk.ui.event.Event
 import org.zkoss.zul.*
 import com.cland.elearning.*
 
+
 class CreateComposer {
 
     Window self
@@ -26,7 +27,6 @@ class CreateComposer {
 			def tmp = self.params.list("role_${r.authority}")			
 			if (tmp[0]) PersonRole.create(personInstance, r, true)		
 		}
-				
             flash.message = g.message(code: 'default.created.message', args: [g.message(code: 'person.label', default: 'Person'), personInstance.id])			
             redirect(controller: "person", action: "list")
         }

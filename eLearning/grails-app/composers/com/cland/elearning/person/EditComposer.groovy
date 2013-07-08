@@ -11,11 +11,12 @@ import org.zkoss.zul.*
 class EditComposer {
     Window self
     def afterCompose = {Component comp ->
-        //todo initialize components here
+        //todo initialize components here 
     }
 
     void onClick_saveButton(Event e) {
         def params=self.params
+		println(params)
         def personInstance = Person.get(params.id)
         if (personInstance) {
             if (params.version != null) {
@@ -35,7 +36,7 @@ class EditComposer {
 					def tmp = params.list("role_${r.authority}")
 					if (tmp[0]) PersonRole.create(personInstance, r, true)					
 				}				
-								
+			
                 flash.message = g.message(code: 'default.updated.message', args: [g.message(code: 'person.label', default: 'Person'), personInstance.id])
                 redirect(controller: "person", action: "edit", id: personInstance.id)
             }else {

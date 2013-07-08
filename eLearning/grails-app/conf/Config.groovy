@@ -58,14 +58,20 @@ grails.exceptionresolver.params.exclude = ['password']
 
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
-
+//attachments
+grails.attachmentable.maxInMemorySize = 1024
+grails.attachmentable.maxUploadSize = 1024000000
+//grails.attachmentable.uploadDir = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\temp" //YOUR_USER_HOME/APP_NAME
+grails.attachmentable.poster.evaluator = { "unknown" }
 environments {
     development {
         grails.logging.jul.usebridge = true
+		grails.attachmentable.uploadDir = "C:\\Users\\Cland\\temp"
     }
     production {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
+		grails.attachmentable.uploadDir = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\temp" //YOUR_USER_HOME/APP_NAME
     }
 }
 

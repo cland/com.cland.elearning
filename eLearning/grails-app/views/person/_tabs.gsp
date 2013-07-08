@@ -4,6 +4,7 @@
 		<li><a href="#tab-person">Personal Details</a></li>
 		<li><a href="#tab-employee">Employee Details</a></li>
 		<li id='tab_learner_head'><a href="#tab-learner">Courses & Results</a></li>
+		<li><a href="#tab-attachments">Supporting Documents</a></li>
 	</ul>
 	<div id="tab-person">
 		<z:hlayout>
@@ -123,6 +124,9 @@
 			<div id="course_list_pager" class="scroll"
 				style="text-align: center;"></div>
 		</div>
+	</div>
+	<div id="tab-attachments">
+		
 	</div>
 </div>
 <!--  End tabs -->

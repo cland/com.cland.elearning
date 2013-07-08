@@ -36,14 +36,17 @@ class Person {
 	String schoolQualification
 	String disabilityYN
 	String disabilityList
+	
 	static mappedBy = [tutorRegistrations:'tutor',learnerRegistrations:'learner']
 	static hasMany = [
 		tutorRegistrations:Registration,
 		learnerRegistrations:Registration,
 		results:ResultSummary,
+		attachments:AttachmentHolder
 		//worksFor:Organisation		
 		]
 	static constraints = {
+		attachments(nullable:true)
 		username blank: false, unique: true
 		password blank: false
 		firstName(blank:false)
@@ -88,6 +91,7 @@ class Person {
 			encodePassword()
 		}
 	}
+
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}
