@@ -114,6 +114,7 @@ class RegistrationController {
 						and { eq ("reg.id",resultSummary.register.id as Long) }
 					}
 					
+					
 					if(resSummary){
 						println(resSummary.status)
 						// & !(resSummary.status.equalsIgnoreCase("exempt"))
