@@ -13,6 +13,10 @@
 					<z:grid>
 						<z:rows>
 							<z:row>
+								<z:label value="Known as: " />
+								<z:label value="${personInstance?.knownAsName }" />
+							</z:row>
+							<z:row>
 								<z:label value="Id Number: " />
 								<z:label value="${personInstance.idNo }" />
 							</z:row>
@@ -84,6 +88,18 @@
 							<z:row>
 								<z:label value="Physical Code: " />
 								<z:label value="${personInstance?.company?.phyPostCode }" />
+							</z:row>
+							<z:row>
+								<z:label value="Job Title: " />
+								<z:label value="${personInstance?.jobTitle }" />
+							</z:row>
+							<z:row>
+								<z:label value="Department: " />
+								<z:label value="${personInstance?.department }" />
+							</z:row>
+							<z:row>
+								<z:label value="Number of years: " />
+								<z:label value="${personInstance?.numOfYears }" />
 							</z:row>
 						</z:rows>
 					</z:grid>

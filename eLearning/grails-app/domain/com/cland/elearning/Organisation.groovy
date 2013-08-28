@@ -20,11 +20,18 @@ class Organisation {
     static constraints = {
 		name()
 		phoneNo()
-		email(email:true)
+		email(nullable:true,email:true)
 		phyAddress(blank:true, nullable:true)
 		region(nullable:true)
 		country(nullable:true)
 		isMember(nullable:true,inList:["Yes","No"])
+		city(nullable:true)
+		comments(nullable:true)
+		contactPerson(nullable:true)
+		phyPostCode(nullable:true)
+		postalAddress(nullable:true)
+		postalPostCode(nullable:true)
+		
     }
 	def beforeInsert = {
 	// your code goes here

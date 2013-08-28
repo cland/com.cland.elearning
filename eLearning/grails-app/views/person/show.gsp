@@ -65,7 +65,10 @@ var cland_params = {
 			&nbsp; ${personInstance.toString() }
 		</h1>
 		<div class="content">
-		<b>Contact No.:</b> ${personInstance.contactNo}<br/>
+		<b>Cell No.:</b> ${personInstance.contactNo}<br/>
+		<b>Work No.:</b> ${personInstance?.company?.phoneNo}<br/>
+		<b>Home No.:</b> ${personInstance?.contactNoHome}<br/>
+		
 		<b>Email:</b> ${personInstance.email}<br/>
 		<b>Roles: </b>
 			<g:each var="auth" in="${roleMap }">
@@ -73,7 +76,14 @@ var cland_params = {
 			</g:each><br/>
 		</div>
 	</fieldset>
-
+	<sec:ifAnyGranted roles="ADMIN,TUTOR">
+<g:form>
+				<fieldset class="buttons">
+					<g:hiddenField name="id" value="${personInstance?.id}" />
+					<g:link class="edit" style="float:right" action="edit" id="${personInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>					
+				</fieldset>
+			</g:form>
+			</sec:ifAnyGranted>
 	<!-- The tabs -->
 	<tmpl:tabs/>
 	<!--  End tabs -->

@@ -42,11 +42,6 @@
     </z:row>
 
     <z:row>
-        <z:label value="${message(code:'organisation.city.label',default:'City')}"/>
-        <z:textbox name="city" value="${organisationInstance?.city}" />
-    </z:row>
-
-    <z:row>
         <z:label value="${message(code:'organisation.region.label',default:'Region')}"/>
        <zkui:select name="region.id" optionKey="id"
 			from="${com.cland.elearning.Region.list().sort(false){it.name}}"

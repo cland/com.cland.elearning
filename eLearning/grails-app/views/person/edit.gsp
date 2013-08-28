@@ -30,6 +30,40 @@
         <z:button href="${createLink(action:'list')}" label="${message(code: 'default.list.label', args:[entityName])}"/>
     </z:hlayout>
 </z:window>
+ <script>
+  $(document).ready(function() {
+	 // $("#add_org").live("click",function(){
+	//	  addOrganisation();
+	//	});
+  });
+  function after(res){
+	  alert (res)
+	}
+	function before(){
+		alert("before submit")
+	}
+	function loadOrganisations(){
+		${ g.remoteFunction(action : 'orgOptions',controller : 'person',update:'testco',params: 'java=' + script)} 
+	}
+  function addOrganisation(){
 
+	  	 var $dialog = $('<div></div>')
+    
+                 .load('../organisation/dialogcreate')
+                 .dialog({
+                     autoOpen: false,
+                     width:450,
+                     beforeClose: function(event,ui){
+                     	
+                     },
+                     close: function(event){     
+                     	loadOrganisations()
+                     },
+                     title: 'New Organisation'                         
+                 });
+                     
+        $dialog.dialog('open');
+	  }
+  </script>
 </body>
 </html>

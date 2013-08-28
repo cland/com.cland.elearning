@@ -14,7 +14,7 @@
 					
 						<li><g:link controller="module" action="list">Modules</g:link></li>
 						<li><g:link controller="resultSummary" action="list">Registered Learners</g:link></li>
-						<li><g:link controller="person" action="list">People</g:link></li>											
+						<li><g:link controller="person" action="list">Learner</g:link></li>											
 					</sec:ifAnyGranted>
 
 				</g:link></li>

@@ -14,8 +14,21 @@ class PersonController {
     def create = {
         def personInstance = new Person()
         personInstance.properties = params
-        return [personInstance: personInstance]
+		def orgs = getOrgs() //Organisation.list()
+        return [personInstance: personInstance,orgList:orgs]
+		
     }
+	List getOrgs (){
+		return Organisation.list()
+	}
+	def orgOptions(){
+		def orgs = getOrgs()
+		String options = "<option value='9999'>My Value</option>"
+		for(Organisation org: orgs){
+			options += "<option value='${org.id}'>${org.name}</option>"
+		}
+		render options
+	}
 	@Secured(["hasRole('ADMIN')"])
     def edit = {
         def personInstance = Person.get(params.id)

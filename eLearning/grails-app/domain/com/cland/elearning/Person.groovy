@@ -17,6 +17,7 @@ class Person {
 	String firstName
 	String lastName
 	String middleName
+	String knownAsName
 	String idNo	
 	String homeLanguage
 	Date dateOfBirth
@@ -24,14 +25,20 @@ class Person {
 	String maritalStatus
 	Race race
 	String address
+	String postalAddress
+	String postalCode
 	String city	
 	Region region
 	Country country
 	String email	
 	String contactNo
+	String contactNoHome
 	String communicationMode //sms,email
 	Date dateCreated
 	Organisation company
+	int numOfYears
+	String department
+	String jobTitle
 	String tertiaryQualification
 	String schoolQualification
 	String disabilityYN
@@ -52,6 +59,7 @@ class Person {
 		firstName(blank:false)
 		lastName(blank:false)
 		middleName(nullable:true)
+		knownAsName(nullable:true)
 		homeLanguage(nullable:true)
 		salutation(inList:["Mr","Mrs","Ms","Miss"],nullable:true)
 		idNo()
@@ -65,17 +73,24 @@ class Person {
 		schoolQualification(nullable:true)
 		tertiaryQualification(nullable:true) 
 		address()	
-		city()
+		postalAddress(nullable:true)
+		postalCode(nullable:true)
+		contactNoHome(nullable:true)
+		city(nullable:true)
 		region(nullable:true)
 		country(nullable:true)
 		contactNo()
 		email(email:true)
 		company(nullable:true)
+		numOfYears(min:0)
+		department(nullable:true)
+		jobTitle(nullable:true)
 		dateCreated()
 	}
 
 	static mapping = {
 		password column: '`password`'
+		numOfYears defaultValue: 0
 	}
 
 	Set<Role> getAuthorities() {
