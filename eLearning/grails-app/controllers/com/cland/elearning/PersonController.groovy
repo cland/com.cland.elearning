@@ -12,6 +12,7 @@ class PersonController {
     def list = {}
 	@Secured(["hasRole('ADMIN')"])
     def create = {
+		
         def personInstance = new Person()
         personInstance.properties = params
 		def orgs = getOrgs() //Organisation.list()

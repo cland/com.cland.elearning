@@ -60,17 +60,19 @@
 									<z:textbox name="idNo" value="${personInstance?.idNo}" />
 								</z:row>
 								<sec:ifAnyGranted roles="ADMIN">
+								<g:if test="${params.action == 'edit' }">
 								<z:row>
 									<z:label
 										value="${message(code:'person.studentno.label',default:'Student No')}" />
 									<z:textbox name="studentNo" value="${personInstance?.studentNo}" />
 								</z:row>
+								</g:if>
 								</sec:ifAnyGranted>
 								<z:row>
 									<z:label
-										value="${message(code:'person.dateOfBirth.label',default:'Date Of Birth')}" />
+										value="${message(code:'person.dateOfBirth.label',default:'Date Of Birth [yyy/mm/dd]')}" />
 									<z:datebox name="dateOfBirth"
-										value="${personInstance?.dateOfBirth}" constraint="no future" />
+										value="${personInstance?.dateOfBirth}" format="yyyy/MM/dd" constraint="no future: now or never" />
 								</z:row>
 								<z:row>
 									<z:label

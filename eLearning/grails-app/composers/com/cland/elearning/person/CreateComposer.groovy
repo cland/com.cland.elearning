@@ -35,8 +35,10 @@ class CreateComposer {
         } else {
 			//if it's a LEARNER then generate a student number
 			def today = new Date()
+			Long n = personInstance?.id
+			n = n + 1100
+			String studentNo = n.toString() + "/" + g.formatDate(date:today,format:"yy")
 			
-			String studentNo = personInstance?.id?.toString() + "/" + today.getCalendarDate().getYear()
 			personInstance?.studentNo = studentNo
 			if (!personInstance.save(flush: true) && personInstance.hasErrors()) {
 				println ("Failed to save student number '" + studentNo + "'")
