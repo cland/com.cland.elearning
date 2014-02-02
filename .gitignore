@@ -1,1 +1,5 @@
-/eLearning
+/target
+/stacktrace.log
+/.gitignore
+/target-eclipse
+*.class

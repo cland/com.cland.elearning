@@ -77,7 +77,12 @@ class ListComposer {
                 label(value: personInstance.firstName)
                 label(value: personInstance.lastName)
 				a(href: g.createLink(controller:"person",action:'show',id:id), label: personInstance.username)
-                label(value: personInstance.studentNo)
+							
+				if(roles.toListString().contains("LEARNER")){
+					label(value: personInstance.studentNo)
+				}else{
+					label(value: "--")
+				}
 				label(value: roles.toListString())
                 hlayout{
 					if(canView)toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "person", action: 'show', id: id))
