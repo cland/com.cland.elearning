@@ -33,13 +33,23 @@ class CreateComposer {
             log.error personInstance.errors
             self.renderErrors(bean: personInstance)
         } else {
-		//add the selected roles here		
-		PersonRole.removeAll(personInstance)
-		def roles = Role.list()
-		for(Role r : roles){
-			def tmp = self.params.list("role_${r.authority}")			
-			if (tmp[0]) PersonRole.create(personInstance, r, true)		
-		}
+			//if it's a LEARNER then generate a student number
+			def today = new Date()
+			
+			String studentNo = personInstance?.id?.toString() + "/" + today.getCalendarDate().getYear()
+			personInstance?.studentNo = studentNo
+			if (!personInstance.save(flush: true) && personInstance.hasErrors()) {
+				println ("Failed to save student number '" + studentNo + "'")
+				log.error personInstance.errors
+				
+			}
+			//add the selected roles here		
+			PersonRole.removeAll(personInstance)
+			def roles = Role.list()
+			for(Role r : roles){
+				def tmp = self.params.list("role_${r.authority}")			
+				if (tmp[0]) PersonRole.create(personInstance, r, true)		
+			}
             flash.message = g.message(code: 'default.created.message', args: [g.message(code: 'person.label', default: 'Person'), personInstance.id])			
             redirect(controller: "person", action: "list")
         }

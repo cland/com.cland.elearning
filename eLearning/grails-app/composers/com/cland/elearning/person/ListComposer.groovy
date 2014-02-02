@@ -13,6 +13,8 @@ class ListComposer {
        //Longbox idLongbox
 	
 	Textbox keywordBox
+	Textbox keywordBoxLastname
+	Textbox keywordBoxId
 	def springSecurityService
 	boolean canEdit = false
 	boolean canView = true
@@ -50,9 +52,17 @@ class ListComposer {
 //            if (idLongbox.value) {
 //                eq('id', idLongbox.value)
 //            }
+			or {
+			if(keywordBoxId.value){
+				ilike('studentNo',keywordBoxId.value+"%")
+			}
 			if(keywordBox.value){
 				ilike('firstName',keywordBox.value+"%")
 			}
+			if(keywordBoxLastname.value){
+				ilike('lastName',keywordBoxLastname.value+"%")
+			}
+            }
         }		
 		
         paging.totalSize = personInstanceList.totalCount
@@ -67,7 +77,7 @@ class ListComposer {
                 label(value: personInstance.firstName)
                 label(value: personInstance.lastName)
 				a(href: g.createLink(controller:"person",action:'show',id:id), label: personInstance.username)
-                label(value: personInstance.idNo)
+                label(value: personInstance.studentNo)
 				label(value: roles.toListString())
                 hlayout{
 					if(canView)toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "person", action: 'show', id: id))

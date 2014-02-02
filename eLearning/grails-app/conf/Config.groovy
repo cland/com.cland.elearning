@@ -72,6 +72,11 @@ environments {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
 		grails.attachmentable.uploadDir = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\temp" //YOUR_USER_HOME/APP_NAME
+//		if (System.properties["os.name"] == "Linux") {
+//			grails.config.locations = ["file:/var/grails/app-conf/${appName}-config.groovy"]
+//		}else{
+//			grails.config.locations = ["file:C:\\grails\\app-conf\\${appName}-Config.groovy"]
+//		}
     }
 }
 

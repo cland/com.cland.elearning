@@ -17,6 +17,10 @@
 								<z:label value="${personInstance?.knownAsName }" />
 							</z:row>
 							<z:row>
+								<z:label value="Student Number: " />
+								<z:label value="${personInstance.studentNo }" />
+							</z:row>							
+							<z:row>
 								<z:label value="Id Number: " />
 								<z:label value="${personInstance.idNo }" />
 							</z:row>

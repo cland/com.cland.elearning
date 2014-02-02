@@ -12,6 +12,14 @@
                 <z:label value="${message(code:'person.firstName',default:'Firstname')}"/>
                 <z:textbox id="keywordBox"/>
                 <z:space/>
+                <z:space/>
+                <z:label value="${message(code:'person.lastName',default:'Lastname')}"/>
+                <z:textbox id="keywordBoxLastname"/>
+                <z:space/>
+                <z:space/>
+                <z:label value="${message(code:'person.studentNo',default:'Student No.')}"/>
+                <z:textbox id="keywordBoxId"/>
+                <z:space/>
                 <z:button id="searchButton" label="${message(code:'search')}"/>
             </z:hlayout>
             <g:if test="${flash.message}">
@@ -29,7 +37,7 @@
                     <z:column label="${message(code: 'person.firstname.label', default: 'First Name')}"/>
                     <z:column label="${message(code: 'person.lastname.label', default: 'Last Name')}"/>
                     <z:column label="${message(code: 'person.username.label', default: 'Username')}"/>                    
-                    <z:column label="${message(code: 'person.idnumber.label', default: 'Id Number')}"/>
+                    <z:column label="${message(code: 'person.studentno.label', default: 'Student No')}"/>
                     <z:column label="${message(code: 'person.role.label', default: 'Roles')}"/>                    
                     <z:column width="170px"/>
                 </z:columns>

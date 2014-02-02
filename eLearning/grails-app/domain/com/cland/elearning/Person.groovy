@@ -19,6 +19,7 @@ class Person {
 	String middleName
 	String knownAsName
 	String idNo	
+	String studentNo
 	String homeLanguage
 	Date dateOfBirth
 	String gender
@@ -33,6 +34,7 @@ class Person {
 	String email	
 	String contactNo
 	String contactNoHome
+	String cellNo
 	String communicationMode //sms,email
 	Date dateCreated
 	Organisation company
@@ -86,6 +88,8 @@ class Person {
 		department(nullable:true)
 		jobTitle(nullable:true)
 		dateCreated()
+		studentNo(nullable:true)
+		cellNo(nullable:true)
 	}
 
 	static mapping = {

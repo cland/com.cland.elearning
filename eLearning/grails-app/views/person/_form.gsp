@@ -96,7 +96,11 @@
 			value="${message(code:'person.contactNo.label',default:'Contact No')}" />
 		<z:textbox name="contactNo" value="${personInstance?.contactNo}" />
 	</z:row>
-
+	<z:row>
+		<z:label
+			value="${message(code:'person.cellNo.label',default:'Mobile No')}" />
+		<z:textbox name="cellNo" value="${personInstance?.cellNo}" />
+	</z:row>
 	<z:row>
 		<z:label value="${message(code:'person.email.label',default:'Email')}" />
 		<z:textbox name="email" value="${personInstance?.email}" />

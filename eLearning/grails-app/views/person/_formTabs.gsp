@@ -59,7 +59,13 @@
 										value="${message(code:'person.idNo.label',default:'Id No')}" />
 									<z:textbox name="idNo" value="${personInstance?.idNo}" />
 								</z:row>
-
+								<sec:ifAnyGranted roles="ADMIN">
+								<z:row>
+									<z:label
+										value="${message(code:'person.studentno.label',default:'Student No')}" />
+									<z:textbox name="studentNo" value="${personInstance?.studentNo}" />
+								</z:row>
+								</sec:ifAnyGranted>
 								<z:row>
 									<z:label
 										value="${message(code:'person.dateOfBirth.label',default:'Date Of Birth')}" />
@@ -150,14 +156,14 @@
 										value="${message(code:'person.username.label',default:'Username')}" />
 									<z:textbox name="username" value="${personInstance?.username}" />
 								</z:row>
-								<g:if test="${params.action=='create'}">
+								
 									<z:row>
 										<z:label
 											value="${message(code:'person.password.label',default:'Password')}" />
 										<z:textbox name="password" type="password"
 											value="${personInstance?.password}" />
 									</z:row>
-								</g:if>
+								
 								<z:row>
 									<z:label
 										value="${message(code:'person.enabled.label',default:'Enabled')}" />

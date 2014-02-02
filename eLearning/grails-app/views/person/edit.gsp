@@ -49,7 +49,7 @@
 
 	  	 var $dialog = $('<div></div>')
     
-                 .load('../organisation/dialogcreate')
+                 .load('../../organisation/dialogcreate')
                  .dialog({
                      autoOpen: false,
                      width:450,
