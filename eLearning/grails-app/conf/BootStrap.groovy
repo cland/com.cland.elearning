@@ -4,7 +4,7 @@ import grails.util.*
 import org.springframework.web.context.support.*;
 import org.codehaus.groovy.grails.commons.*;
 import groovy.ui.Console;
-
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class BootStrap {
 
 	def init = { servletContext ->
@@ -31,8 +31,38 @@ class BootStrap {
 		}
 
 		println "Bootstrap > environment: " + Environment.getCurrent()
+		def appName = grails.util.Metadata.current.'app.name'
+		println (">> Bootstrapping: ${appName} on OS >> " + System.properties["os.name"] )
+		boolean doBootStrap = false
+		def userlist = Person.list()
+		if(userlist?.size() < 1){
+			println("BootStrap >> ON!")
+			doBootStrap = true
+		}else{
+		println("BootStrap >> off!")
+		}
 		switch(Environment.getCurrent()){
 			case "DEVELOPMENT":
+			if(doBootStrap){
+				//* Admin user
+				 def adminUser = new Person(username: 'admin',
+				 enabled: true,
+				 password: 'password',
+				 firstName: 'System',
+				 lastName: 'Admin',
+				 idNo :"3456753463453",
+				 contactNo : "021334232",
+				 dateOfBirth:(new Date() - 365*30),
+				 gender:"M",
+				 address:"123 Main St",
+				 city:"Cape Town",
+				 email:"jay@whereever.com")
+ 
+				 adminUser.save()
+				 if(adminUser.hasErrors()){
+					 println adminUser.errors
+				 }
+				SpringSecurityUtils.doWithAuth('admin') {
 				def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
 				def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
 				def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
@@ -58,24 +88,7 @@ class BootStrap {
 				new Race(name:"Indian").save()
 				new Race(name:"Other").save()
 				
-			//* Admin user
-				def adminUser = new Person(username: 'admin',
-				enabled: true,
-				password: 'password',
-				firstName: 'System',
-				lastName: 'Admin',
-				idNo :"3456753463453",
-				contactNo : "021334232",
-				dateOfBirth:(new Date() - 365*30),
-				gender:"M",
-				address:"123 Main St",
-				city:"Cape Town",
-				email:"jay@whereever.com")
-
-				adminUser.save()
-				if(adminUser.hasErrors()){
-					println adminUser.errors
-				}
+			
 				PersonRole.create(adminUser, adminRole, true)
 
 			//** ordinary user
@@ -235,57 +248,102 @@ class BootStrap {
 				if(course2.hasErrors()){
 					println course2.errors
 				}
-			
+				} //end dowithauth{}
+			}
 				break
 			case "PRODUCTION" :
-				
+			if(doBootStrap){
 				//else do the initial setup
-//				def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
-//				def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
-//				def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
-//				def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
-//
-//				def sa = new Country(name:"South Africa")
-//				sa.addToRegions(new Region(name:"Western Cape"))
-//				sa.addToRegions(new Region(name:"KZN"))
-//				sa.addToRegions(new Region(name:"Limpopo"))
-//				sa.addToRegions(new Region(name:"Mpumalanga"))
-//				sa.addToRegions(new Region(name:"Gauteng"))
-//				sa.addToRegions(new Region(name:"North West"))
-//				sa.addToRegions(new Region(name:"Free State"))
-//				sa.addToRegions(new Region(name:"Eastern Cape"))
-//				sa.addToRegions(new Region(name:"Northern Cape"))
-//				sa.save()
-//				if(sa.hasErrors()){
-//					println(sa.errors)
-//				}
-//				
-//				new Race(name:"Black").save()
-//				new Race(name:"White").save()
-//				new Race(name:"Indian").save()
-//				new Race(name:"Other").save()
-//				
-//			//* Admin user
-//				def adminUser = new Person(username: 'admin',
-//				enabled: true,
-//				password: 'password',
-//				firstName: 'System',
-//				lastName: 'Admin',
-//				idNo :"3456753463453",
-//				contactNo : "021334232",
-//				dateOfBirth:(new Date() - 365*30),
-//				gender:"M",
-//				address:"123 Main St",
-//				city:"Cape Town",
-//				email:"jay@whereever.com")
-//
-//				adminUser.save()
-//				if(adminUser.hasErrors()){
-//					println adminUser.errors
-//				}
-//				PersonRole.create(adminUser, adminRole, true)
+				//* Admin user
+				 def adminUser = new Person(username: 'admin',
+				 enabled: true,
+				 password: 'Learning1Admin',
+				 firstName: 'System',
+				 lastName: 'Admin',
+				 idNo :"3456753463453",
+				 contactNo : "021334232",
+				 dateOfBirth:(new Date() - 365*30),
+				 gender:"M",
+				 address:"123 Main St",
+				 city:"Cape Town",
+				 email:"jay@whereever.com")
+ 
+				 adminUser.save()
+				 if(adminUser.hasErrors()){
+					 println adminUser.errors
+				 }
+				 SpringSecurityUtils.doWithAuth('admin') {
+				def adminRole = new Role(authority: 'ADMIN').save(flush: true, failOnError:true)
+				def learnerRole = new Role(authority: 'LEARNER').save(flush: true, failOnError:true)
+				def tutorRole = new Role(authority: 'TUTOR').save(flush: true, failOnError:true)
+				def counsellorRole = new Role(authority: 'COUNSELLOR').save(flush: true, failOnError:true)
+
+				def sa = new Country(name:"South Africa")
+				sa.addToRegions(new Region(name:"Western Cape"))
+				sa.addToRegions(new Region(name:"KZN"))
+				sa.addToRegions(new Region(name:"Limpopo"))
+				sa.addToRegions(new Region(name:"Mpumalanga"))
+				sa.addToRegions(new Region(name:"Gauteng"))
+				sa.addToRegions(new Region(name:"North West"))
+				sa.addToRegions(new Region(name:"Free State"))
+				sa.addToRegions(new Region(name:"Eastern Cape"))
+				sa.addToRegions(new Region(name:"Northern Cape"))
+				sa.save()
+				if(sa.hasErrors()){
+					println(sa.errors)
+				}
+				
+				new Race(name:"Black").save()
+				new Race(name:"White").save()
+				new Race(name:"Indian").save()
+				new Race(name:"Coloured").save()
+				new Race(name:"Asian").save()
+				new Race(name:"Other").save()
+				
+			
+				PersonRole.create(adminUser, adminRole, true)
+			//** tutor/counsellor user
+			 def tutorDefault = new Person(username: 'default.tutor',
+				 enabled: true,
+				 password: 'password',
+				 firstName: 'No',
+				 lastName: 'Tutor',
+				 idNo :"44444",
+				 contactNo : "0000",
+				 dateOfBirth:(new Date() - 365*30),
+				 gender:"F",
+				 address:"none",
+				 city:"Durban",
+				 email:"default.tutor@whereever.com")
+ 
+				 tutorDefault.save()
+				 if(tutorDefault.hasErrors()){
+					 println tutorDefault.errors
+				 }
+				 PersonRole.create(tutorDefault, tutorRole, true)
+				 def tutorUser1 = new Person(username: 'tutor1',
+				 enabled: true,
+				 password: 'password',
+				 firstName: 'Tutor1',
+				 lastName: 'Tutor1',
+				 idNo :"1234567890123",
+				 contactNo : "0314334232",
+				 dateOfBirth:(new Date() - 365*30),
+				 gender:"F",
+				 address:"12 Main1 St",
+				 city:"Durban",
+				 email:"tut1@whereever.com")
+		
+				 tutorUser1.save()
+				 if(tutorUser1.hasErrors()){
+					 println tutorUser1.errors
+				 }
+				 PersonRole.create(tutorUser1, tutorRole, true)
+				 PersonRole.create(tutorUser1, counsellorRole, true)
+				 }
+			}
 				break
-		}
+		} //end case production
 	} //end init
 
 
