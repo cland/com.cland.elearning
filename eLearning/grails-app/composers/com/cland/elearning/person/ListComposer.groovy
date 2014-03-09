@@ -3,7 +3,7 @@ package com.cland.elearning.person
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
-import com.cland.elearning.Person
+import com.cland.elearning.*
 import org.codehaus.groovy.grails.plugins.springsecurity.*
 
 class ListComposer {
@@ -88,7 +88,10 @@ class ListComposer {
 					if(canView)toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "person", action: 'show', id: id))
                    if(canEdit) toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "person", action: 'edit', id: id))
                    if(canDelete){ toolbarbutton(label: g.message(code: 'default.button.delete.label', default: 'Delete'), image: "/images/skin/database_delete.png", client_onClick: "if(!confirm('${g.message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}'))event.stop()", onClick: {
-                        Person.get(id).delete(flush: true)
+                       def p =Person.get(id)
+					   PersonRole.removeAll(p)
+					   //PersonRole.findByPerson(id)?.delete() 
+					   p?.delete(flush: true)
                         listModel.remove(id)
                     })
                    }

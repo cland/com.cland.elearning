@@ -9,8 +9,11 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'organisation.id',default:'Id')}"/>
-                <z:longbox id="idLongbox"/>
+                <z:label value="${message(code:'organisation.Name',default:'Name')}"/>
+                <z:textbox id="keywordBoxName" class="search-box"/>
+                <z:space/>
+                <z:label value="${message(code:'organisation.vatNumber',default:'VAT Number')}"/>
+                <z:textbox id="keywordBoxVat" class="search-box"/>
                 <z:space/>
                 <z:button id="searchButton" label="${message(code:'search')}"/>
             </z:hlayout>
@@ -26,8 +29,9 @@
             </g:if>
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
                 <z:columns sizable="true">
-                    <z:column label="${message(code: 'organisation.id.label', default: 'Id')}"/>
+                    
                     <z:column label="${message(code: 'organisation.name.label', default: 'Name')}"/>
+                    <z:column label="${message(code: 'organisation.vatnumber.label', default: 'VAT Number')}"/>
                     <z:column label="${message(code: 'organisation.phoneNo.label', default: 'Phone No')}"/>
                     <z:column label="${message(code: 'organisation.email.label', default: 'Email')}"/>
                     <z:column label="${message(code: 'organisation.phyAddress.label', default: 'Phy Address')}"/>

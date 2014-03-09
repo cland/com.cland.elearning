@@ -18,15 +18,15 @@
 							</z:row>
 							<z:row>
 								<z:label value="Student Number: " />
-								<z:label value="${personInstance.studentNo }" />
+								<z:label value="${personInstance?.studentNo }" />
 							</z:row>							
 							<z:row>
 								<z:label value="Id Number: " />
-								<z:label value="${personInstance.idNo }" />
+								<z:label value="${personInstance?.idNo }" />
 							</z:row>
 							<z:row>
 								<z:label value="Gender: " />
-								<z:label value="${personInstance.gender }" />
+								<z:label value="${personInstance?.gender }" />
 							</z:row>
 							<z:row>
 								<z:label value="Race: " />
@@ -34,7 +34,7 @@
 							</z:row>
 							<z:row>
 								<z:label value="Marital status: " />
-								<z:label value="${personInstance.maritalStatus }" />
+								<z:label value="${personInstance?.maritalStatus }" />
 							</z:row>
 						</z:rows>
 					</z:grid>
@@ -48,22 +48,22 @@
 							<z:row>
 								<z:label value="Date of birth: " />
 								<z:label
-									value="${personInstance.dateOfBirth.format("dd MMM yyyy") }" />
+									value="${personInstance?.dateOfBirth?.format("dd MMM yyyy") }" />
 							</z:row>
 							<z:row>
 								<z:label value="Home Language: " />
 								<z:label
-									value="${personInstance.homeLanguage}" />
+									value="${personInstance?.homeLanguage}" />
 							</z:row>
 							<z:row>
 								<z:label value="School Qualification: " />
 								<z:label
-									value="${personInstance.schoolQualification }" />
+									value="${personInstance?.schoolQualification }" />
 							</z:row>
 							<z:row>
 								<z:label value="Tertiary Qualification: " />
 								<z:label
-									value="${personInstance.tertiaryQualification }" />
+									value="${personInstance?.tertiaryQualification }" />
 							</z:row>
 						</z:rows>
 					</z:grid>

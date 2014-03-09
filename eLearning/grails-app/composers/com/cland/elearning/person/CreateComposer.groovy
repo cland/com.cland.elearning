@@ -11,9 +11,13 @@ class CreateComposer {
     Window self
     def afterCompose = {Component comp ->
         //todo initialize components here
-		companyListBox.setItemRenderer(companyListBoxRowRenderer as ListitemRenderer)
-		companyListBox.setModel(companyListBoxModel)
-		redrawCompanyListBox()
+		try{
+		//companyListBox.setItemRenderer(companyListBoxRowRenderer as ListitemRenderer)
+		//companyListBox.setModel(companyListBoxModel)
+		//redrawCompanyListBox()
+		}catch(Exception e){
+			e.printStackTrace()
+		}
 		
     }
 	ListModelList companyListBoxModel = new ListModelList()
@@ -40,6 +44,7 @@ class CreateComposer {
 			String studentNo = n.toString() + "/" + g.formatDate(date:today,format:"yy")
 			
 			personInstance?.studentNo = studentNo
+			if(!params?.username) personInstance.username = studentNo
 			if (!personInstance.save(flush: true) && personInstance.hasErrors()) {
 				println ("Failed to save student number '" + studentNo + "'")
 				log.error personInstance.errors
@@ -77,7 +82,7 @@ class CreateComposer {
 	}
 
 	private redrawCompanyListBox(int activePage = 0) {
-
+		try{
 		int offset = activePage * companyPaging.pageSize
 
 		int max = companyPaging.pageSize
@@ -92,6 +97,9 @@ class CreateComposer {
 		companyPaging.totalSize = clientInstanceList.totalCount
 		companyListBoxModel.clear()
 		companyListBoxModel.addAll(clientInstanceList.id)
+		}catch(Exception e){
+			e.printStackTrace()
+		}
 	}
 
 	void onChanging_companySearch(InputEvent e) {

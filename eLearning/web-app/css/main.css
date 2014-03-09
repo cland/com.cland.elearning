@@ -616,3 +616,5 @@ text-align:center;
 .bread-crump r-arrow, .bread-crump l-arrow,.l-arrow,.r-arrow {color:orange; }
 
 .bread-crump tick-arrow:after, .tick-arrow:after {content:"\2713";color:green}
+input.z-textbox {width:260px;}
+input.search-box {width:160px;}

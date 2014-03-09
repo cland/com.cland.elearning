@@ -60,6 +60,7 @@ class ListComposer {
         def moduleInstance = Module.get(id)
         row << {
                 a(href: g.createLink(controller:"module",action:'show',id:id), label: moduleInstance.name)
+				label(value: moduleInstance.duration + " " + moduleInstance.durationUnit )
                 label(value: moduleInstance.description)              
                 hlayout{
 					toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "module", action: 'show', id: id))

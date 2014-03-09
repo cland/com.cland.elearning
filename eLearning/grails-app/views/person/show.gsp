@@ -62,7 +62,7 @@ var cland_params = {
 			<b>&raquo;</b> Person
 		</legend>
 		<h1>
-			&nbsp; ${personInstance.toString() }
+			&nbsp; ${personInstance.toString() } <g:if test="${personInstance?.studentNo != "" }">(Learner ID: ${personInstance.studentNo })</g:if>
 		</h1>
 		<div class="content">
 		<b>Cell No.:</b> ${personInstance.contactNo}<br/>

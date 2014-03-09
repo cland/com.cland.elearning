@@ -10,15 +10,15 @@
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
                 <z:label value="${message(code:'person.firstName',default:'Firstname')}"/>
-                <z:textbox id="keywordBox"/>
+                <z:textbox id="keywordBox" class="search-box"/>
                 <z:space/>
                 <z:space/>
                 <z:label value="${message(code:'person.lastName',default:'Lastname')}"/>
-                <z:textbox id="keywordBoxLastname"/>
+                <z:textbox id="keywordBoxLastname" class="search-box"/>
                 <z:space/>
                 <z:space/>
                 <z:label value="${message(code:'person.studentNo',default:'Student No.')}"/>
-                <z:textbox id="keywordBoxId"/>
+                <z:textbox id="keywordBoxId" class="search-box"/>
                 <z:space/>
                 <z:button id="searchButton" label="${message(code:'search')}"/>
             </z:hlayout>

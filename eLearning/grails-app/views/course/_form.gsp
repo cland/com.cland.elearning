@@ -9,15 +9,6 @@
         <z:label value="${message(code:'course.code.label',default:'code')}"/>
         <z:textbox name="code" value="${courseInstance?.code}" />
     </z:row>
-    <z:row>
-        <z:label value="${message(code:'course.startDate.label',default:'Start Date')}"/>
-        <z:datebox name="startDate" value="${courseInstance?.startDate}"/>
-    </z:row>
-
-    <z:row>
-        <z:label value="${message(code:'course.endDate.label',default:'End Date')}"/>
-        <z:datebox name="endDate" value="${courseInstance?.endDate}"/>
-    </z:row>
 
     <z:row>
         <z:label value="${message(code:'course.region.label',default:'Region')}"/>

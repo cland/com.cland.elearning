@@ -19,7 +19,18 @@
         <z:label value="${message(code:'resultSummary.status.label',default:'Status')}"/>
         <zkui:select name="status" from="${resultSummaryInstance.constraints.status.inList}" value="${resultSummaryInstance?.status}" valueMessagePrefix="resultSummary.status"  />
     </z:row>
-
+	<z:row>
+		<z:label
+			value="${message(code:'resultSummary.startdate.label',default:'Start Date [yyy/mm/dd]')}" />
+		<z:datebox name="startDate"
+			value="${resultSummaryInstance?.startDate}" format="yyyy/MM/dd" constraint="no future: now or never" />
+	</z:row>
+	<z:row>
+		<z:label
+			value="${message(code:'resultSummary.enddate.label',default:'Completed Date [yyy/mm/dd]')}" />
+		<z:datebox name="endDate"
+			value="${resultSummaryInstance?.endDate}" format="yyyy/MM/dd" constraint="no future: now or never" />
+	</z:row>
     <z:row>
         <z:label value="${message(code:'resultSummary.result.label',default:'Result')}"/>
         <zkui:select name="result" from="${resultSummaryInstance.constraints.result.inList}" value="${resultSummaryInstance?.result}" valueMessagePrefix="resultSummary.result"  />

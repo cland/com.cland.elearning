@@ -38,7 +38,7 @@ class RegistrationController {
 		  def registrationInstance = Registration.get(params.id)
         if (!registrationInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'registration.label', default: 'Registration'), params.id])}"
-            redirect(action: "list")''''''
+            redirect(action: "list")
         }
         else { 
 			def tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))*.person
@@ -66,6 +66,8 @@ class RegistrationController {
 			[cell: [it.module?.name ,
 					it.result,
 					it.status,
+					it.startDate?.format("dd-MMM-yyy"),
+					it.endDate?.format("dd-MMM-yyy"),
 					it.tutor?.id,
 					it.certNumber,
 				], id: it.id]
@@ -87,6 +89,7 @@ class RegistrationController {
 			case 'del':
 			break
 			default: //edit
+			
 			resultSummary = ResultSummary.get(params.id)
 			def curTutor = resultSummary?.tutor
 			//If it's a tutor, verify if they are the tutors of the current resultSummary
@@ -131,8 +134,26 @@ class RegistrationController {
 			}//end for loop checking for pre-requisites
 			tutorInstance = Person.get(params.tutor.id as Long) //selected tutor
 			if (resultSummary) {
-				// set the properties according to passed in parameters			
+				// set the properties according to passed in parameters	
 				resultSummary.properties = params
+				if(params?.startDate) {
+					bindData(resultSummary, params, [exclude: 'startDate'])
+					bindData(resultSummary, ['startDate': params.date('startDate', ['dd-MMM-yyyy'])], [include: 'startDate'])
+					//if status is not in-progress, then change it to in progress
+					if(!params?.status?.equalsIgnoreCase("In Progress")){
+						resultSummary.status = "In Progress" 
+					}
+					if(params?.endDate) {
+						bindData(resultSummary, params, [exclude: 'endDate'])
+						bindData(resultSummary, ['endDate': params.date('endDate', ['dd-MMM-yyyy'])], [include: 'endDate'])
+						if(!params?.status?.equalsIgnoreCase("Completed")){
+							resultSummary.status = "Completed"
+						}
+					}
+				}else{
+					resultSummary.status = "Not Started"
+				}		
+				
 				if(SpringSecurityUtils.ifAnyGranted("ADMIN")){
 					if(tutorInstance) resultSummary.tutor=tutorInstance
 				}else{

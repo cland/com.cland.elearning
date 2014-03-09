@@ -45,7 +45,7 @@ class Person {
 	String schoolQualification
 	String disabilityYN
 	String disabilityList
-	
+	static transients = ['firstLastName','lastFirstName','age' ]
 	static mappedBy = [tutorRegistrations:'tutor',learnerRegistrations:'learner']
 	static hasMany = [
 		tutorRegistrations:Registration,
@@ -56,16 +56,16 @@ class Person {
 		]
 	static constraints = {
 		attachments(nullable:true)
-		username blank: false, unique: true
-		password blank: false
+		username nullable:true, blank: false, unique: true
+		password nullable:true, blank: false
 		firstName(blank:false)
 		lastName(blank:false)
 		middleName(nullable:true)
 		knownAsName(nullable:true)
 		homeLanguage(nullable:true)
 		salutation(inList:["Mr","Mrs","Ms","Miss"],nullable:true)
-		idNo()
-		dateOfBirth()
+		idNo(nullable:true)
+		dateOfBirth(nullable:true)
 		gender(inList:["M", "F"])
 		race(nullable:true)
 		maritalStatus(nullable:true,inList:["Single","Married","Divorced","Widowed"])
@@ -74,15 +74,15 @@ class Person {
 		communicationMode(nullable:true,inList:["Email","SMS"])
 		schoolQualification(nullable:true)
 		tertiaryQualification(nullable:true) 
-		address()	
+		address(nullable:true)	
 		postalAddress(nullable:true)
 		postalCode(nullable:true)
 		contactNoHome(nullable:true)
 		city(nullable:true)
 		region(nullable:true)
 		country(nullable:true)
-		contactNo()
-		email(email:true)
+		contactNo(nullable:true)
+		email(nullable:true,email:true)
 		company(nullable:true)
 		numOfYears(min:0)
 		department(nullable:true)
@@ -123,5 +123,20 @@ class Person {
 	String toString(){
 		"${firstName} ${lastName}"
 	}
+	public getAge(){
+		if(dateOfBirth == null){
+			return 0
+		}
+		def now = new GregorianCalendar()
+		Integer birthMonth = dateOfBirth.getAt(Calendar.MONTH)
+		Integer birthYear = dateOfBirth.getAt(Calendar.YEAR)
+		Integer birthDate = dateOfBirth.getAt(Calendar.DATE)
+		Integer yearNow = now.get(Calendar.YEAR)
 
+		def offset = new GregorianCalendar(
+				yearNow,
+				birthMonth-1,
+				birthDate)
+		return (yearNow - birthYear - (offset > now ? 1 : 0))
+	}
 } //end class

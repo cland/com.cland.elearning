@@ -5,7 +5,9 @@
 		<z:tab label="Personal Details" />
 		<z:tab label="Login Details" />
 		<z:tab label="Contact Details" />
+		<g:if test="${params.action == 'edit' }">
 		<z:tab label="Employee Details" />
+		</g:if>
 		<z:tab label="Other Details" />
 		<z:tab label="Supporting Documents" />
 	</z:tabs>
@@ -255,7 +257,7 @@
 								<z:row>
 									<z:label
 										value="${message(code:'person.contactNoHome.label',default:'Home No')}" />
-									<z:textbox name="contactNo"
+									<z:textbox name="contactNoHome"
 										value="${personInstance?.contactNoHome}" />
 								</z:row>
 								<z:row>
@@ -277,6 +279,7 @@
 				</z:panel>
 			</z:hbox>
 		</z:tabpanel>
+		<g:if test="${params.action == 'edit' }">
 		<z:tabpanel>
 			<z:hbox>
 				<z:panel width="100%" height="" title="Employment Details"
@@ -338,6 +341,7 @@
 				</z:panel>
 			</z:hbox>
 		</z:tabpanel>
+		</g:if>
 		<z:tabpanel>
 			<z:hbox>
 				<z:panel width="100%" height="" title="Disabilities" border="normal"

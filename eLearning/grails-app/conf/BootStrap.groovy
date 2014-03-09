@@ -200,7 +200,7 @@ class BootStrap {
 				def submodule3 = new SubModule(name:"Tutor Tester",description:"Tutor Marked Assessment", type:"Tutor Marked Assessment")
 				submodule.addToExams(exam)
 				submodule.addToExams(exam2)
-				def module = new Module(name:"Module01",description:"First module")
+				def module = new Module(name:"Module01",description:"First module",duration:3,durationUnit:"months")
 				module.addToSubmodules(submodule)
 				module.addToSubmodules(submodule3)
 				module.save()
@@ -217,7 +217,7 @@ class BootStrap {
 				
 				submodule2.addToExams(exam3)
 				submodule2.addToExams(exam4)
-				def module2 = new Module(name:"Module02",description:"Second module")
+				def module2 = new Module(name:"Module02",description:"Second module",duration:3,durationUnit:"months")
 				module2.addToSubmodules(submodule2)
 				
 				module2.save()

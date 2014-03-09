@@ -10,6 +10,8 @@ class ListComposer {
     ListModelList listModel = new ListModelList()
     Paging paging
     Longbox idLongbox
+	Textbox keywordBoxName
+	Textbox keywordBoxVat
 	def springSecurityService
 	boolean canEdit = false
 	boolean canView = true
@@ -41,10 +43,16 @@ class ListComposer {
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
         def organisationInstanceList = Organisation.createCriteria().list(offset: offset, max: max) {
-            order('id','desc')
-            if (idLongbox.value) {
-                eq('id', idLongbox.value)
-            }
+            order('name','asc')
+//            if (idLongbox.value) {
+//                eq('id', idLongbox.value)
+//            }
+			if(keywordBoxName.value){
+				ilike('name',keywordBoxName.value+"%")
+			}
+			if(keywordBoxVat.value){
+				ilike('vatNumber',keywordBoxVat.value+"%")
+			}
         }
         paging.totalSize = organisationInstanceList.totalCount
         listModel.clear()
@@ -54,8 +62,8 @@ class ListComposer {
     private rowRenderer = {Row row, Object id, int index ->
         def organisationInstance = Organisation.get(id)
         row << {
-                a(href: g.createLink(controller:"organisation",action:'edit',id:id), label: organisationInstance.id)
-                label(value: organisationInstance.name)
+                a(href: g.createLink(controller:"organisation",action:'edit',id:id), label: organisationInstance.name)
+                label(value: organisationInstance.vatNumber)
                 label(value: organisationInstance.phoneNo)
                 label(value: organisationInstance.email)
                 label(value: organisationInstance.phyAddress)

@@ -5,7 +5,10 @@
         <z:label value="${message(code:'organisation.name.label',default:'Name')}"/>
         <z:textbox name="name" value="${organisationInstance?.name}" />
     </z:row>
-
+    <z:row>
+        <z:label value="${message(code:'organisation.vatnumber.label',default:'VAT Number')}"/>
+        <z:textbox name="vatNumber" value="${organisationInstance?.vatNumber}" />
+    </z:row>
     <z:row>
         <z:label value="${message(code:'organisation.phoneNo.label',default:'Phone No')}"/>
         <z:textbox name="phoneNo" value="${organisationInstance?.phoneNo}" />

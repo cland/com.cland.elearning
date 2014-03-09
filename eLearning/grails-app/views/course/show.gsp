@@ -78,10 +78,8 @@ var cland_params = {
 		</h1>
 		<div class="content">
 			Status:
-			${courseInstance.status}.
-			${courseInstance.startDate.format('dd MMM yyyy')}
-			-
-			${courseInstance.endDate.format('dd MMM yyyy')}
+			${courseInstance.status}
+
 		</div>
 	</fieldset>
 
@@ -275,7 +273,7 @@ $("#tabs").tabs(
 					        {name:'act',index:'act', width:162,sortable:false,search:false}
 					       // {name:'modid',index:'modid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
 					     ],
-					     rowNum:10,
+					     rowNum:20,
 					     rowList:[10,20,30,40,50,100],
 					     multiselect: false,
 					    pager: jQuery('#' + cland_params.learner_maingrid_id_pager),

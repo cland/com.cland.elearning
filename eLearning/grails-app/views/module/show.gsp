@@ -33,6 +33,12 @@
 				</z:row>
 				<z:row>
 					<z:label
+						value="${message(code:'module.duration.label',default:'Duration')}" />
+					<g:fieldValue bean="${moduleInstance}" field="duration" /> 
+					<g:fieldValue bean="${moduleInstance}" field="durationUnit" />
+				</z:row>				
+				<z:row>
+					<z:label
 						value="${message(code:'module.description.label',default:'Description')}" />
 					${moduleInstance?.description}
 				</z:row>

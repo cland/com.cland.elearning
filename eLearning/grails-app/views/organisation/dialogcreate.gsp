@@ -33,6 +33,13 @@
 	</label>
 	<g:textField name="name" required="" value="${organisationInstance?.name}"/>
 </div>
+<div class="fieldcontain ${hasErrors(bean: organisationInstance, field: 'vatNumber', 'error')} required">
+	<label for="vatNumber">
+		<g:message code="organisation.vatnumber.label" default="VAT Number" />
+		
+	</label>
+	<g:textField name="vatNumber" required="" value="${organisationInstance?.vatNumber}"/>
+</div>
 
 <div class="fieldcontain ${hasErrors(bean: organisationInstance, field: 'phoneNo', 'error')} required">
 	<label for="phoneNo">

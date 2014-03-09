@@ -158,15 +158,27 @@ class CourseController {
 			redirect(action: "show",params:params)
 		}
 		
-		def registrations = courseInstance.registrations //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
-		
+		def registrations = courseInstance.registrations?.sort{
+				if(params?.sidx?.equalsIgnoreCase("lastName")){
+					it.learner?.lastName
+				}else if(params?.sidx?.equalsIgnoreCase("regName")){
+					it.regDate
+				}else{
+					it.learner?.firstName
+				}			
+			} //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
+		if(params?.sord?.equalsIgnoreCase("desc")){
+			registrations.reverse(true)
+		}else{
+			registrations.reverse(false)
+		}
 		def jsonCells =	registrations.collect {
 			[cell: [it.learner.firstName,
 					it.learner.lastName,
 					it.regDate.format('dd MMM yyyy'),
 					//it.tutor.lastFirstName()					
 				], id: it.id]  // this is the id of the registratin NOT the person. so when de-registering we simply delete this registration using this id.
-		}
+		} //?.sort{it.learner?.firstName}?.unique()
 		
 		def jsonData= [rows: jsonCells] //,page:currentPage,records:totalRows,total:numberOfPages]
 		//println(jsonData)

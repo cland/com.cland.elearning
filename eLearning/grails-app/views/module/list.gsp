@@ -27,6 +27,7 @@
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Modules Available')}">
                 <z:columns sizable="true">
                     <z:column label="${message(code: 'module.name.label', default: 'Name')}"/>
+                    <z:column label="${message(code: 'module.duration.label', default: 'Duration')}"/>                    
                     <z:column label="${message(code: 'module.description.label', default: 'Description')}"/>                    
                     <z:column width="200px"/>
                 </z:columns>

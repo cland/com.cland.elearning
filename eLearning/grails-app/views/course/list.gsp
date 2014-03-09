@@ -26,9 +26,7 @@
             </g:if>
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
                 <z:columns sizable="true">                 
-                    <z:column label="${message(code: 'course.name.label', default: 'Name')}"/>
-                    <z:column label="${message(code: 'course.startDate.label', default: 'Start Date')}"/>
-                    <z:column label="${message(code: 'course.endDate.label', default: 'End Date')}"/>
+                    <z:column label="${message(code: 'course.name.label', default: 'Name')}"/>                    
                     <z:column label="${message(code: 'course.region.label', default: 'Region')}"/>
                     <z:column label="${message(code: 'course.status.label', default: 'Status')}"/>
                     <z:column width="180px"/>

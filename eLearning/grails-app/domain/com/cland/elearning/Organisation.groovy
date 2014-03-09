@@ -15,6 +15,7 @@ class Organisation {
 	Country country
 	String comments
 	String isMember
+	String vatNumber
 	//static hasMany = [people:Person]
 	
     static constraints = {
@@ -31,7 +32,7 @@ class Organisation {
 		phyPostCode(nullable:true)
 		postalAddress(nullable:true)
 		postalPostCode(nullable:true)
-		
+		vatNumber(nullable:true)
     }
 	def beforeInsert = {
 	// your code goes here

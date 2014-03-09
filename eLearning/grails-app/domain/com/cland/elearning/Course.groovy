@@ -7,6 +7,7 @@ class Course {
 	String code
 	Date startDate
 	Date endDate
+	int duration
 	Region region
 	String status
 	String comments
@@ -19,8 +20,11 @@ class Course {
 		region(nullable:true)
 		status(inList:["active","inactive","open","closed"])
 		comments(nullable:true)
+		duration(nullable:true)
     }
 	static mapping = {
+		duration defaultValue: 24
+	
 	//	modules lazy:false
 	//	registrations lazy:false
 	}

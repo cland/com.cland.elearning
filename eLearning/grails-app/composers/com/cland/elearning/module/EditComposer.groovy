@@ -7,6 +7,7 @@ import com.cland.elearning.Module
 
 class EditComposer {
     Window self
+	
     def afterCompose = {Component comp ->
         //todo initialize components here
     }

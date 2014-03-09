@@ -76,7 +76,7 @@ class ListComposer {
                 label(value: resultSummaryInstance.certNumber)                               
                 hlayout{
 					if(canView) {						
-						toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'Module Results'),image:'/images/skin/database_table.png',href:g.createLink(controller: "resultSummary", action: 'show', id: resultSummaryInstance.register.id))
+						toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'Module Results'),image:'/images/skin/database_table.png',href:g.createLink(controller: "resultSummary", action: 'show', id: resultSummaryInstance.id))
 						toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'Course Results'),image:'/images/skin/database_table.png',href:g.createLink(controller: "registration", action: 'show', id: resultSummaryInstance.register.id))
 					}
 					if(canCreate) toolbarbutton(label: g.message(code: 'default.button.add.label', default: 'Add'),image:'/images/skin/database_add.png',href:g.createLink(controller: "ExamResult", action: 'create', params:["resultSummary.id: id"]))

@@ -7,11 +7,13 @@ import com.cland.elearning.Module
 
 class CreateComposer {
     Window self
+	//RadioGroup duration_unit;
     def afterCompose = {Component comp ->
         //todo initialize components here
     }
 
     void onClick_saveButton(Event e) {
+		
         def moduleInstance = new Module(self.params)
         if (!moduleInstance.save(flush: true) && moduleInstance.hasErrors()) {
             log.error moduleInstance.errors

@@ -84,9 +84,15 @@ var cland_params = {
 		<div class="content">
 			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code})<br/>
 			<b>Module:</b> ${resultSummaryInstance.module.name} <br/>
-			<b>Result:</b> ${resultSummaryInstance.result} [ Mark: <b>${resultSummaryInstance.totalMark()}</b> out of <b>${resultSummaryInstance.totalMaxMark()}</b> - PERCENT: <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>% ]<br/>
-			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}<br/>
+			<b>Result:</b> ${resultSummaryInstance.result} [ Mark: <b>${resultSummaryInstance.totalMark()}</b> out of <b>${resultSummaryInstance.totalMaxMark()}</b> - PERCENT: <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>% ]<br/>			
 			<b>Status:</b> ${resultSummaryInstance.status}
+			<g:if test="${resultSummaryInstance?.isExpired()}">
+				<span style="background:red;padding: 2px;color:yellow;">Module Overdue!</span>
+			</g:if>
+			<br/>
+			<b>Date Started:</b> ${resultSummaryInstance?.startDate?.format("dd-MMM-yyyy")}<br/>
+			<b>Date Completed:</b> ${resultSummaryInstance?.endDate?.format("dd-MMM-yyyy")}<br/>
+			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}
 		</div>
 	</fieldset>
 <div id="message"></div>

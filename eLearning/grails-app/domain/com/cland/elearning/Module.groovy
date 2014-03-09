@@ -3,14 +3,21 @@ package com.cland.elearning
 class Module {
 
 	String name
+	int duration
+	String durationUnit
+	Date expiryDate
 	String description
 	
 	static hasMany = [submodules:SubModule]
 	static mapping = {
-	//	submodules lazy:false
+		duration defaultValue: 0
+		//durationUnit defaultValue:'months'
 	}
     static constraints = {
 		name(blank:false)
+		duration(nullable:true)
+		expiryDate(nullable:true)
+		durationUnit() //inList:["hours","days","weeks","months","years"]
     }
 	def beforeInsert = {
 	// your code goes here

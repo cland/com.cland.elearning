@@ -61,9 +61,7 @@ class ListComposer {
     private rowRenderer = {Row row, Object id, int index ->
         def courseInstance = Course.get(id)
         row << {
-                a(href: g.createLink(controller:"course",action:'show',id:id), label: courseInstance.name)                
-                label(value: courseInstance.startDate)
-                label(value: courseInstance.endDate)
+                a(href: g.createLink(controller:"course",action:'show',id:id), label: courseInstance.name)               
                 label(value: courseInstance.region)
                 label(value: courseInstance.status)
                 hlayout{
