@@ -87,7 +87,7 @@ var cland_params = {
 			<b>Result:</b> ${resultSummaryInstance.result} [ Mark: <b>${resultSummaryInstance.totalMark()}</b> out of <b>${resultSummaryInstance.totalMaxMark()}</b> - PERCENT: <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>% ]<br/>			
 			<b>Status:</b> ${resultSummaryInstance.status}
 			<g:if test="${resultSummaryInstance?.isExpired()}">
-				<span style="background:red;padding: 2px;color:yellow;">Module Overdue!</span>
+				<span style="background:red;padding: 2px;color:yellow;">Module overdue! It's been ${resultSummaryInstance.getCurrentDuration() } ${resultSummaryInstance?.module?.durationUnit } since module was started.</span>
 			</g:if>
 			<br/>
 			<b>Date Started:</b> ${resultSummaryInstance?.startDate?.format("dd-MMM-yyyy")}<br/>
@@ -95,6 +95,14 @@ var cland_params = {
 			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}
 		</div>
 	</fieldset>
+		<sec:ifAnyGranted roles="ADMIN,TUTOR">
+<g:form>
+				<fieldset class="buttons">
+					<g:hiddenField name="id" value="${resultSummaryInstance?.id}" />
+					<g:link class="edit" style="float:right" action="edit" id="${resultSummaryInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>					
+				</fieldset>
+			</g:form>
+			</sec:ifAnyGranted>
 <div id="message"></div>
 	<div id="myGrid" style="padding: 5px;">
 		<!-- table tag will hold our grid -->

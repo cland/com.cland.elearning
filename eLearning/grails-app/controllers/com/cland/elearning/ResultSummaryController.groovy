@@ -1,5 +1,8 @@
 package com.cland.elearning
 import grails.converters.JSON
+import groovy.time.DatumDependentDuration
+import groovy.time.TimeCategory;
+import groovy.time.TimeDuration
 import grails.plugins.springsecurity.Secured
 class ResultSummaryController {
 
@@ -29,6 +32,8 @@ class ResultSummaryController {
 	
 	def show = {
 		def resultSummaryInstance = ResultSummary.get(params.id)
+	
+		//println(resultSummaryInstance.isExpired().toString() + " - " + resultSummaryInstance.getCurrentDuration())
 		if (!resultSummaryInstance) {
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'resultSummary.label', default: 'ResultSummary'), params.id])}"
 			redirect(action: "list")
@@ -114,4 +119,38 @@ class ResultSummaryController {
 		def response = [message:message,state:state,id:id,grid_id:params.grid_id]
 		render response as JSON
 	}
+	private DatumDependentDuration getAge( Date dob, Date now = new Date() ) {
+		dob.clearTime()
+		now.clearTime()
+		assert dob < now
+		Calendar.instance.with { c ->
+		  c.time = dob
+		  def (years, months, days) = [ 0, 0, 0 ]
+	  
+		  while( ( c[ YEAR ] < now[ YEAR ] - 1 ) ||
+				 ( c[ YEAR ] < now[ YEAR ] && c[ MONTH ] <= now[ MONTH ] ) ) {
+			c.add( YEAR, 1 )
+			years++
+		  }
+	  
+		  while( ( c[ YEAR ] < now[ YEAR ] ) ||
+				 ( c[ MONTH ] < now[ MONTH ] && c[ DAY_OF_MONTH ] <= now[ DAY_OF_MONTH ] ) ) {
+			// Catch when we are wrapping the DEC/JAN border and would end up beyond now
+			if( c[ YEAR ] == now[ YEAR ] - 1 &&
+				now[ MONTH ] == JANUARY && c[ MONTH ] == DECEMBER &&
+				c[ DAY_OF_MONTH ] > now[ DAY_OF_MONTH ] ) {
+			  break
+			}
+			c.add( MONTH, 1 )
+			months++
+		  }
+	  
+		  while( c[ DAY_OF_YEAR ] != now[ DAY_OF_YEAR ] ) {
+			c.add( DAY_OF_YEAR, 1 )
+			days++
+		  }
+	  
+		  new DatumDependentDuration( years, months, days, 0, 0, 0, 0 )
+		}
+	  }
 } //end class

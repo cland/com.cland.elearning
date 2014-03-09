@@ -1,5 +1,6 @@
 package com.cland.elearning
 
+import groovy.time.DatumDependentDuration;
 import groovy.time.TimeCategory;
 import groovy.time.TimeDuration
 
@@ -54,47 +55,55 @@ class ResultSummary {
 		if(!total) total = 0
 		total
 	}
-	public TimeDuration getCurrentTimeDuration(){
+	public DatumDependentDuration getCurrentTimeDuration(){
 		Date tmp_start = null
 		if(startDate != null){
-			tmp_start = startDate.getAt(Calendar.DATE)
+			tmp_start = startDate //.getAt(Calendar.DATE)
 		}else{
-			tmp_start = new Date().getAt(Calendar.DATE)
+			tmp_start = new Date() //.getAt(Calendar.DATE)
 		}
 		Date tmp_end = null
 		if(endDate != null){
-			tmp_end = endDate.getAt(Calendar.DATE)
+			tmp_end = endDate //.getAt(Calendar.DATE)
 		}else{
-			tmp_end = new Date().getAt(Calendar.DATE)
+			tmp_end = new Date() //.getAt(Calendar.DATE)
 		}
 		
-		TimeDuration diff = TimeCategory.minus(tmp_end, tmp_start)
-		
-		return diff
+		return  getAge(tmp_start, tmp_end)
+	
+	//	TimeDuration diff = TimeCategory.minus(tmp_end, tmp_start)		
+	//	return diff
 	}
 	public int getCurrentDuration(){
-		int max_duration_unit = "months"
+		String max_duration_unit = "days"
 		int duration = 0
 		if(module?.durationUnit) max_duration_unit = module?.durationUnit
-		TimeDuration td = getCurrentTimeDuration()
+		DatumDependentDuration diff = getCurrentTimeDuration()
 		switch(max_duration_unit){
 			case "hours":
 				duration = diff.hours
 			break;
 			case "days":
-				duration = diff.days
+				duration = diff.years*365
+				duration += diff.months * 30
+				duration += diff.days
 			break;
 			case "weeks":
-				duration = diff.days/7
+				duration = diff.years*12*4
+				duration += diff.months*4
+				duration += diff.days/7
 			break;
 			case "months":
-				duration = diff.months
+				duration = diff.years*12
+				duration += diff.months
+				duration += (diff.days/30)
 			break;
 			case "years":
 				duration = diff.years
+				duration += diff.months/12
 			break;
 		}
-		return 
+		return duration
 	}
 	public boolean isExpired(){
 		
@@ -110,6 +119,41 @@ class ResultSummary {
 		
 		return true
 	} //end function
+	
+	private DatumDependentDuration getAge( Date dob, Date now = new Date() ) {
+		dob.clearTime()
+		now.clearTime()
+		assert dob < now
+		Calendar.instance.with { c ->
+		  c.time = dob
+		  def (years, months, days) = [ 0, 0, 0 ]
+	  
+		  while( ( c[ YEAR ] < now[ YEAR ] - 1 ) ||
+				 ( c[ YEAR ] < now[ YEAR ] && c[ MONTH ] <= now[ MONTH ] ) ) {
+			c.add( YEAR, 1 )
+			years++
+		  }
+	  
+		  while( ( c[ YEAR ] < now[ YEAR ] ) ||
+				 ( c[ MONTH ] < now[ MONTH ] && c[ DAY_OF_MONTH ] <= now[ DAY_OF_MONTH ] ) ) {
+			// Catch when we are wrapping the DEC/JAN border and would end up beyond now
+			if( c[ YEAR ] == now[ YEAR ] - 1 &&
+				now[ MONTH ] == JANUARY && c[ MONTH ] == DECEMBER &&
+				c[ DAY_OF_MONTH ] > now[ DAY_OF_MONTH ] ) {
+			  break
+			}
+			c.add( MONTH, 1 )
+			months++
+		  }
+	  
+		  while( c[ DAY_OF_YEAR ] != now[ DAY_OF_YEAR ] ) {
+			c.add( DAY_OF_YEAR, 1 )
+			days++
+		  }
+	  
+		  new DatumDependentDuration( years, months, days, 0, 0, 0, 0 )
+		}
+	  }
 	Double totalPercentMark(){
 		((totalMark()/totalMaxMark()) * 100)
 	}

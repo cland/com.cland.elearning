@@ -26,7 +26,7 @@ class EditComposer {
             resultSummaryInstance.properties = params
             if (!resultSummaryInstance.hasErrors() && resultSummaryInstance.save(flush: true)) {
                 flash.message = g.message(code: 'default.updated.message', args: [g.message(code: 'resultSummary.label', default: 'ResultSummary'), resultSummaryInstance.id])
-                redirect(controller: "resultSummary", action: "edit", id: resultSummaryInstance.id)
+                redirect(controller: "resultSummary", action: "show", id: resultSummaryInstance.id)
             }else {
                 log.error resultSummaryInstance.errors
                 self.renderErrors(bean: resultSummaryInstance)

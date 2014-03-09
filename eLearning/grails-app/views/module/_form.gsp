@@ -15,8 +15,8 @@
 		<z:hbox>
 			<z:textbox name="duration" value="${moduleInstance?.duration }"/>
 			<z:label value="${message(code:'module.durationunit.label',default:'Duration Unit')}" />
-	    	<zkui:select name="durationUnit" from="['hours','days','weeks','months','years']" 
-	    	value="${moduleInstance?.durationUnit}" valueMessagePrefix="" noSelection="['months': 'months']" />
+	    	<zkui:select name="durationUnit" from="['days','years']" 
+	    	value="${moduleInstance?.durationUnit}" valueMessagePrefix="" />
 		</z:hbox>	
 		
 	</z:row>
