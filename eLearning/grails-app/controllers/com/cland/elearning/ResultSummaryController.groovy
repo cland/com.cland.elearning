@@ -51,7 +51,7 @@ class ResultSummaryController {
 	def listresults = {
 		
 	}
-
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_export_results_flat = {
 		def status = "Completed"
 		int rowcount = (params?.rows ? params.int('rows') : 30)
@@ -184,6 +184,7 @@ class ResultSummaryController {
 		}
 		return max
 	} //end helper method findUpperIndex	
+	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_export_results = {
 		int offset = 0
 		int max = ResultSummary.count
