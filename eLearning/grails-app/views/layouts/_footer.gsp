@@ -19,6 +19,7 @@
 </sec:ifAnyGranted>
 <g:link controller="logout" action="index" >Logout</g:link>
 </sec:ifLoggedIn>
-<br/>
-<g:meta name="app.name"/> version: <g:meta name="app.version"/> | <g:copyright startYear="2013">Tagumi Systems</g:copyright> 
+<div id="system_info">
+<g:meta name="app.name"/> version: <g:meta name="app.version"/> | <g:copyright startYear="2013"> Developed by <span style="color:blue;font-weight:bold;">Tagumi Solutions</span></g:copyright>
+</div> 
 </div>

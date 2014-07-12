@@ -66,7 +66,20 @@ class CourseController {
 			redirect(action: "show",params:params)
 		}
 		
-		def modules = courseInstance.modules.sort(false){it.name} //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
+		def all_modules = courseInstance.modules.sort(false){it.name} //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
+		
+		// -- Pagination calculations
+		int max = (params?.rows ? params.int('rows') : 30)
+		int page = (params?.page ? params.int('page') : 1)
+		int total = all_modules?.size()
+		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
+		if(page > total_pages)	page = total_pages
+		int offset = max*page-max		
+		int upperLimit = findUpperIndex(offset, max, total)
+		
+		List modules = all_modules.getAt(offset..upperLimit)
+		
+		//Get premodules for the final list of modules
 		def premodules = courseInstance.premodules
 		def premapId = [:]
 		def premapValues = [:]
@@ -87,7 +100,7 @@ class CourseController {
 				], id: it.id]			
 		}
 		
-		def jsonData= [rows: jsonCells] //,page:currentPage,records:totalRows,total:numberOfPages]
+		def jsonData= [rows: jsonCells,page:page,records:total,total:total_pages] 
 		//println(jsonData)
 		render jsonData as JSON
 		
@@ -151,37 +164,51 @@ class CourseController {
 	}
 
 	def jq_list_learners = {
-		//println("jq_list_learners: ${params}")
+
+		String sidx = (params?.sidx ? params.sidx : "")
+		String sord = (params?.sord ? params.sord : "")
+		
 		def courseInstance = Course.get(params.courseid)
 		if (!courseInstance) {			
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'course.label', default: 'Course'), params.id])}"
 			redirect(action: "show",params:params)
 		}
 		
-		def registrations = courseInstance.registrations?.sort{
-				if(params?.sidx?.equalsIgnoreCase("lastName")){
+		def all_registrations = courseInstance.registrations?.sort{
+				if(sidx?.equalsIgnoreCase("lastName")){
 					it.learner?.lastName
-				}else if(params?.sidx?.equalsIgnoreCase("regName")){
+				}else if(sidx?.equalsIgnoreCase("regDate")){
 					it.regDate
 				}else{
 					it.learner?.firstName
 				}			
 			} //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
-		if(params?.sord?.equalsIgnoreCase("desc")){
-			registrations.reverse(true)
+		if(sord?.equalsIgnoreCase("desc")){
+			all_registrations.reverse(true)
 		}else{
-			registrations.reverse(false)
+			all_registrations.reverse(false)
 		}
+		
+		int max = (params?.rows ? params.int('rows') : 30)
+		int page = (params?.page ? params.int('page') : 1)
+		int total = all_registrations?.size()
+		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
+		if(page > total_pages)	page = total_pages
+		int offset = max*page-max
+		
+		int upperLimit = findUpperIndex(offset, max, total)
+		List registrations = all_registrations.getAt(offset..upperLimit)
+		
 		def jsonCells =	registrations.collect {
 			[cell: [it.learner.firstName,
 					it.learner.lastName,
 					it.regDate.format('dd MMM yyyy'),
 					//it.tutor.lastFirstName()					
 				], id: it.id]  // this is the id of the registratin NOT the person. so when de-registering we simply delete this registration using this id.
-		} //?.sort{it.learner?.firstName}?.unique()
+		} 
 		
-		def jsonData= [rows: jsonCells] //,page:currentPage,records:totalRows,total:numberOfPages]
-		//println(jsonData)
+		def jsonData= [rows: jsonCells,page:page,records:total,total:total_pages,sord:sord,sidx:sidx]
+		
 		render jsonData as JSON
 		
 	}
@@ -191,4 +218,12 @@ class CourseController {
 	def jq_list_events = {
 		render "events list  - coming soon!"
 	}
+	
+	private static int findUpperIndex(int offset, int max, int total) {
+		max = offset + max - 1
+		if (max >= total) {
+			max -= max - total + 1
+		}
+		return max
+	} //end helper method findUpperIndex
 } //end class

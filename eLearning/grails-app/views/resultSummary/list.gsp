@@ -6,17 +6,33 @@
     </head>
     <body>
         <z:window style="padding:5px" apply="com.cland.elearning.resultsummary.ListComposer">
+        
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'resultSummary.register.learner',default:'Learner lastname:')}"/>
+                <z:vlayout>
+                
+                <z:hlayout>
+                 <z:label value="${message(code:'resultSummary.register.learner',default:'Learner lastname:')}"/>
                 <z:textbox id="keywordBox" />
                 <z:space/><z:space/>
                 <z:label value="${message(code:'resultSummary.tutor',default:'Tutor lastname:')}"/>
                 <z:textbox id="keywordBoxTutor" />
                 <z:space/>
+                </z:hlayout>
+                
+<%--                <z:hlayout>--%>
+<%--	            	<z:label value="${message(code:'resultSummary.status.label',default:'Status')}"/>--%>
+<%--	                <zkui:select id="keywordBoxStatus" from="['All','Not Started','In Progress','Completed','Exempt']" value="All" valueMessagePrefix="resultSummary.status"  />--%>
+<%--	               	<z:space/>--%>
+<%--	               	<z:label value="${message(code:'resultSummary.module.label',default:'Module')}"/>--%>
+<%--	        		<zkui:select id="keywordBoxModule" from="${com.cland.elearning.Module.list()}" optionKey="id" value=""  />--%>
+<%--            	</z:hlayout>--%>
+                </z:vlayout>
                
+                <z:toolbarbutton href="${createLink(action:'jq_export_results_flat', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Results'])}"/>
             </z:hlayout>
+            
             <g:if test="${flash.message}">
                 <z:window mode="popup" border="normal">
                     <z:hlayout>

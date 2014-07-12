@@ -52,7 +52,16 @@ class ExamResult {
 	int maxMark(){
 		return exam.maxMark
 	}
-	
+	def toMap(){
+		[test: exam.testNumber,
+			mark:mark,
+			percent_mark:percentMark,
+			contribution_mark:contributionMark,
+			max_mark:maxMark(),
+			submodulename:subModule.name,
+			type:subModule.type,
+			exam_date:examDate?.format("dd-MMM-yyyy")]
+	}
 	String toString(){
 		"${mark}" 
 	}

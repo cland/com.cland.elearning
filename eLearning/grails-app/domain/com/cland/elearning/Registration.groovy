@@ -44,6 +44,6 @@ class Registration {
 		total
 	}
 	String toString(){
-		"${learner.firstName} ${learner.lastName} Registered on: ${dateCreated.format('dd/MM/yyyy hh:mm')} - Tutor: ${learner.firstName} ${learner.lastName} (${course.name})"
+		"${learner.firstName} ${learner.lastName} Registered on: ${dateCreated.format('dd/MM/yyyy hh:mm')} - Tutor: ${tutor?.firstName} ${tutor?.lastName} (${course.name})"
 	}
 } //end of class

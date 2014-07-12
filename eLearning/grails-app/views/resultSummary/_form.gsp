@@ -12,7 +12,7 @@
     
     <z:row>
         <z:label value="${message(code:'resultSummary.register.learner.label',default:'Learner')}"/>
-        <zkui:select name="register.id" from="${com.cland.elearning.Registration.list()}" optionKey="id" value="${resultSummaryInstance?.register?.id}"  />
+        <zkui:select name="register.id" from="${com.cland.elearning.Registration.list()?.sort{it.learner.firstName}}" optionKey="id" value="${resultSummaryInstance?.register?.id}"  />
     </z:row>
     
     <z:row>
@@ -44,10 +44,5 @@
         <z:label value="${message(code:'resultSummary.tutor.label',default:'Tutor')}"/>
         <zkui:select name="tutor.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person}" optionKey="id" value="${resultSummaryInstance?.tutor?.id}"  />
     </z:row>
-  
-
-    
-
    
-
 </z:rows>

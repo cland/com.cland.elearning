@@ -15,10 +15,10 @@ hibernate {
 environments {
     development {
         dataSource {
-            username = "elearning_dev"
+            username = "elearning"
 			password = "sap001"
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:mysql://localhost:3306/elearning_dev?autoreconnect=true"
+            url = "jdbc:mysql://localhost:3306/elearning?autoreconnect=true"
         }
     }
     test {

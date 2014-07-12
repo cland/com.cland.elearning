@@ -69,5 +69,6 @@ grails.project.dependency.resolution = {
 		compile ":zkui:0.5.6"
 		compile ":grails-melody:1.45"
 		compile ":attachmentable:0.3.0"
+		compile ":excel-export:0.2.1"
     }
 }

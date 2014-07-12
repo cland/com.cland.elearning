@@ -41,6 +41,15 @@ class EditComposer {
                 }
             }
             personInstance.properties = params
+			println("1 >> " + personInstance?.studentNo)
+			if(!personInstance?.studentNo){
+				def today = new Date()
+				Long n = personInstance?.id
+				n = n + 1100
+				String studentNo = n.toString() + "/" + g.formatDate(date:today,format:"yy")			
+				personInstance?.studentNo = studentNo
+			}
+			if(!personInstance.username) personInstance.username = personInstance?.studentNo
             if (!personInstance.hasErrors() && personInstance.save(flush: true)) {
 				//update the roles here
 				PersonRole.removeAll(personInstance)				

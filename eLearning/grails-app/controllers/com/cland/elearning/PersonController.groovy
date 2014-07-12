@@ -71,8 +71,16 @@ class PersonController {
 			redirect(action: "show",params:params)
 		}
 		
-		def registrations = personInstance.learnerRegistrations
+		def all_registrations = personInstance.learnerRegistrations.sort(false){[it.regDate]}
+		int max = (params?.rows ? params.int('rows') : 30)
+		int page = (params?.page ? params.int('page') : 1)
+		int total = all_registrations?.size()
+		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
+		if(page > total_pages)	page = total_pages
+		int offset = max*page-max
 		
+		int upperLimit = findUpperIndex(offset, max, total)
+		List registrations = all_registrations.getAt(offset..upperLimit)
 		def jsonCells =	registrations.collect {
 			[cell: [it.course.name,
 					it.course.code,
@@ -80,7 +88,7 @@ class PersonController {
 				], id: it.id]  // this is the id of the registration NOT the person. so when de-registering we simply delete this registration using this id.
 		}
 		
-		def jsonData= [rows: jsonCells] //,page:currentPage,records:totalRows,total:numberOfPages]
+		def jsonData= [rows: jsonCells,page:page,records:total,total:total_pages]
 
 		render jsonData as JSON
 		
@@ -89,7 +97,6 @@ class PersonController {
 	def jq_remove_course = {
 		def message = ""
 		def state = "FAIL"
-	//println("jq_remove_course: ${params}")
 		
 		def reg = Registration.get(params.id) 
 		if(reg){
@@ -103,6 +110,13 @@ class PersonController {
 		def response = [message:message,state:state,id:params.id]
 		render response as JSON
 		
-	}
+	} //end jq_remove_course
 	
+	private static int findUpperIndex(int offset, int max, int total) {
+		max = offset + max - 1
+		if (max >= total) {
+			max -= max - total + 1
+		}
+		return max
+	} //end helper method findUpperIndex
 } //end class

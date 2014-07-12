@@ -1,11 +1,3 @@
-/_testemails
-/attachmentable
-/dbdoc
-/messages.properties
-/messages_fr.properties
-/spring-security-core.properties
-/spring-security-core_de.properties
-/spring-security-core_fr.properties
 /aclClass
 /aclEntry
 /aclObjectIdentity
@@ -17,14 +9,9 @@
 /includes
 /layouts
 /login
-/messages.spring-security-ui.properties
 /openIdLogin
 /org
 /persistentLogin
+/pl
 /register
-/registrationCode
-/requestmap
-/role
-/securityInfo
 /spring
-/user
