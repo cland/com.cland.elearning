@@ -36,7 +36,13 @@
 						value="${message(code:'module.duration.label',default:'Duration')}" />
 					<g:fieldValue bean="${moduleInstance}" field="duration" /> 
 					<g:fieldValue bean="${moduleInstance}" field="durationUnit" />
-				</z:row>				
+				</z:row>	
+				<z:row>
+					<z:label
+						value="${message(code:'module.valid.label',default:'Certification expires')}" />
+					<g:fieldValue bean="${moduleInstance}" field="valid" /> 
+					<g:fieldValue bean="${moduleInstance}" field="validUnit" />
+				</z:row>			
 				<z:row>
 					<z:label
 						value="${message(code:'module.description.label',default:'Description')}" />

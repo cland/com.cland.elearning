@@ -38,7 +38,7 @@ html.no-cssgradients {
 }
 
 body {
-	background: #ffffff;
+	background: #d9d9d9;
 	color: #333333;
 	margin: 0 auto	!important;
 	max-width: 1000px;
@@ -51,7 +51,7 @@ body {
 html,body{height:auto !important;}
 
 #grailsLogo {
-	background-color: #abbf78;
+	background-color: #247033;
 	height:80px;
 }
 
@@ -112,7 +112,7 @@ img {
 }
 
 .footer {
-	background: #abbf78;
+	background: #247033;
 	color: #000;
 	clear: both;
 	font-size: 0.8em;
@@ -122,9 +122,10 @@ img {
 }
 
 .footer a {
-	color: #255b17;
+	color: #f8f8f8;
+	font-weight:arial
 }
-
+.footer a:hover{text-decoration:none;color:blue;}
 .spinner {
 	background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
 	height: 16px;

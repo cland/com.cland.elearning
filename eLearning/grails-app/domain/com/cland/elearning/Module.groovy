@@ -4,9 +4,12 @@ class Module {
 
 	String name
 	int duration
-	String durationUnit
+	String durationUnit	
 	Date expiryDate
 	String description
+	int valid		//the Certification valid period
+	String validUnit // unit in days, months years etc
+	
 	
 	static hasMany = [submodules:SubModule]
 	static mapping = {
@@ -17,7 +20,7 @@ class Module {
 		name(blank:false)
 		duration(nullable:true)
 		expiryDate(nullable:true)
-		durationUnit() //inList:["hours","days","weeks","months","years"]
+		durationUnit() //inList:["hours","days","weeks","months","years"]		
     }
 	def beforeInsert = {
 	// your code goes here

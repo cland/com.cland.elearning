@@ -27,7 +27,7 @@ var cland_params = {
 		subgrid_edit_url :  "../../resultSummary/jq_edit_results",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
 		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt",	
-		tutors : ${tutorList},	
+		tutors :  ${tutorList},	
 		result_types: "Pass:Pass;Fail:Fail;None:None;Exempt:Exempt",
 		
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add"
@@ -47,7 +47,7 @@ var cland_params = {
 			<g:link controller="person" action="show" id="${registrationInstance.learner.id}" params="[tab:2]">${registrationInstance.learner.toString() }</g:link>
 			<span class="r-arrow"></span>
 			<span class="current-crump">
-				Course Register 
+				Course Results 
 			</span>
 		</div>
 		

@@ -72,14 +72,20 @@ class PersonController {
 		}
 		
 		def all_registrations = personInstance.learnerRegistrations.sort(false){[it.regDate]}
-		int max = (params?.rows ? params.int('rows') : 30)
-		int page = (params?.page ? params.int('page') : 1)
 		int total = all_registrations?.size()
+		if(total < 1){
+			def t =[records:0,page:0]
+			render  t as JSON
+			return
+		}
+		int max = (params?.rows ? params.int('rows') : 30)
+		int page = (params?.page ? params.int('page') : 1)		
 		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
 		if(page > total_pages)	page = total_pages
 		int offset = max*page-max
 		
 		int upperLimit = findUpperIndex(offset, max, total)
+
 		List registrations = all_registrations.getAt(offset..upperLimit)
 		def jsonCells =	registrations.collect {
 			[cell: [it.course.name,

@@ -40,13 +40,15 @@ class RegistrationController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'registration.label', default: 'Registration'), params.id])}"
             redirect(action: "list")
         }
-        else { 
-			def tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))*.person
-			
+        else { 			
+			def tutorList = Person.findAllByFirstNameAndLastName("No","Tutor")
+			tutorList.addAll(PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))*.person)
 			def tmp = tutorList.collect {
-				it.id +":"+ it.toString()					
+				it.id +":"+ it.toString()
 			}
-			tmp = tmp.toString().replaceAll(", ", ";").replace("[","\"").replace("]", "\"")			
+			
+			tmp = tmp.toString().replaceAll(", ", ";").replace("[","\"").replace("]", "\"")	
+					
             return [registrationInstance: registrationInstance,tutorList:tmp]
         }
 	}
@@ -61,9 +63,14 @@ class RegistrationController {
 		}		
 	
 		def all_results = regInstance.results.sort(false){[it.module.name]} //.reverse()
-		int max = (params?.rows ? params.int('rows') : 30)
-		int page = (params?.page ? params.int('page') : 1)
 		int total = all_results?.size()
+		if(total < 1){
+			def t =[records:0,page:0]
+			render  t as JSON
+			return
+		}
+		int max = (params?.rows ? params.int('rows') : 30)
+		int page = (params?.page ? params.int('page') : 1)		
 		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
 		if(page > total_pages)	page = total_pages
 		int offset = max*page-max
@@ -140,7 +147,9 @@ class RegistrationController {
 					}
 				}
 			}//end for loop checking for pre-requisites
+			
 			tutorInstance = Person.get(params.tutor.id as Long) //selected tutor
+			
 			if (resultSummary) {
 				// set the properties according to passed in parameters	
 				resultSummary.properties = params

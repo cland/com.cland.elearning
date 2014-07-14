@@ -20,4 +20,14 @@
 		</z:hbox>	
 		
 	</z:row>
+	<z:row>
+		<z:label value="${message(code:'module.valid.label',default:'Certification expires')}" />
+		<z:hbox>
+			<z:textbox name="valid" value="${moduleInstance?.valid }"/>
+			<z:label value="${message(code:'module.validunit.label',default:'Valid Unit')}" />
+	    	<zkui:select name="validUnit" from="['days','years']" 
+	    	value="${moduleInstance?.validUnit}" valueMessagePrefix="" />
+		</z:hbox>	
+		
+	</z:row>
 </z:rows>

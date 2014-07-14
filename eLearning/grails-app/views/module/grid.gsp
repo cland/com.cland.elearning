@@ -61,10 +61,19 @@ var cland_params = {
 		</h1>
 		<div class="content">
 			<g:fieldValue bean="${moduleInstance}" field="description" /><br/>
-			<b>Max Possible Score:</b> ${moduleInstance.totalMaxMark()}
+			<b>Max Possible Score:</b> ${moduleInstance.totalMaxMark()}<br/>
+			<b>Duration:</b> ${moduleInstance?.duration} ${moduleInstance?.durationUnit}<br/>
+			<b>Certification expires:</b> ${moduleInstance?.valid} ${moduleInstance?.validUnit}
 		</div>
 	</fieldset>
-
+	<sec:ifAnyGranted roles="ADMIN,TUTOR">
+		<g:form>
+			<fieldset class="buttons">
+				<g:hiddenField name="id" value="${moduleInstance?.id}" />
+				<g:link class="edit" style="float:right" action="edit" id="${moduleInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>					
+			</fieldset>
+		</g:form>
+	</sec:ifAnyGranted>
 	<div id="myGrid" style="padding: 5px;">
 		<!-- table tag will hold our grid -->
 		<table id="submodule_list" class="scroll jqTable"></table>
