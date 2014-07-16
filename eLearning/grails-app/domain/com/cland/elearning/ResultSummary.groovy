@@ -19,7 +19,7 @@ class ResultSummary {
 	static belongsTo = [register:Registration]
 	static transients = ['isExpired','currentDuration','currentTimeDuration']
     static constraints = {
-		status(inList:["Not Started","In Progress","Completed","Exempt"])
+		status(inList:["Not Started","In Progress","Completed","Exempt","Re-Write"])
 		result(inList:["Pass","Fail","None","Exempt"])
 		certNumber(blank:true)
 		module()

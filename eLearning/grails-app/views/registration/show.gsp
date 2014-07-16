@@ -26,7 +26,7 @@ var cland_params = {
 		subgrid_list_url :  "../../resultSummary/jq_list_results",
 		subgrid_edit_url :  "../../resultSummary/jq_edit_results",
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
-		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt",	
+		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt;Re-Write:Re-Write",	
 		tutors :  ${tutorList},	
 		result_types: "Pass:Pass;Fail:Fail;None:None;Exempt:Exempt",
 		
@@ -65,7 +65,7 @@ var cland_params = {
 
 	<fieldset>
 		<legend>
-			<b>&raquo;</b> Course Register
+			<b>&raquo;</b> Course Modules & Results
 		</legend>
 		<h1>
 			&nbsp;${registrationInstance.learner.toString()}
@@ -255,7 +255,7 @@ var cland_params = {
     	  display.addClass("message")
           }      
         display.html(message);
-        display.show().fadeOut(10000);            
+        display.show().fadeOut(40000);            
       var new_id = json.id
 
       //reload the grid

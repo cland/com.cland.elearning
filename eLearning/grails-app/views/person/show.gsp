@@ -162,7 +162,7 @@ $(document).ready(function() {
 					            { 
 					            	var cl = ids[i]; 
 						          
-						            rs = "<input class='view' style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
+						            rs = "<input class='view' style='height:22px;width:80px;' type='button' value='Modules' onclick=\"viewResults('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
 						            rm = "<input class='edit' style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.course_maingrid_id+"');\" />";
 						            jQuery("#" + cland_params.course_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
 					            }

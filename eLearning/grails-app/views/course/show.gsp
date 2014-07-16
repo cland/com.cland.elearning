@@ -348,7 +348,7 @@ $("#tabs").tabs(
 					        for(var i=0;i < ids.length;i++)
 					            { 
 					            	var cl = ids[i]; 						          	
-						            rs = "<input class='edit' style='height:22px;width:80px;' type='button' value='Results' onclick=\"viewResults('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
+						            rs = "<input class='edit' style='height:22px;width:80px;' type='button' value='Modules' onclick=\"viewResults('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            rm = "<input class='edit' style='height:22px;width:80px;' type='button' value='Remove' onclick=\"removeGridRow('"+cl+"','"+cland_params.learner_maingrid_id+"');\" />";
 						            jQuery("#" + cland_params.learner_maingrid_id).jqGrid('setRowData',ids[i],{act:rs+rm}); //be+se+ce+de forall actions 
 					            }

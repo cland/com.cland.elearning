@@ -55,10 +55,10 @@ var cland_params = {
 			<span class="r-arrow"></span>
 			<g:link controller="course" action="show" id="${resultSummaryInstance.register.course.id }">Course: ${resultSummaryInstance.register.course.name }</g:link>
 			<span class="r-arrow"></span>
-			<g:link controller="registration" action="show" id="${resultSummaryInstance.register.id }">Course Register</g:link>
+			<g:link controller="registration" action="show" id="${resultSummaryInstance.register.id }">Course Results</g:link>
 			<span class="r-arrow"></span>			
 			<span class="current-crump">
-				Module Result for: <g:link controller="person" action="show" id="${resultSummaryInstance.register.learner.id }">${resultSummaryInstance.register.learner.toString() }</g:link>
+				Module Results for: <g:link controller="person" action="show" id="${resultSummaryInstance.register.learner.id }">${resultSummaryInstance.register.learner.toString() }</g:link>
 			</span>
 		</div>
 		
@@ -76,7 +76,7 @@ var cland_params = {
 
 	<fieldset>
 		<legend>
-			<b>&raquo;</b> Module Result
+			<b>&raquo;</b> Module Results
 		</legend>
 		<h1>
 			&nbsp;${resultSummaryInstance.register.learner.toString()}
