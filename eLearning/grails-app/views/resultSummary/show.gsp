@@ -87,12 +87,17 @@ var cland_params = {
 			<b>Result:</b> ${resultSummaryInstance.result} [ Mark: <b>${resultSummaryInstance.totalMark()}</b> out of <b>${resultSummaryInstance.totalMaxMark()}</b> - PERCENT: <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>% ]<br/>			
 			<b>Status:</b> ${resultSummaryInstance.status}
 			<g:if test="${resultSummaryInstance?.isExpired()}">
-				<span style="background:red;padding: 2px;color:yellow;">Module overdue! It's been ${resultSummaryInstance.getCurrentDuration() } ${resultSummaryInstance?.module?.durationUnit } since module was started.</span>
+				<br/><span style="background:red;padding: 2px;color:yellow;">Module overdue! It's been ${resultSummaryInstance.getCurrentDuration() } ${resultSummaryInstance?.module?.durationUnit } since module was started.</span>
 			</g:if>
-			<br/>
+			<g:if test="${resultSummaryInstance?.isCertExpired()}">
+				<br/><span style="background:red;padding: 2px;color:yellow;">Module certificate has expired! It's been ${resultSummaryInstance.getCurrentCertDuration() } ${resultSummaryInstance?.module?.validUnit } since module was complete and certificate issued.</span>
+			</g:if>
+			<br/>					
 			<b>Date Started:</b> ${resultSummaryInstance?.startDate?.format("dd-MMM-yyyy")}<br/>
 			<b>Date Completed:</b> ${resultSummaryInstance?.endDate?.format("dd-MMM-yyyy")}<br/>
-			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}
+			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}<br/>
+			<b>Payment Status:</b> ${resultSummaryInstance?.paymentStatus}<br/>
+			<b>Certificate No.:</b> ${resultSummaryInstance?.certNumber}
 		</div>
 	</fieldset>
 		<sec:ifAnyGranted roles="ADMIN,TUTOR">

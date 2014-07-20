@@ -203,11 +203,10 @@ class RegistrationController {
 						return
 					}										
 				}else if(params?.status?.equalsIgnoreCase("Not Started")){
-					resultSummary.results = "None"
+					resultSummary.result = "None"
 					resultSummary.startDate = null;
 					resultSummary.endDate = null;					
-				}		
-				
+				}				
 				if(SpringSecurityUtils.ifAnyGranted("ADMIN")){
 					if(tutorInstance) resultSummary.tutor=tutorInstance
 				}else{

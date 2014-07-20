@@ -78,7 +78,7 @@ class ListComposer {
                 label(value: personInstance.lastName)
 				a(href: g.createLink(controller:"person",action:'show',id:id), label: personInstance.username)
 							
-				if(roles.toListString().contains("LEARNER")){
+				if(personInstance.isLearner()){
 					label(value: personInstance.studentNo)
 				}else{
 					label(value: "--")

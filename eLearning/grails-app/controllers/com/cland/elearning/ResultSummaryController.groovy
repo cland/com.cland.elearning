@@ -21,7 +21,7 @@ class ResultSummaryController {
     def create = {
         def resultSummaryInstance = new ResultSummary()
         resultSummaryInstance.properties = params
-        return [resultSummaryInstance: resultSummaryInstance]
+        return [resultSummaryInstance: resultSummaryInstance,tutorList:getTutors()]
     }
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def edit = {
@@ -31,7 +31,8 @@ class ResultSummaryController {
             redirect(action: "list")
         }
         else {
-            return [resultSummaryInstance: resultSummaryInstance]
+			def tutorList = getTutors()
+            return [resultSummaryInstance: resultSummaryInstance,tutorList:tutorList]
         }
     }
 	
@@ -50,6 +51,15 @@ class ResultSummaryController {
 	
 	def listresults = {
 		
+	}
+	
+	private List getTutors(){
+		def tutorList = Person.findAllByFirstNameAndLastName("No","Tutor")
+		def list = com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person
+		tutorList.addAll(list)
+		
+		
+		return tutorList
 	}
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
 	def jq_export_results_flat = {

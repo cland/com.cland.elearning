@@ -34,7 +34,17 @@ class Exam {
 	def onLoad = {
 	// your code goes here
 	}
-	
+	def toMap(){
+		[exam: testNumber,
+			max_mark:maxMark,
+			module:submodule.module.name,
+			submodulename:submodule.name,
+			type:submodule.type,
+			weight:weight,
+			factor:factor,
+			operand:factorOperand,
+			status:status]
+	}
 	String toString(){
 		"${submodule.toString()} : ${testNumber}. Max Mark: ${maxMark}, Weight: (${weight})"
 	}

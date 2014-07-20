@@ -41,7 +41,7 @@ class EditComposer {
                 }
             }
             personInstance.properties = params
-			println("1 >> " + personInstance?.studentNo)
+			
 			if(!personInstance?.studentNo){
 				def today = new Date()
 				Long n = personInstance?.id

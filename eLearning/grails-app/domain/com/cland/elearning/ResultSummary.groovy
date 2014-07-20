@@ -8,6 +8,7 @@ import java.util.Date;
 
 class ResultSummary {
 	String status	
+	String paymentStatus
 	String result
 	String certNumber	
 	Module module
@@ -20,6 +21,7 @@ class ResultSummary {
 	static transients = ['isExpired','currentDuration','currentTimeDuration']
     static constraints = {
 		status(inList:["Not Started","In Progress","Completed","Exempt","Re-Write"])
+		paymentStatus(nullable:true,inList:["Not-Paid","Paid","Exempt"])
 		result(inList:["Pass","Fail","None","Exempt"])
 		certNumber(blank:true)
 		module()
@@ -70,16 +72,60 @@ class ResultSummary {
 		}
 		
 		return  getAge(tmp_start, tmp_end)
-	
-	//	TimeDuration diff = TimeCategory.minus(tmp_end, tmp_start)		
-	//	return diff
+	}//end function getCurrentTimeDuration()
+	public DatumDependentDuration getCurrentTimeDuration(Date startdate, Date enddate){
+		Date tmp_start = (startdate == null ? new Date():startdate)
+		Date tmp_end = (enddate == null ? new Date():enddate)		
+		return  getAge(tmp_start, tmp_end)
 	}
 	public int getCurrentDuration(){
 		String max_duration_unit = "days"
-		int duration = 0
 		if(module?.durationUnit) max_duration_unit = module?.durationUnit
 		DatumDependentDuration diff = getCurrentTimeDuration()
-		switch(max_duration_unit){
+		return decodeDuration(diff, max_duration_unit)
+	} //end getCurrentDuration()
+	public boolean isExpired(){
+		
+		if(!status.equalsIgnoreCase("in progress")){
+			return false
+		}
+		//otherwise check if there
+		int max_duration = 6
+		if(module?.duration) max_duration = module?.duration
+		if(getCurrentDuration() < max_duration){
+			return false
+		} 
+		
+		return true
+	} //end function
+	
+	public int getCurrentCertDuration(){
+		String max_duration_unit = "years"
+		if(module?.validUnit) max_duration_unit = module?.validUnit
+		
+		//TODO: we want to check if enddate is null here and perhaps use the lastmodified date instead 
+		DatumDependentDuration diff = getCurrentTimeDuration(endDate,new Date())
+		return decodeDuration(diff, max_duration_unit)		
+	} //end getCurrentCertDuration()
+	
+	public boolean isCertExpired(){
+		//TODO: Fix the certification expiration date duration check
+		//Do we check for case if "Exempt"? Perhaps we look at when last updated or exempted.
+		if(status.equalsIgnoreCase("completed")){
+			int max_duration = 3  //cert duration to get from the module using years for now.
+			if(module?.valid) max_duration = module?.valid
+			if(getCurrentCertDuration() < max_duration){
+				return false
+			}
+			return true
+		}
+		//otherwise this result certificate has expired				
+		return false
+	} //end function
+	
+	private int decodeDuration(DatumDependentDuration diff, String opt){
+		int duration = 0;
+		switch(opt){
 			case "hours":
 				duration = diff.hours
 			break;
@@ -104,22 +150,7 @@ class ResultSummary {
 			break;
 		}
 		return duration
-	}
-	public boolean isExpired(){
-		
-		if(!status.equalsIgnoreCase("in progress")){
-			return false
-		}
-		//otherwise check if there
-		int max_duration = 6
-		if(module?.duration) max_duration = module?.duration
-		if(getCurrentDuration() < max_duration){
-			return false
-		} 
-		
-		return true
-	} //end function
-	
+	} //end method for decode basic date difference into years/month/weeks/days etc
 	private DatumDependentDuration getAge( Date dob, Date now = new Date() ) {
 		dob.clearTime()
 		now.clearTime()

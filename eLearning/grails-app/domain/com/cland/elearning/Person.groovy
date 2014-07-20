@@ -45,7 +45,8 @@ class Person {
 	String schoolQualification
 	String disabilityYN
 	String disabilityList
-	static transients = ['firstLastName','lastFirstName','age' ]
+	String examType		//The type of exam that the learner can take standard/oral only/etc
+	static transients = ['firstLastName','lastFirstName','age','isLearner','isTutor' ]
 	static mappedBy = [tutorRegistrations:'tutor',learnerRegistrations:'learner']
 	static hasMany = [
 		tutorRegistrations:Registration,
@@ -90,6 +91,7 @@ class Person {
 		dateCreated()
 		studentNo(nullable:true)
 		cellNo(nullable:true)
+		examType(nullable:true,inList:["Standard","Oral"])
 	}
 
 	static mapping = {
@@ -110,7 +112,23 @@ class Person {
 			encodePassword()
 		}
 	}
-
+	boolean isTutor(){
+		getAuthorities()?.toListString()?.contains("TUTOR")
+	}
+	boolean isLearner(){
+		getAuthorities()?.toListString()?.contains("LEARNER")
+	}
+	def toMap(){
+		[firstname: firstName,
+			lastname:lastName,
+			studentno:studentNo,
+			company:company,
+			email:email,
+			role:getAuthorities(),
+			examtype:examType,
+			disabled:disabilityYN,
+			gender:gender]
+	}
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}

@@ -35,14 +35,17 @@
         <z:label value="${message(code:'resultSummary.result.label',default:'Result')}"/>
         <zkui:select name="result" from="${resultSummaryInstance.constraints.result.inList}" value="${resultSummaryInstance?.result}" valueMessagePrefix="resultSummary.result"  />
     </z:row>
-
+	<z:row>
+        <z:label value="${message(code:'resultSummary.paymentStatus.label',default:'Payment Status')}"/>
+        <zkui:select name="paymentStatus" from="${resultSummaryInstance.constraints.paymentStatus.inList}" value="${resultSummaryInstance?.paymentStatus}" valueMessagePrefix="resultSummary.paymentStatus"  />
+    </z:row>
     <z:row>
         <z:label value="${message(code:'resultSummary.certNumber.label',default:'Cert Number')}"/>
         <z:textbox name="certNumber" value="${resultSummaryInstance?.certNumber}" />
     </z:row>
-<z:row>
+	<z:row>
         <z:label value="${message(code:'resultSummary.tutor.label',default:'Tutor')}"/>
-        <zkui:select name="tutor.id" from="${com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person}" optionKey="id" value="${resultSummaryInstance?.tutor?.id}"  />
+        <zkui:select name="tutor.id" from="${tutorList}" optionKey="id" value="${resultSummaryInstance?.tutor?.id}"  />
     </z:row>
    
 </z:rows>

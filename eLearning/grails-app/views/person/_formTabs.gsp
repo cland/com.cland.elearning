@@ -370,6 +370,15 @@
 									<z:textbox style="height:60px" rows="4" name="disabilityList"
 										value="${personInstance?.disabilityList}" />
 								</z:row>
+								<z:row>
+									<z:label
+										value="${message(code:'person.examType.label',default:'Exam Type')}" />
+									<zkui:select name="examType"
+										from="${personInstance.constraints.examType.inList}"
+										value="${personInstance?.examType}"
+										valueMessagePrefix="person.examType"
+										/>
+								</z:row>
 							</z:rows>
 						</z:grid>
 					</z:panelchildren>

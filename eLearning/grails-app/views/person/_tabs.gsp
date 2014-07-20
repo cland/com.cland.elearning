@@ -65,6 +65,16 @@
 								<z:label
 									value="${personInstance?.tertiaryQualification }" />
 							</z:row>
+							<z:row>
+								<z:label value="Disabled: " />
+								<z:label
+									value="${personInstance?.disabilityYN }" />
+							</z:row>
+							<z:row>
+								<z:label value="Exam Type: " />
+								<z:label
+									value="${personInstance?.examType }" />
+							</z:row>
 						</z:rows>
 					</z:grid>
 				</z:panelchildren>

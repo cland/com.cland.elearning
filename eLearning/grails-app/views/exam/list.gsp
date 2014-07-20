@@ -11,10 +11,13 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:label value="${message(code:'exam.id',default:'Id')}"/>
-                <z:longbox id="idLongbox"/>
-                <z:space/>
-                <z:button id="searchButton" label="${message(code:'search')}"/>
+               <z:label value="${message(code:'exam.module.name',default:'Module:')}"/>
+                <z:textbox id="keywordBoxModule" />
+                <z:space/><z:space/>
+                <z:label value="${message(code:'exam.subModule.name',default:'Mode of Learning:')}"/>
+                <z:textbox id="keywordBoxSubmodule" />
+                <z:space/><z:space/>
+              	<z:toolbarbutton href="${createLink(action:'jq_export_modules', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All'])}"/>
             </z:hlayout>
             <g:if test="${flash.message}">
                 <z:window mode="popup" border="normal">
@@ -28,16 +31,19 @@
             </g:if>
             <z:grid id="grid" emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
                 <z:columns sizable="true">
-                    <z:column label="${message(code: 'exam.id.label', default: 'Id')}"/>
-                    <z:column label="${message(code: 'exam.factorOperand.label', default: 'Factor Operand')}"/>
-                    <z:column label="${message(code: 'exam.factor.label', default: 'Factor')}"/>
-                    <z:column label="${message(code: 'exam.maxMark.label', default: 'Max Mark')}"/>
-                    <z:column label="${message(code: 'exam.submodule.label', default: 'Submodule')}"/>
-                    <z:column label="${message(code: 'exam.testNumber.label', default: 'Test Number')}"/>
-                    <z:column width="150px"/>
+               		<z:column label="${message(code: 'exam.module.label', default: 'Module')}"/>
+               		<z:column label="${message(code: 'exam.submodule.label', default: 'Mode of Learning')}"/>
+               		<z:column label="${message(code: 'exam.testNumber.label', default: 'Exam No.')}" width="80px"/>               		
+               		<z:column label="${message(code: 'exam.maxMark.label', default: 'Max Mark')}" width="70px"/>
+               		<z:column label="${message(code: 'exam.weight.label', default: 'Weight')}" width="70px"/>
+               		<z:column label="${message(code: 'exam.factor.label', default: 'Factor')}" width="70px"/>                    
+                    <z:column label="${message(code: 'exam.factorOperand.label', default: 'Factor Operand')}"  width="70px"/>
+                    <z:column label="${message(code: 'exam.status.label', default: 'Status')}"  width="70px"/>
+
+                    <z:column width="120px"/>
                 </z:columns>
             </z:grid>
-            <z:paging autohide="true" id="paging" pageSize="15"/>
+            <z:paging autohide="true" id="paging" pageSize="50"/>
         </z:window>
     </body>
 </html>

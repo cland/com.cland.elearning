@@ -28,6 +28,21 @@ class Registration {
 	def onLoad = {
 	// your code goes here
 	}
+	def regStatusMap(){		
+		int in_progress = countResultsByStatus("In Progress")		
+		int completed = countResultsByStatus("Completed")		
+		int exempted  = countResultsByStatus("Exempt")		
+		int not_started  = countResultsByStatus("Not Started")
+		return [inprogress:in_progress,completed:completed,exempted:exempted,notstarted:not_started]		
+	} //	
+	int countResultsByStatus(String testStatus){
+		def tmplist = results.findByStatus(testStatus)
+		return (tmplist ? tmplist.size():0)
+	}
+	int countResultsByResult(String testResult){
+		def tmplist = results.findByResult(testResult)
+		return (tmplist ? tmplist.size():0)
+	}
 	Integer totalMark(){
 		def total = results?.totalMark()
 		if(!total) total = 0

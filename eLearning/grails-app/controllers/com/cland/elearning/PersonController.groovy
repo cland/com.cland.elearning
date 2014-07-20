@@ -1,6 +1,6 @@
 package com.cland.elearning
 import grails.converters.JSON
-
+import pl.touk.excel.export.WebXlsxExporter
 import grails.plugins.springsecurity.Secured
 class PersonController {
 	def springSecurityService
@@ -117,6 +117,40 @@ class PersonController {
 		render response as JSON
 		
 	} //end jq_remove_course
+	def jq_export_learners = {
+		
+		String filter = null
+		def states = ['In Progress']
+		
+		def personList = Person.createCriteria().list() {
+			createAlias('company','org')
+			//createAlias('learnerRegistrations','reglist')			
+			order('firstName','asc')
+			order('lastName','asc')
+			isNotEmpty("learnerRegistrations")
+			learnerRegistrations{
+				results{
+					'in'('status',states)
+				}
+			}
+			if(filter){
+				ilike('firstname',""+filter+"%")
+			}			
+		}?.unique{it.id}
+		
+		def data = personList.collect({it.toMap()})
+		def headers = ['Firstname', 'Lastname', 'Student No.', 'Company', 'Email','Exam Type','Disabled','Gender']
+		def withProperties = ['firstname','lastname','studentno','company','email','examtype','disabled','gender']
+						
+		new WebXlsxExporter().with {
+			setResponseHeaders(response)
+			sheet('Learners').with {
+				fillHeader(headers)
+				add(data, withProperties)
+			}
+			save(response.outputStream)
+		}
+	} //end method jq_export_people
 	
 	private static int findUpperIndex(int offset, int max, int total) {
 		max = offset + max - 1

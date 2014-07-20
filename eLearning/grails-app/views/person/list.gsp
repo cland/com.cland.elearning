@@ -12,15 +12,17 @@
                 <z:label value="${message(code:'person.firstName',default:'Firstname')}"/>
                 <z:textbox id="keywordBox" class="search-box"/>
                 <z:space/>
-                <z:space/>
+               
                 <z:label value="${message(code:'person.lastName',default:'Lastname')}"/>
                 <z:textbox id="keywordBoxLastname" class="search-box"/>
                 <z:space/>
-                <z:space/>
+               
                 <z:label value="${message(code:'person.studentNo',default:'Student No.')}"/>
                 <z:textbox id="keywordBoxId" class="search-box"/>
                 <z:space/>
                 <z:button id="searchButton" label="${message(code:'search')}"/>
+                
+              	<z:toolbarbutton href="${createLink(action:'jq_export_learners', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All'])}"/>
             </z:hlayout>
             <g:if test="${flash.message}">
                 <z:window mode="popup" border="normal">
@@ -42,7 +44,7 @@
                     <z:column width="170px"/>
                 </z:columns>
             </z:grid>
-            <z:paging autohide="true" id="paging" pageSize="15"/>
+            <z:paging autohide="true" id="paging" pageSize="50"/>
         </z:window>
     </body>
 </html>
