@@ -260,11 +260,17 @@ class ResultSummaryController {
 		}
 		
 		def all_results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.exam.testNumber]} //.reverse()
+		int total = all_results?.size()
+		if(total < 1){
+			def t =[records:0,page:0]
+			render  t as JSON
+			return
+		}
 	//	def sortIndex = params.sidx ?: 'examDate'
 	//	def sortOrder  = params.sord ?: 'asc'
 		int max = (params?.rows ? params.int('rows') : 30)
 		int page = (params?.page ? params.int('page') : 1)				
-		int total = all_results?.size() 
+		
 		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
 		if(page > total_pages)	page = total_pages
 		int offset = max*page-max

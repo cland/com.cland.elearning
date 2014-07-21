@@ -1,4 +1,6 @@
 package com.cland.elearning
+import org.springframework.security.core.userdetails.User.AuthorityComparator;
+
 import grails.converters.JSON
 import pl.touk.excel.export.WebXlsxExporter
 import grails.plugins.springsecurity.Secured
@@ -120,33 +122,45 @@ class PersonController {
 	def jq_export_learners = {
 		
 		String filter = null
-		def states = ['In Progress']
+		def states = []
 		
 		def personList = Person.createCriteria().list() {
-			createAlias('company','org')
-			//createAlias('learnerRegistrations','reglist')			
+			createAlias('company','org')				
 			order('firstName','asc')
 			order('lastName','asc')
 			isNotEmpty("learnerRegistrations")
-			learnerRegistrations{
-				results{
-					'in'('status',states)
+			if(states.size()>0){
+				learnerRegistrations{
+					results{
+						'in'('status',inprogress_states)
+					}
 				}
 			}
 			if(filter){
 				ilike('firstname',""+filter+"%")
 			}			
 		}?.unique{it.id}
+
+		//tutors
+		def tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))?.person
 		
-		def data = personList.collect({it.toMap()})
-		def headers = ['Firstname', 'Lastname', 'Student No.', 'Company', 'Email','Exam Type','Disabled','Gender']
-		def withProperties = ['firstname','lastname','studentno','company','email','examtype','disabled','gender']
-						
+		def data = personList.collect({it.toMap()})			 
+		def headers = ['Firstname', 'Lastname', 'Student No.', 'Company', 'Email','Exam Type','Disabled','Gender','Current Learner']
+		def withProperties = ['firstname','lastname','studentno','company','email','examtype','disabled','gender','iscurrentlearner']
+		
+		def tutor_data = tutorList.collect({it.toMap()})
+		def tutor_headers = ['Firstname', 'Lastname','Company', 'Email','Gender']
+		def tutor_withProperties = ['firstname','lastname','company','email','gender']
+		
 		new WebXlsxExporter().with {
 			setResponseHeaders(response)
 			sheet('Learners').with {
 				fillHeader(headers)
 				add(data, withProperties)
+			}
+			sheet('Tutors').with {
+				fillHeader(tutor_headers)
+				add(tutor_data, tutor_withProperties)
 			}
 			save(response.outputStream)
 		}

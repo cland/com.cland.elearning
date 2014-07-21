@@ -118,6 +118,24 @@ class Person {
 	boolean isLearner(){
 		getAuthorities()?.toListString()?.contains("LEARNER")
 	}
+	boolean isCurrentLearner(){
+		if(!isLearner()) return false;
+		def inprogress_states = ['In Progress']
+		def regList = getRegistrations(inprogress_states)
+		if(regList.size() > 0 ) return true; return false
+		
+	} //end function
+	List getRegistrations(states){
+		if(!isLearner()) return []
+		def registrationList = Registration.createCriteria().list(){
+			createAlias('learner',"l")
+			eq('l.id',id)
+			results {
+				'in'('status',states)
+			}
+		}
+		return registrationList;
+	}
 	def toMap(){
 		[firstname: firstName,
 			lastname:lastName,
@@ -127,7 +145,10 @@ class Person {
 			role:getAuthorities(),
 			examtype:examType,
 			disabled:disabilityYN,
-			gender:gender]
+			gender:gender,
+			iscurrentlearner:(isCurrentLearner()?'yes':'no'),
+			islearner:(isLearner()?'yes':'no'),
+			istutor:(isTutor()?'yes':'no')]
 	}
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)

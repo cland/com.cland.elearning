@@ -5,8 +5,8 @@ class Course {
 
 	String name
 	String code
-	Date startDate
-	Date endDate
+	//Date startDate
+	//Date endDate
 	int duration
 	Region region
 	String status
@@ -14,8 +14,8 @@ class Course {
 	static hasMany = [modules:Module,registrations:Registration,premodules:PreModule,events:CourseEvent]
     static constraints = {
 		name(blank:false)
-		startDate() //validator: {return (it >= new Date())})
-		endDate() //validator: {return (it >= new Date())})
+	//	startDate(nullable:true) //validator: {return (it >= new Date())})
+	//	endDate(nullable:true) //validator: {return (it >= new Date())})
 		modules(blank:false)
 		region(nullable:true)
 		status(inList:["active","inactive","open","closed"])

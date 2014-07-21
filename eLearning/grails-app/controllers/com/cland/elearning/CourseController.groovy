@@ -67,11 +67,16 @@ class CourseController {
 		}
 		
 		def all_modules = courseInstance.modules.sort(false){it.name} //Module.createCriteria().list(max:maxRows, offset:rowOffset) {
-		
+		int total = all_modules?.size()
+		if(total < 1){
+			def t =[records:0,page:0]
+			render  t as JSON
+			return
+		}
 		// -- Pagination calculations
 		int max = (params?.rows ? params.int('rows') : 30)
 		int page = (params?.page ? params.int('page') : 1)
-		int total = all_modules?.size()
+		
 		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
 		if(page > total_pages)	page = total_pages
 		int offset = max*page-max		
@@ -188,10 +193,15 @@ class CourseController {
 		}else{
 			all_registrations.reverse(false)
 		}
-		
+		int total = all_registrations?.size()
+		if(total < 1){
+			def t =[records:0,page:0]
+			render  t as JSON
+			return
+		}
 		int max = (params?.rows ? params.int('rows') : 30)
 		int page = (params?.page ? params.int('page') : 1)
-		int total = all_registrations?.size()
+		
 		int total_pages = (total > 0 ? Math.ceil(total/max) : 0)
 		if(page > total_pages)	page = total_pages
 		int offset = max*page-max
