@@ -21,8 +21,9 @@
                 <z:textbox id="keywordBoxId" class="search-box"/>
                 <z:space/>
                 <z:button id="searchButton" label="${message(code:'search')}"/>
-                
-              	<z:toolbarbutton href="${createLink(action:'jq_export_learners', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All'])}"/>
+                <sec:ifAnyGranted roles="ADMIN,TUTOR">
+              		<z:toolbarbutton href="${createLink(action:'jq_export_learners', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All'])}"/>
+              	</sec:ifAnyGranted>
             </z:hlayout>
             <g:if test="${flash.message}">
                 <z:window mode="popup" border="normal">

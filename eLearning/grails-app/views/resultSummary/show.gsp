@@ -101,7 +101,7 @@ var cland_params = {
 		</div>
 	</fieldset>
 		<sec:ifAnyGranted roles="ADMIN,TUTOR">
-<g:form>
+			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${resultSummaryInstance?.id}" />
 					<g:link class="edit" style="float:right" action="edit" id="${resultSummaryInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>					

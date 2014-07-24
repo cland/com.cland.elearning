@@ -29,8 +29,9 @@
 <%--	        		<zkui:select id="keywordBoxModule" from="${com.cland.elearning.Module.list()}" optionKey="id" value=""  />--%>
 <%--            	</z:hlayout>--%>
                 </z:vlayout>
-               
-                <z:toolbarbutton href="${createLink(action:'jq_export_results_flat', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Results'])}"/>
+               <sec:ifAnyGranted roles="ADMIN,TUTOR">
+                	<z:toolbarbutton href="${createLink(action:'jq_export_results_flat', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Results'])}"/>
+                </sec:ifAnyGranted>
             </z:hlayout>
             
             <g:if test="${flash.message}">

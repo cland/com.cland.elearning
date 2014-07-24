@@ -139,6 +139,7 @@ class Person {
 	def toMap(){
 		[firstname: firstName,
 			lastname:lastName,
+			salutation:salutation,
 			studentno:studentNo,
 			company:company,
 			email:email,
@@ -148,7 +149,31 @@ class Person {
 			gender:gender,
 			iscurrentlearner:(isCurrentLearner()?'yes':'no'),
 			islearner:(isLearner()?'yes':'no'),
-			istutor:(isTutor()?'yes':'no')]
+			istutor:(isTutor()?'yes':'no'),
+			idno:idNo,
+			dateofbirth:dateOfBirth?.format("dd MMM yyyy"),			
+			maritalstatus:maritalStatus,
+			race:race.toString(),
+			address:address,
+			postaladdress:postalAddress,
+			postalcode:postalCode,
+			city:city,
+			region:region?.toString(),
+			country:country?.toString(),
+			contactno:contactNo,
+			homeno:contactNoHome,
+			cellno:cellNo,
+			communicationmode:communicationMode,
+			numyears:numOfYears,
+			tertiaryqualification:tertiaryQualification,
+			schoolqualification:schoolQualification,
+			disability:disabilityList,
+			created:dateCreated.format("dd MMM yyyy"),
+			jobtitle:jobTitle,
+			department:department,
+			language:homeLanguage,
+			knownas:knownAsName
+			]
 	}
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
