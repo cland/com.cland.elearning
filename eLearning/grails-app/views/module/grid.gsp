@@ -22,7 +22,7 @@ var cland_params = {
 			
 		subgrid_list_url :  "../jq_list_exam",
 		subgrid_edit_url :  "../jq_edit_exam",
-		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
+		submod_types :"${com.cland.elearning.LearningMode.stringKeyValuePair()}",
 		states : "Active:Active;Inactive:Inactive",
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add",		
 		thisId : ${params.id}

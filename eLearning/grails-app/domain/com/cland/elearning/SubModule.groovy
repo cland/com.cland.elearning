@@ -10,10 +10,11 @@ class SubModule {
 	static belongsTo = [module:Module]
     static constraints = {
 		name(blank:false)
-		type(inList:["Assignment",
-			"Computer Marked Asessment",
-			"Practical Attendance Exercises",
-			"Tutor Marked Assessment"])
+		type(inList:LearningMode.list())
+//		type(inList:["Assignment",
+//			"Computer Marked Asessment",
+//			"Practical Attendance Exercises",
+//			"Tutor Marked Assessment"])
     }
 	static mapping = {
 	//	exams lazy:false
