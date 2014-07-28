@@ -9,7 +9,7 @@ public enum LearningMode {
 	 */
 	ASS("Assigment"),
 	PAX("Practical Attendance Exercises"),
-	CMA("Computer Marked Asessment"),
+	CMA("Computer Marked Assessment"),
 	TMA("Tutor Marked Assessment")
 	
 	final String value

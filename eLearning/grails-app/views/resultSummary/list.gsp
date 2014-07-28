@@ -10,17 +10,15 @@
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
-                <z:vlayout>
-                
+                <z:vlayout>                
                 <z:hlayout>
                  <z:label value="${message(code:'resultSummary.register.learner',default:'Learner lastname:')}"/>
                 <z:textbox id="keywordBox" />
-                <z:space/><z:space/>
+                <z:space/>
                 <z:label value="${message(code:'resultSummary.tutor',default:'Tutor lastname:')}"/>
                 <z:textbox id="keywordBoxTutor" />
                 <z:space/>
-                </z:hlayout>
-                
+                </z:hlayout>                
 <%--                <z:hlayout>--%>
 <%--	            	<z:label value="${message(code:'resultSummary.status.label',default:'Status')}"/>--%>
 <%--	                <zkui:select id="keywordBoxStatus" from="['All','Not Started','In Progress','Completed','Exempt']" value="All" valueMessagePrefix="resultSummary.status"  />--%>
@@ -29,9 +27,12 @@
 <%--	        		<zkui:select id="keywordBoxModule" from="${com.cland.elearning.Module.list()}" optionKey="id" value=""  />--%>
 <%--            	</z:hlayout>--%>
                 </z:vlayout>
-               <sec:ifAnyGranted roles="ADMIN,TUTOR">
-                	<z:toolbarbutton href="${createLink(action:'jq_export_results_flat', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Results'])}"/>
-                </sec:ifAnyGranted>
+                <z:vlayout>
+	               <sec:ifAnyGranted roles="ADMIN,TUTOR">
+	               		<z:toolbarbutton href="${createLink(action:'jq_export_results_flat', params:[save: '1',rtype:'2'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Results'])}"/>
+	                	<z:toolbarbutton href="${createLink(action:'jq_export_results_flat', params:[save: '1',rtype:'1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Test Scores'])}"/>	                	
+	                </sec:ifAnyGranted>
+                </z:vlayout>
             </z:hlayout>
             
             <g:if test="${flash.message}">

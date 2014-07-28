@@ -57,8 +57,6 @@ class ResultSummaryController {
 		def tutorList = Person.findAllByFirstNameAndLastName("No","Tutor")
 		def list = com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person
 		tutorList.addAll(list)
-		
-		
 		return tutorList
 	}
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
@@ -92,18 +90,18 @@ class ResultSummaryController {
 				exempt_data = getResultsData("Exempt",rowcount,page,sidx,sord)
 			}else{
 			println(">> Exporting OTHER report type.")
-				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Mode of Learning','Result','Status',
-					LearningMode.ASS.getKey() + ' Total',LearningMode.ASS.getKey()+' Out Of',LearningMode.ASS.getKey() + ' Mark %',LearningMode.ASS.getKey()+' Contribution',
+				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Result','Status',					
 					LearningMode.CMA.getKey() + ' Total',LearningMode.CMA.getKey()+' Out Of',LearningMode.CMA.getKey() + ' Mark %',LearningMode.CMA.getKey()+' Contribution',
 					LearningMode.PAX.getKey() + ' Total',LearningMode.PAX.getKey()+' Out Of',LearningMode.PAX.getKey() + ' Mark %',LearningMode.PAX.getKey()+' Contribution',
-					LearningMode.TMA.getKey() + ' Total',LearningMode.TMA.getKey()+' Out Of',LearningMode.TMA.getKey() + ' Mark %',LearningMode.TMA.getKey()+' Contribution',					
+					LearningMode.TMA.getKey() + ' Total',LearningMode.TMA.getKey()+' Out Of',LearningMode.TMA.getKey() + ' Mark %',LearningMode.TMA.getKey()+' Contribution',
+					LearningMode.ASS.toString() + ' Total',LearningMode.ASS.toString()+' Out Of',LearningMode.ASS.toString() + ' Mark %',LearningMode.ASS.toString()+' Contribution',
 					]
 				
-				withProperties = ['course','student_number', 'firstname', 'lastname', 'company','email', 'module_name','module_startdate','module_enddate','submodule','result','status',
-					'submodules.ASS.total','submodules.ASS.maxtotal','submodules.ASS.mark','submodules.ASS.totalcontribution',
+				withProperties = ['course','student_number', 'firstname', 'lastname', 'company','email', 'module_name','module_startdate','module_enddate','result','status',					
 					'submodules.CMA.total','submodules.CMA.maxtotal','submodules.CMA.mark','submodules.CMA.totalcontribution',
 					'submodules.PAX.total','submodules.PAX.maxtotal','submodules.PAX.mark','submodules.PAX.totalcontribution',
-					'submodules.TMA.total','submodules.TMA.maxtotal','submodules.TMA.mark','submodules.TMA.totalcontribution'					
+					'submodules.TMA.total','submodules.TMA.maxtotal','submodules.TMA.mark','submodules.TMA.totalcontribution',
+					'submodules.ASS.total','submodules.ASS.maxtotal','submodules.ASS.mark','submodules.ASS.totalcontribution'
 					]
 				completed_data = getResultsData2("Completed",rowcount,page,sidx,sord)
 				//println(completed_data)
@@ -187,7 +185,7 @@ class ResultSummaryController {
 				def total = subresult?.sum { it?.mark }				
 				def max_total = subresult?.sum { it?.max_mark }
 				def percentage = String.format( '%.1f',((total/max_total) * 100))
-				def total_contribution = subresult?.sum { it?.contribution_mark }
+				def total_contribution = String.format( '%.1f',subresult?.sum { it?.contribution_mark })
 				def tests = [:]
 				subresult.each{key1 ->					
 					tests.put("test" + key1?.test, key1?.mark)
@@ -271,7 +269,7 @@ class ResultSummaryController {
 				def total = subresult?.sum { it?.mark }
 				def max_total = subresult?.sum { it?.max_mark }
 				def percentage = String.format( '%.1f',((total/max_total) * 100))
-				def total_contribution = subresult?.sum { it?.contribution_mark }
+				def total_contribution = String.format( '%.1f',subresult?.sum { it?.contribution_mark })
 				submodule.put("total", total)
 				submodule.put("maxtotal", max_total)
 				submodule.put("mark", percentage)
