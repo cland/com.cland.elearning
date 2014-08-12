@@ -75,7 +75,7 @@ class ListComposer {
 				label(value: examInstance.status)
                 hlayout{
                     //toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',href:g.createLink(controller: "exam", action: 'edit', id: id))
-					toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',client_onClick: "alert('view exam')",onClick:{
+					toolbarbutton(label: g.message(code: 'default.button.edit.label', default: 'Edit'),image:'/images/skin/database_edit.png',client_onClick: "editExam('" + id + "')",onClick:{
 					
 						//href:g.createLink(controller: "exam", action: 'edit', id: id)	
 					})

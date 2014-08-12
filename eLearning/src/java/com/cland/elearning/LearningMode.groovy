@@ -35,6 +35,6 @@ public enum LearningMode {
 		TMA.toString() +":" + TMA.getKey() 
 	}
 	static listKeys() {
-		[ASS,PAX,CMA,TMA]
+		[ASS.getKey(),PAX.getKey(),CMA.getKey(),TMA.getKey()]
 	}
 }

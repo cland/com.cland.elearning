@@ -3,10 +3,12 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'exam.label', default: 'Exam')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
+        <link rel="stylesheet"	href="${resource(dir:'css/south-street',file:'jquery-ui-1.10.3.custom.min.css')}" />
+        <g:javascript library="jquerymin" />
+		<g:javascript library="jqueryuilatest" />
     </head>
     <body>
 
-</div>
         <z:window style="padding:5px" apply="com.cland.elearning.exam.ListComposer">
             <z:hlayout>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
@@ -45,5 +47,30 @@
             </z:grid>
             <z:paging autohide="true" id="paging" pageSize="50"/>
         </z:window>
+        <script>
+        function editExam(exam_id){
+  		  	 var $dialog = $('<div><div id="wait" style="font-weight:bold;">Loading...</div></div>')             
+                          .load('../exam/dialogedit/' +exam_id)
+                          
+                          .dialog({
+                              autoOpen: false,
+                              width:650,
+                              beforeClose: function(event,ui){
+                              	
+                              },
+                              close: function(event,ui){
+                            	  $(this).dialog('destroy').remove()
+                              },
+                              position: {my:"top",at:"center",of:window},
+                              title: 'Edit Exam'                         
+                          });
+                              
+                          $dialog.dialog('open');
+                          
+  		  }
+        $(document).ready(function(){
+        	
+            });
+        </script>
     </body>
 </html>

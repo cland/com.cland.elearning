@@ -6,6 +6,7 @@ class SubModule {
 	String type	//CMA/PAX/ASS/TMA
 	String description
 		
+	static transients = ['moduleName','subModuleName','subModuleType']
 	static hasMany = [exams:Exam]
 	static belongsTo = [module:Module]
     static constraints = {
@@ -37,10 +38,16 @@ class SubModule {
 		if(!total) total = 0
 		total
 	}
-	String moduleName(){
+	String getSubModuleType(){
+		return type
+	}
+	String getSubModuleName(){
+		return name
+	}
+	String getModuleName(){
 		return "${module.name}"
 	}
 	String toString(){		
-		"Module: ${moduleName()} - ${name}, ${type}"
+		"${moduleName} - ${type}"
 	}
 } //end of class
