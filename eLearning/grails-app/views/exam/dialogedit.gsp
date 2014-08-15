@@ -9,7 +9,7 @@
 	<body>
 
 		<div id="edit-exam" class="content scaffold-create" role="main">	
-		<div id="resultsDiv" style="display:none;">Action completed!</div>		
+		<div id="resultsDiv" style="display:none;border:solid 1px #000;background:#fff;padding:5px;">Action completed!</div>		
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>

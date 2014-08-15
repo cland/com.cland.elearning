@@ -49,19 +49,29 @@
         </z:window>
         <script>
         function editExam(exam_id){
-  		  	 var $dialog = $('<div><div id="wait" style="font-weight:bold;">Loading...</div></div>')             
+  		  	 var $dialog = $('<div><div id="wait" style="font-weight:bold;text-align:center;">Loading...</div></div>')             
                           .load('../exam/dialogedit/' +exam_id)
                           
                           .dialog({
                               autoOpen: false,
+                              dialogClass: 'no-close',
                               width:650,
                               beforeClose: function(event,ui){
                               	
                               },
+                              buttons:{
+                                  "DONE":function(){
+                                	  location.reload();
+                                      },
+                                   "CANCEL":function(){
+                                	   $(this).dialog('close')
+                                       }
+                                 },
                               close: function(event,ui){
                             	  $(this).dialog('destroy').remove()
+                            	  //location.reload();
                               },
-                              position: {my:"top",at:"center",of:window},
+                              position: {my:"top",at:"top",of:window},
                               title: 'Edit Exam'                         
                           });
                               

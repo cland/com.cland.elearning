@@ -50,4 +50,11 @@ class Organisation {
 	String toString(){
 		"${name}"
 	}
+	def toAutoCompleteMap(){
+		return [id:id,
+		label:name + " | " + phoneNo + " | " + email,
+		value:id,
+		phoneno:phoneNo,
+		email:email]
+	}
 } //end of class
