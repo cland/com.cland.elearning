@@ -11,15 +11,18 @@ class ResultSummary {
 	String paymentStatus
 	String result
 	String certNumber	
+	Certificate certificate
 	Module module
 	Date startDate  //Date module started
 	Date endDate	//Date module completed
 	
 	Person tutor
+	
 	static hasMany =[results:ExamResult]
 	static belongsTo = [register:Registration]
 	static transients = ['isExpired','currentDuration','currentTimeDuration']
     static constraints = {
+		certificate nullable:true
 		status(inList:["Not Started","In Progress","Completed","Exempt","Re-Write"])
 		paymentStatus(nullable:true,inList:["Not-Paid","Paid","Exempt"])
 		result(inList:["Pass","Fail","None","Exempt"])
