@@ -104,7 +104,8 @@ var cland_params = {
 			<g:form>
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${resultSummaryInstance?.id}" />
-					<g:link class="edit" style="float:right" action="edit" id="${resultSummaryInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>					
+					<g:link class="new" style="float:right" controller="certificate" action="generate" params="['resultSummary.id':1369]"><g:message code="default.button.new.label" default="Generate Certificate" /></g:link>					
+					<g:link class="edit" style="float:right" action="edit" id="${resultSummaryInstance?.id}"><g:message code="default.button.edit.label" default="Edit Results" /></g:link>
 				</fieldset>
 			</g:form>
 			</sec:ifAnyGranted>

@@ -104,15 +104,24 @@ class CertificateController {
 	def generate(){
 		//params: resultSummary.id
 		//certno should be yyyymm-10001
+		println (">> " + params)
+		ResultSummary resultSummary = ResultSummary.get(params?.resultSummary?.id)
+		println(resultSummary)
 		def today = new Date()
 		Certificate certInstance = new Certificate(params).save()
 		if(certInstance){
 			Long n = certInstance?.id
 			n = n + 10000
 			String certNo = g.formatDate(date:today,format:"yyyymm") + "-" + n.toString()
+			println (">> Cert No " + certNo)
 			certInstance.certno = certNo
 			certInstance.save(flush:true)
+			render certInstance?.toMap() as JSON
+		}else{
+		println (">> " + certInstance?.errors)  //render [error:"Failed to save item"] as JSON
+		
 		}
-		render certInstance?.toAutoCompleteMap() as JSON
+		
+		render "failed"
 	}
 }//end class
