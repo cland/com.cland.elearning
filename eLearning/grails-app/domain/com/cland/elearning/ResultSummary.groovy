@@ -191,6 +191,23 @@ class ResultSummary {
 	Double totalPercentMark(){
 		((totalMark()/totalMaxMark()) * 100)
 	}
+	def toCertificateMap(){
+		return [id:id,
+			module:module ,
+			certificate:(certificate?certificate?.toMap():[]),
+			person_idno:register?.learner?.idNo,
+			person_studentno:register?.learner?.studentNo,
+			person_name:register?.learner?.toString(),
+			course_name: register?.course?.name,
+			start_date:startDate?.format("dd-MMM-yyyy"),
+			end_date:endDate?.format("dd-MMM-yyyy"),
+			status:status,
+			result:result,
+			reg_date:register?.regDate?.format("dd-MMM-yyyy"),
+			tutor:register?.tutor,
+			payment_status:paymentStatus
+			 ]
+	}
 	String toString(){
 		"Learner: ${register.learner.toString()} - Course: ${register.course.name} - Module: ${module.name} Status: ${status} - Result: ${result} "
 	}

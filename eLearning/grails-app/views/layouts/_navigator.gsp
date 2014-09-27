@@ -16,7 +16,9 @@
 						<li><g:link controller="resultSummary" action="list">Registered Learners</g:link></li>
 						<li><g:link controller="person" action="list">Learner</g:link></li>											
 					</sec:ifAnyGranted>
-
+					<sec:ifAnyGranted roles="ADMIN">
+						<li><g:link controller="certificate" action="list">Certificates</g:link></li>	
+					</sec:ifAnyGranted>
 				</g:link></li>
 			<li><g:link controller="logout" action="index">Logout</g:link></li>
 		</sec:ifLoggedIn>

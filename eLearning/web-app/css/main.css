@@ -623,3 +623,11 @@ input.search-box {width:160px;}
 #system_info {
 	padding-top:0.5em;	
 }
+.dataTable tr td {
+	 border-bottom : solid 1px #FFDAB9;
+	 padding: 5px 0 5px 0;
+	 font-size:0.9em;
+}
+.datepicker-reset, .action-link, .action-link a {cursor:pointer;color:#48802C;font-size:0.9em;font-weight:bold;}
+.datepicker-reset:hover, .action-link:hover, .action-link a:hover{color:#EB8F2A;}
+.action-link-label{color:#EB8F2A;font-weight:bold;font-size:0.8em;text-transform:uppercase;}
