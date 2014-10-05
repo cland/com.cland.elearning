@@ -3,8 +3,7 @@
 <meta name="layout" content="main" />
 <g:set var="entityName" value="${message(code: 'person.label', default: 'Person')}" />
 <title><g:appTitle title=""><g:message code="default.show.label" args="[entityName]" /></g:appTitle></title>
-<link rel="stylesheet"
-	href="${resource(dir:'css',file:'ui.jqgrid.css')}" />
+<link rel="stylesheet"	href="${resource(dir:'css',file:'ui.jqgrid.css')}" />
 <link rel="stylesheet"	href="${resource(dir:'css/south-street',file:'jquery-ui-1.10.3.custom.min.css')}" />
 <g:javascript library="jquerymin" />
 <g:javascript library="jqueryuilatest" />

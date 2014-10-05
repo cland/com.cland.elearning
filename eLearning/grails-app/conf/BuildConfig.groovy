@@ -70,5 +70,7 @@ grails.project.dependency.resolution = {
 		compile ":grails-melody:1.45"
 		compile ":attachmentable:0.3.0"
 		compile ":excel-export:0.2.1"
+		//compile ":joda-time:1.5" //requires version [2.3 > *] of Grails.
+		compile ":joda-time:1.3.1"
     }
 }

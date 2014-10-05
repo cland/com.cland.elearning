@@ -76,7 +76,7 @@ class ResultSummaryController {
 			def headers = ""
 			def withProperties = ""
 			if(reportType.equals("1")){
-				println(">> Exporting report type " + reportType)
+				//println(">> Exporting report type " + reportType)
 				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Mode of Learning','Result','Status',
 					'Test 1','Test 2','Test 3','Test 4','Test 5','Test 6','Test 7','Test 8','Test 9','Test 10',
 					'Total','Out of','% Mark','Total Contribution','Registration Date']
@@ -89,7 +89,7 @@ class ResultSummaryController {
 				inprogress_data = getResultsData("In Progress",rowcount,page,sidx,sord)
 				exempt_data = getResultsData("Exempt",rowcount,page,sidx,sord)
 			}else{
-			println(">> Exporting OTHER report type.")
+			//println(">> Exporting OTHER report type.")
 				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Result','Status',					
 					LearningMode.CMA.getKey() + ' Total',LearningMode.CMA.getKey()+' Out Of',LearningMode.CMA.getKey() + ' Mark %',LearningMode.CMA.getKey()+' Contribution',
 					LearningMode.PAX.getKey() + ' Total',LearningMode.PAX.getKey()+' Out Of',LearningMode.PAX.getKey() + ' Mark %',LearningMode.PAX.getKey()+' Contribution',

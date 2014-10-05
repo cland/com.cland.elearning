@@ -10,8 +10,7 @@
 		<sec:ifAnyGranted roles="LEARNER,TUTOR">
 				and Courses
 		</sec:ifAnyGranted>
-					<sec:ifAnyGranted roles="ADMIN,TUTOR">
-					
+					<sec:ifAnyGranted roles="ADMIN,TUTOR">				
 						<li><g:link controller="module" action="list">Modules</g:link></li>
 						<li><g:link controller="resultSummary" action="list">Registered Learners</g:link></li>
 						<li><g:link controller="person" action="list">Learner</g:link></li>											
