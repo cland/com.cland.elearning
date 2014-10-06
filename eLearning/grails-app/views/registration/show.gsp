@@ -138,7 +138,7 @@ var cland_params = {
         {name:'startDate',index: 'startDate', width: 80, editable: true, editoptions: { dataInit: function(el) { setTimeout(function() { $(el).datepicker({ dateFormat: 'dd-M-yy' }); }, 200); } } },
         {name:'endDate', index: 'endDate', width: 80, editable: true, editoptions: { dataInit: function(el) { setTimeout(function() { $(el).datepicker({ dateFormat: 'dd-M-yy' }); }, 200); } } },
         {name:'tutor.id',editable:cland_params.isAdmin,width:90,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.tutors}},
-        {name:'certNumber', editable:true},        
+        {name:'certNumber', editable:false},        
         {name:'id',hidden:true},
         {name:'act',index:'act', width:180,sortable:false,search:false}
         //{name:'resultSumid',index:'resultSumid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}

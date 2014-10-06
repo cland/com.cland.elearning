@@ -97,14 +97,25 @@ var cland_params = {
 			<b>Date Completed:</b> ${resultSummaryInstance?.endDate?.format("dd-MMM-yyyy")}<br/>
 			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}<br/>
 			<b>Payment Status:</b> ${resultSummaryInstance?.paymentStatus}<br/>
-			<b>Certificate No.:</b> ${resultSummaryInstance?.certNumber}
+			<b>Certificate No.:</b> <span id="certno">${resultSummaryInstance?.certificate?.certno}</span><span id="certno-msg"></span>
+			<sec:ifAnyGranted roles="ADMIN,TUTOR">
+				<g:if test="${ resultSummaryInstance?.certificate?.certno == null & (resultSummaryInstance?.result == 'Pass' | resultSummaryInstance?.result == 'Exempt')}">	
+					<span id="certno-link">			
+						<g:remoteLink action="generate" controller="certificate" params="${['resultSummary.id':resultSummaryInstance?.id ]}"
+							onSuccess='onCertSuccess(data)'
+							onLoading='onCertLoading()'
+							onFailure='onCertFailure(data)'>
+							Generate Certificate Number
+						</g:remoteLink>
+					</span>
+				</g:if>
+			</sec:ifAnyGranted>
 		</div>
 	</fieldset>
 		<sec:ifAnyGranted roles="ADMIN,TUTOR">
 			<g:form>
 				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${resultSummaryInstance?.id}" />
-					<g:link class="new" style="float:right" controller="certificate" action="generate" params="['resultSummary.id':1369]"><g:message code="default.button.new.label" default="Generate Certificate" /></g:link>					
+					<g:hiddenField name="id" value="${resultSummaryInstance?.id}" />								
 					<g:link class="edit" style="float:right" action="edit" id="${resultSummaryInstance?.id}"><g:message code="default.button.edit.label" default="Edit Results" /></g:link>
 				</fieldset>
 			</g:form>
@@ -259,6 +270,20 @@ var cland_params = {
       );
 	}
   function clearSelection(){jQuery('#' + cland_params.maingrid_id).jqGrid('resetSelection'); }
+
+  function onCertSuccess(data){
+	  $("#certno-msg").html("")
+	  var _certno = (data.certno?data.certno:"--");
+	  $("#certno").html(_certno)
+	 }
+  function onCertFailure(){
+	  $("#certno-link").show()
+	  $("#certno-msg").html("Error: Failed to generate number!")
+	  }
+  function onCertLoading(){
+	  $("#certno-link").hide()
+	  $("#certno-msg").html("Generting number...")
+	  }
 </script>
 
 </body>

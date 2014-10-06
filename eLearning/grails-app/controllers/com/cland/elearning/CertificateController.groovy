@@ -219,15 +219,24 @@ class CertificateController {
 	def generate(){
 		//params: resultSummary.id
 		ResultSummary resultSummary = ResultSummary.get(params?.resultSummary?.id)
-		Certificate certInstance = new Certificate(params).save()
-		if(certInstance){			
-			certInstance.certno = generateCertNo(certInstance?.id)
-			certInstance.save(flush:true)
-			render certInstance?.toMap() as JSON
+		if(!resultSummary?.certificate){
+			Certificate certInstance = new Certificate(params).save()
+			if(certInstance){			
+				certInstance.certno = generateCertNo(certInstance?.id)
+				certInstance.save(flush:true)
+				resultSummary?.certificate = certInstance
+				resultSummary?.save()
+				render certInstance?.toMap() as JSON
+				return
+			}else{
+				println (">> " + certInstance?.errors)  //render [error:"Failed to save item"] as JSON		
+			}
 		}else{
-			println (">> " + certInstance?.errors)  //render [error:"Failed to save item"] as JSON		
+			
+			render resultSummary?.certificate?.toMap() as JSON
+			return
 		}
-		List error =['error':'Failed!']
+		def error =['error':'Failed!']
 		render error as JSON
 	}
 	private String generateCertNo(long offset){

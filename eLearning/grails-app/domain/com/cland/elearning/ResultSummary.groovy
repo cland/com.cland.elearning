@@ -33,14 +33,13 @@ class ResultSummary {
 		tutor(nullable:true)
     }
 	def beforeInsert = {
-	// your code goes here
-		
+		if(certificate?.certno) certNumber = certificate?.certno
 	}
 	def beforeUpdate = {
-	// your code goes here
+		if(certificate?.certno) certNumber = certificate?.certno
 	}
 	def beforeDelete = {
-	// your code goes here
+
 	}
 	def onLoad = {
 	// your code goes here 

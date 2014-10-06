@@ -12,19 +12,13 @@
 		<g:javascript library="jqueryuilatest" />
 		<g:javascript library="jqueryfiledownload" />		
 <%--		<g:javascript library="multidatepicker" />--%>
-		<style type="text/css">
-		.buttons .export,.buttons .search,.search{
-			background-position: 0.7em center;
-			background-repeat: no-repeat;
-			text-indent: 25px;
+	<g:render template="../layouts/icon_style"></g:render>
+	<style type="text/css">
+		.certno {
+			text-align:center;
+			color:green;
 		}
-		.buttons .search,.search{
-			background-image: url('${fam.icon(name: 'magnifier')}');
-		}
-		.buttons .export {
-			background-image: url('${fam.icon(name: 'page_excel')}');			
-		}		
-		</style>
+	</style>
 	</head>
 	<body>
 		<a href="#list-certificate" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -130,7 +124,7 @@
 				var _certno = (item.certificate.certno?item.certificate.certno:"--");
 				var _payment_status = (item.payment_status?item.payment_status:"--");
 				rows = rows + "<tr><td><input class='report-checkbox' type='checkbox' name='result' value='" + item.id + "'/></td><td>" + item.person_name + "</td><td>" + item.person_studentno + "</td><td>" 
-						+ item.module.name + "</td><td id='cert-" + item.id + "' style='text-align:center;'>" + _certno + "</td><td style='text-align:center;'>" + item.result + "</td><td style='text-align:center;'>" + item.status + "</td><td style='text-align:center;'>" + _payment_status + "</td><td>" + item.end_date + "</td></tr>";
+						+ item.module.name + "</td><td class='certno' id='cert-" + item.id + "' style=''>" + _certno + "</td><td style='text-align:center;'>" + item.result + "</td><td style='text-align:center;'>" + item.status + "</td><td style='text-align:center;'>" + _payment_status + "</td><td>" + item.end_date + "</td></tr>";
 			});
 			resultbody.html( rows);
 			if(data.length == 0){				
