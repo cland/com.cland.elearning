@@ -13,6 +13,12 @@
 <g:javascript library="jquerygridlocale" />
 <g:javascript library="jquerygrid" />
 <style>
+.buttons .printview {
+	background-image: url('${fam.icon(name: 'printer')}');
+	background-position: 0.7em center;
+	background-repeat: no-repeat;
+	text-indent: 25px;
+}
 .ui-jqgrid .ui-jqgrid-htable th div {
 	height: auto;
 	overflow: hidden;
@@ -117,6 +123,7 @@ var cland_params = {
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${resultSummaryInstance?.id}" />								
 					<g:link class="edit" style="float:right" action="edit" id="${resultSummaryInstance?.id}"><g:message code="default.button.edit.label" default="Edit Results" /></g:link>
+					<g:link class="printview" style="float:right" action="print" id="${resultSummaryInstance?.id}"><g:message code="default.button.printview.label" default="Print Version" /></g:link>
 				</fieldset>
 			</g:form>
 			</sec:ifAnyGranted>

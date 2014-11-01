@@ -155,7 +155,7 @@ class CertificateController {
 			} //end if resultSummary
 		} //end for each
 			
-		def headers = ['Learner',
+		def headers = ['ID_No','Learner',
 			'Student No',
 			'Module',
 			'Certificate No.',
@@ -163,10 +163,12 @@ class CertificateController {
 			'Result',
 			'Status',
 			'Registration Date',
+			'Pass %',
+			'Pass Comment',
 			'Payment Status',
 			'System Id']
 		
-		def withProperties = ['result.person_name',
+		def withProperties = ['result.person_idno','result.person_name',
 			'result.person_studentno',
 			'result.module.name',
 			'result.certificate.certno',
@@ -174,6 +176,8 @@ class CertificateController {
 			'result.result',
 			'result.status',
 			'result.reg_date',
+			'result.percent_mark',
+			'result.pass_comment',
 			'result.payment_status',
 			'result.id'
 			]

@@ -10,7 +10,17 @@ class RegistrationController {
         redirect(action: "list", params: params)
     }
     def list = {}
-	
+	def soregister = {}
+	def onlineregistration = {
+		//search of a person with id and passes on object to the on registration form
+		def learnerId = params?.learnerId
+		def personInstance = Person.find {studentNo == learnerId}
+		println (">> " + personInstance)
+		return [personInstance:personInstance]
+	}
+	def onlineregistrationSave(){
+		
+	} 
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def create = {
         def registrationInstance = new Registration()

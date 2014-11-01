@@ -204,7 +204,9 @@ class ResultSummary {
 			result:result,
 			reg_date:register?.regDate?.format("dd-MMM-yyyy"),
 			tutor:register?.tutor,
-			payment_status:paymentStatus
+			payment_status:paymentStatus,
+			percent_mark:totalPercentMark(),
+			pass_comment:'',
 			 ]
 	}
 	String toString(){

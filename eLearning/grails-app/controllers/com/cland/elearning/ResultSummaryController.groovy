@@ -48,7 +48,18 @@ class ResultSummaryController {
 			return [resultSummaryInstance: resultSummaryInstance]
 		}
 	} //end show 
+	def print = {
+		def resultSummaryInstance = ResultSummary.get(params.id)
 	
+		//println(resultSummaryInstance.isExpired().toString() + " - " + resultSummaryInstance.getCurrentDuration())
+		if (!resultSummaryInstance) {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'resultSummary.label', default: 'ResultSummary'), params.id])}"
+			redirect(action: "list")
+		}
+		else {
+			return [resultSummaryInstance: resultSummaryInstance]
+		}
+	} //end
 	def listresults = {
 		
 	}
