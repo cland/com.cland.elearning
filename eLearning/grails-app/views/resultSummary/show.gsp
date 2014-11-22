@@ -187,9 +187,9 @@ var cland_params = {
 		{name:'submodule', editable:false,editrules:{required:true}},
 		{name:'examname', editable:false,editrules:{required:true}},
         {name:'mark', editable:true,editrules:{required:true}},
-        {name:'maxMark', editable:false},
+        {name:'maxMark', editable:true,editrules:{required:true}},
         {name:'percentMark', editable:false},     
-        {name:'tutor', editable:false},   
+        {name:'contributionMark', editable:false},   
         {name:'id',hidden:true},
         {name:'act',index:'act', width:200,sortable:false,search:false}
         //{name:'resultSumid',index:'resultSumid',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:cland_params.thisId}}
@@ -199,6 +199,7 @@ var cland_params = {
      multiselect: false,
     pager: jQuery('#' + cland_params.maingrid_id_pager),
     viewrecords: true,
+    footerrow : true,
     gridview: true,
     afterSubmit:afterSubmitEvent,
    // postData:{modid:cland_params.thisid},
@@ -220,9 +221,16 @@ var cland_params = {
 	            jQuery("#" + cland_params.maingrid_id).jqGrid('setRowData',ids[i],{act:be+se+ce+de}); //be+se+ce+de forall actions 
             }
         if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
+
+        var markTotal=  $(this).jqGrid('getCol', 'mark', false, 'sum');     
+        var contributionTotal=  $(this).jqGrid('getCol', 'contributionMark', false, 'sum');  
+        var maxMarkTotal=  $(this).jqGrid('getCol', 'maxMark', false, 'sum');        
+        var pmark = (markTotal/maxMarkTotal)*100
+        $(this).jqGrid('footerData', 'set', {submodule:'Total:',maxMark: maxMarkTotal,mark: markTotal, percentMark: pmark.toFixed(1) + "%",contributionMark:contributionTotal.toFixed(1) + "%"});
+        
     } 
     }).navGrid('#' + cland_params.maingrid_id_pager,
-            {add:true,edit:false,del:false,search:false,refresh:true}, // which buttons to show?
+            {add:false,edit:false,del:false,search:false,refresh:true}, // which buttons to show?
             {closeAfterEdit:true, afterSubmit:afterSubmitEvent,savekey:[true,13],afterShowForm: centerForm},  // edit options
             {addCaption:'New Record',afterSubmit:afterSubmitEvent,savekey:[true,13],closeAfterEdit:false},  // add options            
            {afterShowForm: centerForm}          // delete options

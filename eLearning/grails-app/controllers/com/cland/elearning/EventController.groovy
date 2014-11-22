@@ -3,13 +3,15 @@ package com.cland.elearning
 
 import org.joda.time.DateTime
 import org.joda.time.Instant
-
+import grails.plugins.springsecurity.Secured
 import grails.converters.JSON
 import java.text.SimpleDateFormat
+import org.codehaus.groovy.grails.plugins.springsecurity.*
 
 class EventController {
     def eventService
-
+	def courseService
+	def springSecurityService
     def index = {
 
     }
@@ -17,22 +19,39 @@ class EventController {
     def list = {
        // def (startRange, endRange) = [params.long('start'), params.long('end')].collect { new Instant(it  * 1000L).toDate() }
 		def (startRange, endRange) = [params.date('start','yyyy-MM-dd'), params.date('end','yyyy-MM-dd')] //.collect { new Instant(it  * 1000L).toDate() }
-        def events = Event.withCriteria {
-            or {
-                and {
-                    eq("isRecurring", false)
-                    between("startTime", startRange, endRange)
-                }
-                and {
-                    eq("isRecurring", true)
-                    or {
-                        isNull("recurUntil")
-                        ge("recurUntil", startRange)
-                    }
-                }
-            }
-        }
+		def events = null
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+			events = Event.withCriteria {
+				or {
+					and {
+						eq("isRecurring", false)
+						between("startTime", startRange, endRange)
+					}
+					and {
+						eq("isRecurring", true)
+						or {
+							isNull("recurUntil")
+							ge("recurUntil", startRange)
+						}
+					}
+				}
+			}
+		}else{
+			//get the current user's registration list
+			def registerInstanceList = Registration.createCriteria().list() {
+				eq "learner.id", springSecurityService.principal.id as long
+				order('regDate','desc')
+			}
+			events = []
+			registerInstanceList.each {reg ->
+				events.addAll(reg?.course?.events?.findAll{
+							((it.isRecurring==false) & (it.startTime >= startRange) & (it.startTime <= endRange)) |
+							((it.isRecurring == true) & (it.recurUntil==null | it.recurUntil >= startRange))
+						}
+					)
+			}
 
+		}
 
         // iterate through to see if we need to add additional Event instances because of recurring
         // events
@@ -75,11 +94,17 @@ class EventController {
         }
     }
 
+	
     def create = {
-        def eventInstance = new Event()
-        eventInstance.properties = params
-
-        [eventInstance: eventInstance]
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+	        def eventInstance = new Event()
+	        eventInstance.properties = params
+			def courseInstance = Course.get(params?.course?.id)
+	        [eventInstance: eventInstance,courseInstance:courseInstance]
+		}else{
+			flash.message = "You do not have enough access rights to create an event."
+			redirect(action: "index")
+		}
     }
 
 
@@ -105,37 +130,45 @@ class EventController {
 
     }
 
-    def save = {
-		println(">> " + params?.startTime + " - " + params?.endTime)
-		
-        def eventInstance = new Event(params)
-	//	bindData(eventInstance, params, [exclude: 'startTime'])
-	//	bindData(eventInstance, ['startTime': params.date('startTime', ['dd/MM/yyyy hh:mm a'])], [include: 'startTime'])
-	//	bindData(eventInstance, params, [exclude: 'endTime'])
-	//	bindData(eventInstance, ['endTime': params.date('endTime', ['dd/MM/yyyy hh:mm a'])], [include: 'endTime'])
-
-        if (eventInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'event.label', default: 'Event'), eventInstance.id])}"
-            redirect(action: "show", id: eventInstance.id)
-        }
-        else {
-            render(view: "create", model: [eventInstance: eventInstance])
-        }
+    def save = {	
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+	        def eventInstance = new Event(params)
+	        if (eventInstance.save(flush: true)) {
+				//attach to a related object
+				Course courseInstance = Course.get(params?.course.id)
+				if(courseInstance){
+					courseInstance?.addToEvents(eventInstance)
+					//courseInstance?.save(flush:true)				
+				}
+	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'event.label', default: 'Event'), eventInstance.id])}"
+	            redirect(action: "show", id: eventInstance.id)
+	        }
+	        else {
+	            render(view: "create", model: [eventInstance: eventInstance, 'course.id':params?.course.id])
+	        }
+		}else{
+			flash.message = "You do not have enough access rights to save an event."
+			redirect(action: "index")
+		}
 
     }
 
     def edit = {
-        def eventInstance = Event.get(params.id)
-        def (occurrenceStart, occurrenceEnd) = [params.long('occurrenceStart'), params.long('occurrenceEnd')]
-
-        if (!eventInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), params.id])}"
-            redirect(action: "index")
-        }
-        else {
-            [eventInstance: eventInstance, occurrenceStart: occurrenceStart, occurrenceEnd: occurrenceEnd]
-        }
-
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+	        def eventInstance = Event.get(params.id)
+	        def (occurrenceStart, occurrenceEnd) = [params.long('occurrenceStart'), params.long('occurrenceEnd')]
+	
+	        if (!eventInstance) {
+	            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), params.id])}"
+	            redirect(action: "index")
+	        }
+	        else {
+	            [eventInstance: eventInstance, occurrenceStart: occurrenceStart, occurrenceEnd: occurrenceEnd]
+	        }
+		}else{
+			flash.message = "You do not have enough access rights to edit an event."
+			redirect(action: "index")
+		}
     }
 
     def update = {
@@ -150,6 +183,27 @@ class EventController {
         def result = eventService.updateEvent(eventInstance, editType, occurrenceStartTime, occurrenceEndTime, params)
 
         if (!result.error) {
+			Course curCourseInstance = courseService?.findCourseForEvent(eventInstance)
+			if(curCourseInstance){
+				//replace related object if different
+				if(params?.course.id != curCourseInstance?.id){
+					Course courseInstance = Course.get(params?.course.id)
+					if(courseInstance){
+						courseInstance?.addToEvents(eventInstance)
+						//courseInstance?.save(flush:true)						
+					}
+					//the id is different so we remove the object that existed
+					curCourseInstance.events.remove(eventInstance)
+				}				
+			}else{
+				//attach to a new related object
+				Course courseInstance = Course.get(params?.course.id)
+				if(courseInstance){
+					courseInstance?.addToEvents(eventInstance)
+					//courseInstance?.save(flush:true)
+				}
+			}
+			
             flash.message = "${message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'Event'), eventInstance.id])}"
             redirect(action: "index")
         }
@@ -163,25 +217,29 @@ class EventController {
 
     }
 
-
     def delete = {
-        def eventInstance = Event.get(params.id)
-
-        EventRecurActionType deleteType = params.editType ? params.deleteType.toUpperCase() as EventRecurActionType : null
-        Date occurrenceStart = new Instant(params.long('occurrenceStart')).toDate()
-
-        def result = eventService.deleteEvent(eventInstance, deleteType, occurrenceStart)
-
-        if (!result.error) {
-            redirect(action: "index")
-        }
-        if (result.error == 'not.found') {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), params.id])}"
-            redirect(action: "index")
-        }
-        else if (result.error == 'has.errors') {
-            redirect(action: "index")
-        }
+		if(SpringSecurityUtils.ifAnyGranted("ADMIN,TUTOR")) {
+	        def eventInstance = Event.get(params.id)
+	
+	        EventRecurActionType deleteType = params.editType ? params.deleteType.toUpperCase() as EventRecurActionType : null
+	        Date occurrenceStart = new Instant(params.long('occurrenceStart')).toDate()
+	
+	        def result = eventService.deleteEvent(eventInstance, deleteType, occurrenceStart)
+	
+	        if (!result.error) {
+	            redirect(action: "index")
+	        }
+	        if (result.error == 'not.found') {
+	            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), params.id])}"
+	            redirect(action: "index")
+	        }
+	        else if (result.error == 'has.errors') {
+	            redirect(action: "index")
+	        }
+		}else{
+			flash.message = "You do not have enough access rights to delete an event."
+			redirect(action: "index")
+		}
     }
 
     

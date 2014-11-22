@@ -11,7 +11,8 @@ class Event {
     String title
     String location
     String description
-
+	Person facilitator
+	Region region
     Date startTime
     Date endTime
 
@@ -29,6 +30,8 @@ class Event {
         title(nullable: false, blank: false)
         location(nullable: true, blank:  true)
         description(nullable: true, blank: true)
+		facilitator(nullable:true,blank:true)
+		region(nullable:true,blank:true)
         recurType(nullable: true)
         recurInterval(nullable: true)
         recurUntil(nullable: true)

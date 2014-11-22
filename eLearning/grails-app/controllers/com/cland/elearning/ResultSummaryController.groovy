@@ -168,7 +168,7 @@ class ResultSummaryController {
 		def allResults = []		
 		//for each resultsummary get the results,person and module details
 		for(ResultSummary resultSummaryInstance: resultSummaryInstanceList){
-			def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.exam.testNumber]} //.groupBy({it.subModule.type})
+			def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.testNumber]} //.groupBy({it.subModule.type})
 			def person = resultSummaryInstance.register.learner
 			def course = resultSummaryInstance.register.course
 			
@@ -245,7 +245,7 @@ class ResultSummaryController {
 		def allResults = []
 		//for each resultsummary get the results,person and module details
 		for(ResultSummary resultSummaryInstance: resultSummaryInstanceList){
-			def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.exam.testNumber]} //.groupBy({it.subModule.type})
+			def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.testNumber]} //.groupBy({it.subModule.type})
 			def person = resultSummaryInstance.register.learner
 			def course = resultSummaryInstance.register.course
 			
@@ -356,7 +356,7 @@ class ResultSummaryController {
 		
 		//for each resultsummary get the results,person and module details
 		for(ResultSummary resultSummaryInstance: resultSummaryInstanceList){
-			def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.exam.testNumber]} //.groupBy({it.subModule.type})
+			def results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.testNumber]} //.groupBy({it.subModule.type})
 			def person = resultSummaryInstance.register.learner
 			def course = resultSummaryInstance.register.course
 			
@@ -401,7 +401,7 @@ class ResultSummaryController {
 			redirect(action: "show",params:params)
 		}
 		
-		def all_results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.exam.testNumber]} //.reverse()
+		def all_results = resultSummaryInstance.results.sort(false){[it.subModule.type,it.testNumber]} //.reverse()
 		int total = all_results?.size()
 		if(total < 1){
 			def t =[records:0,page:0]
@@ -421,9 +421,9 @@ class ResultSummaryController {
 		List results = all_results.getAt(offset..upperLimit)
 		def jsonCells = results.collect {
 			[cell: [it.subModule.name,
-					it.exam.testNumber,
+					it.testNumber,
 					it.mark,
-					it.exam.maxMark,
+					it.maxMark,
 					String.format( '%.1f', it.percentMark) ,
 					String.format( '%.1f', it.contributionMark),
 				], id: it.id]
@@ -451,9 +451,13 @@ class ResultSummaryController {
 				// set the properties according to passed in parameters
 				//examResult.properties = params
 				examResult.mark = params.mark as Integer
+				int maxmark =  params.maxMark as Integer
+				if(maxmark != examResult.maxMark & maxmark > examResult.mark){
+					examResult.maxMark = maxmark
+				}
 				if (! examResult.hasErrors() && examResult.save(flush:true)) {
 					//println("Saved new result: " + examResult.mark + " - " +  examResult.maxMark() + " - " + examResult.contributionMark )
-					message = "Result for ${examResult.subModule.name} ${examResult.subModule.type} exam test ${examResult.exam.testNumber} updated successfully"
+					message = "Result for ${examResult.subModule.name} ${examResult.subModule.type} exam test ${examResult.testNumber} updated successfully"
 					id = examResult.id
 					state = "OK"
 				} else {

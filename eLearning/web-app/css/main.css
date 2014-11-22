@@ -631,3 +631,25 @@ input.search-box {width:160px;}
 .datepicker-reset, .action-link, .action-link a {cursor:pointer;color:#48802C;font-size:0.9em;font-weight:bold;}
 .datepicker-reset:hover, .action-link:hover, .action-link a:hover{color:#EB8F2A;}
 .action-link-label{color:#EB8F2A;font-weight:bold;font-size:0.8em;text-transform:uppercase;}
+.nav-level2 {
+	background:#fff;border-bottom:1px solid #ccc;
+}
+.float-right{float:right;}
+.float-left{float:left;}
+#current-user{
+	float:right; 
+	margin-top:8px;
+	padding:5px 10px;
+
+	font-weight:bold;
+	color:#000;
+	font-size:0.9em;
+}
+#current-user .current-user-label{
+	
+}
+#current-user .current-user-value{
+	text-transform:capitalize;
+	
+	color:#fff;
+}

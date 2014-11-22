@@ -1,6 +1,8 @@
 <%@ page import="com.cland.elearning.Event" %>
 <%@ page import="org.joda.time.Instant" %>
 
+<g:set var="courseService" bean="courseService"/>
+<g:set var="courseInstance" value="${courseService?.findCourseForEvent(eventInstance) }"/>
 
 <!doctype html>
 <html>
@@ -14,16 +16,17 @@
 </head>
 
 <body>
+	<div class="bread-crump">
+		<span class="r-arrow"></span>
+		<g:link controller="event" action="index">Calendar</g:link>
+		<span class="r-arrow"></span>
+		<span class="current-crump">
+			${ eventInstance?.title }
+		</span>
+	</div>
 <a href="#show-event" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
                                                             default="Skip to content&hellip;"/></a>
 
-<div class="nav" role="navigation">
-    <ul>
-        <li><a href="${createLink(uri: '/')}" class="home">Home</a></li>
-        <li><g:link action="index" class="calendar">Calendar</g:link></li>
-        <li><g:link action="create" class="create">New Event</g:link></li>
-    </ul>
-</div>
 
 <div id="show-event" class="content scaffold-show" role="main">
     <h1>${eventInstance?.title}</h1>
@@ -41,18 +44,27 @@
             </span>
 
         </li>
+          <li class="fieldcontain">
+              <span id="location-label" class="property-label"><g:message code="event.location.label"
+                                                                          default="Location"/></span>
 
-        <g:if test="${eventInstance?.location}">
-            <li class="fieldcontain">
-                <span id="location-label" class="property-label"><g:message code="event.location.label"
-                                                                            default="Location"/></span>
+              <span class="property-value" aria-labelledby="location-label"><g:fieldValue bean="${eventInstance}"
+                                                                                          field="location"/></span>
 
-                <span class="property-value" aria-labelledby="location-label"><g:fieldValue bean="${eventInstance}"
-                                                                                            field="location"/></span>
+          </li>
 
-            </li>
-        </g:if>
-
+	<li class="fieldcontain">
+	<span class="property-label">Course:</span>
+	<span class="property-value">
+		<g:if test="${courseInstance != null }">
+			<g:link controller="course" action="show" id="${courseInstance?.id }">${courseInstance }</g:link>
+		</g:if>
+		<g:else>
+			--
+		</g:else>
+	</span>
+	</li>
+	
         <g:if test="${eventInstance?.description}">
             <li class="fieldcontain">
                 <span id="description-label" class="property-label"><g:message code="event.description.label"
@@ -63,8 +75,14 @@
 
             </li>
         </g:if>
-
-
+	<li class="fieldcontain">
+		<span class="property-label">Region</span>
+		<span class="property-value">${eventInstance?.region }</span>
+	</li>
+	<li class="fieldcontain">
+		<span class="property-label">Facilitator</span>
+		<span class="property-value">${eventInstance?.facilitator }</span>
+	</li>
 
     </ol>
     <g:form>
@@ -74,10 +92,12 @@
             <g:hiddenField name="occurrenceStart" value="${occurrenceStart}" />
             <g:hiddenField name="occurrenceEnd" value="${occurrenceEnd}" />
 
+		<sec:ifAnyGranted roles="ADMIN,TUTOR">
             <g:actionSubmit class="edit" action="edit"
                             value="${message(code: 'default.button.edit.label', default: 'Edit')}"/>
             <g:actionSubmit class="delete ${eventInstance.isRecurring ? 'recurring' : ''}" action="delete"
                             value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
+		</sec:ifAnyGranted>                          
         </fieldset>
     </g:form>
 

@@ -12,16 +12,16 @@
 </head>
 
 <body>
+	<div class="bread-crump">
+		<span class="r-arrow"></span>
+		<g:link controller="event" action="index">Calendar</g:link>
+		<span class="r-arrow"></span>
+		<span class="current-crump">
+			${ eventInstance?.title }
+		</span>
+	</div>
 <a href="#edit-event" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
                                                             default="Skip to content&hellip;"/></a>
-
-<div class="nav" role="navigation">
-    <ul>
-        <li><a href="${createLink(uri: '/')}" class="home">Home</a></li>
-        <li><g:link action="index" class="calendar">Calendar</g:link></li>
-        <li><g:link action="create" class="create">New Event</g:link></li>
-    </ul>
-</div>
 
 <div id="edit-event" class="content scaffold-edit" role="main">
     <h1><g:message code="default.edit.label" args="[entityName]"/></h1>
@@ -36,6 +36,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
+    <sec:ifAnyGranted roles="ADMIN,TUTOR">
     <g:form method="post" class="main">
         <g:hiddenField name="id" value="${eventInstance?.id}"/>
         <g:hiddenField name="version" value="${eventInstance?.version}"/>
@@ -44,6 +45,7 @@
         <fieldset class="form">
             <g:render template="form"/>
         </fieldset>
+        
         <fieldset class="buttons">
 
             <g:actionSubmit class="save ${eventInstance.isRecurring ? 'recurring' : ''}" action="update"
@@ -52,7 +54,7 @@
                             value="${message(code: 'default.button.delete.label', default: 'Delete')}" formnovalidate="" />
         </fieldset>
     </g:form>
-
+</sec:ifAnyGranted>
     <g:if test="${eventInstance.isRecurring}">
         <g:render template="deletePopup" model="model" />
         <g:render template="editPopup" model="model" />

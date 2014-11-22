@@ -110,19 +110,22 @@ class CreateComposer {
 		def exams = null
 		for(SubModule submod : submodules){
 	//		println(">> SubModule:" + submod.name)
-			exams = submod.exams		
+			exams = submod?.exams		
 			for(Exam e : exams){
-				examResult = new ExamResult(
-					examDate:new Date(),
-					mark:0,
-					percentMark:0.0,
-					contributionMark:0.0,
-					tutor:defaultTutor,  //fix
-					subModule:submod,
-					exam:e,
-					region:"",
-					venue:""					
-					)
+				if(e.status == 'Active'){
+					examResult = new ExamResult(
+						examDate:new Date(),
+						mark:0,
+						percentMark:0.0,
+						contributionMark:0.0,
+						tutor:defaultTutor,  //fix
+						subModule:submod,
+						exam:e,
+						region:"",
+						venue:"",
+						testNumber:e.testNumber,maxMark:e.maxMark,weight:e.weight,factor:e.factor,factorOperand:e.factorOperand
+						)
+				}
 
 				resultSummary.addToResults(examResult)
 			} //end for all exam						

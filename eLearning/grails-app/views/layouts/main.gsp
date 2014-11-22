@@ -42,7 +42,18 @@
 		</style>
 	</head>
 	<body>
-		<div id="grailsLogo" role="banner"><a href="/eLearning"><img src="${resource(dir: 'images', file: 'sapma_logo64.png')}" alt="Cland"/></a></div>
+		<div id="grailsLogo" role="banner">
+		<a href="/eLearning"><img src="${resource(dir: 'images', file: 'sapma_logo64.png')}" alt="Cland"/></a>
+		<div class="float-right">
+				<div id="current-user"> <label><span class="r-arrow"></span></label>
+				<sec:ifLoggedIn>
+					<span class="current-user-label"> Logged in as: </span>
+					<span class="current-user-value"><sec:loggedInUserInfo field="username" /></span>						
+				</sec:ifLoggedIn> 
+				<sec:ifNotLoggedIn>Anonymous</sec:ifNotLoggedIn>
+			</div>
+		</div>
+		</div>
 		<g:render template="/layouts/navigator" />
 		<g:layoutBody/>
 		<g:render template="/layouts/footer" />

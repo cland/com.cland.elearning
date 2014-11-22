@@ -88,8 +88,8 @@ var cland_params = {
 		<ul>
 			<li><a href="#tab-module-list">Modules</a></li>
 			<li><a href="#tab-learner-list">Learners</a></li>
-			<li><g:link controller="course" action="jq_list_tutors" params="${params}">Tutors</g:link></li>
-			<li><g:link controller="course" action="jq_list_events" params="${params}">Events</g:link></li>
+			<li><a href="#tab-events-list">Events</a></li>
+	
 		</ul>
 		<div id="tab-module-list">
 			<div id="module_grid" style="padding: 5px;">
@@ -107,6 +107,27 @@ var cland_params = {
 				<div id="learner_list_pager" class="scroll"
 					style="text-align: center;"></div>
 			</div>
+		</div>
+		<div id="tab-events-list">
+			<g:link controller="event" action="create" class="create" params="${['course.id':courseInstance?.id] }">New Event</g:link>
+			<br/>
+			<table class="dataTable">
+				<tr>
+					<th>Title</th>
+					<th>When</th>
+					<th>Location</th>
+					<th>Region</th>
+				</tr>				
+			
+			<g:each in="${ courseInstance?.events?.sort{it.startTime}}" var="eventInstance" status="i">
+			<tr>
+				<td> <g:link controller="event" action="show" id="${eventInstance?.id }">${eventInstance?.title }</g:link></td>
+				<td> <g:formatDate date="${eventInstance?.startTime }" format="E, MMM d, hh:mma"/> - <g:formatDate date="${eventInstance?.startTime }" format="E, MMM d, hh:mma"/></td>
+				<td> ${eventInstance?.location }</td>
+				<td> ${eventInstance?.region }</td>
+			</tr>
+			</g:each>
+			</table>
 		</div>
 	</div>
 	<!--  End tabs -->

@@ -33,17 +33,10 @@
 			<div class="filter-div">
 				
 				<g:form action="onlineregistrationSave" >
-				<g:hiddenField name="person.id" value="${personInstance?.id }"/>
-					<fieldset class="form">
-						<table class="dataTable">					
-						<tr>
-							<td>First name</td>
-							<td>
-								<g:textField name="firstName" value="${personInstance?.firstName }"/>
-							</td>
-						</tr>
-					</table>
-					<g:submitButton name="submit-online" class="green-tick" value="Submit" />
+					<g:hiddenField name="person.id" value="${personInstance?.id }"/>
+					<g:render template="onlineForm" bean="${personInstance }" var="personInstance" model="[]"></g:render>
+					<fieldset class="form">						
+						<g:submitButton name="submit-online" class="green-tick" value="Submit" />
 					</fieldset>
 
 				</g:form>

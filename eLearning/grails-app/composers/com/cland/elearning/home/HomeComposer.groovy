@@ -8,14 +8,20 @@ import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
 import com.cland.elearning.*
 import grails.plugins.springsecurity.Secured
+import org.joda.time.DateTime
+import org.joda.time.Instant
+import java.text.SimpleDateFormat
 
 class HomeComposer {
+	def eventService
 	Grid myResultsGrid
 	Grid myRegGrid
+	Grid myEventsGrid
 	Paging paging
 	
 	ListModelList listModel = new ListModelList()
 	ListModelList reglistModel = new ListModelList()
+	ListModelList eventlistModel = new ListModelList()
 	//def courseService
 	def springSecurityService
 	
@@ -27,7 +33,8 @@ class HomeComposer {
 		myResultsGrid.setModel(listModel)
 		myRegGrid.setRowRenderer(rowRegRenderer as RowRenderer)
 		myRegGrid.setModel(reglistModel)
-	
+		myEventsGrid.setRowRenderer(rowEventRenderer as RowRenderer)
+		myEventsGrid.setModel(eventlistModel)
 		redraw()
 	}
 
@@ -77,6 +84,13 @@ class HomeComposer {
 		listModel.clear()
 		listModel.addAll(resultSummaryInstanceList.id)
 		
+		
+		//get the events here
+		
+		
+		def events = listEvents(registerInstanceList)
+		eventlistModel.clear()
+		eventlistModel.addAll(events)
 	}//end function
 
 	private rowRenderer = {Row row, Object id, int index ->
@@ -102,14 +116,94 @@ class HomeComposer {
 			//	}
 		}
 	}
+	private rowEventRenderer = {Row row, Object obj, int index ->
+		def eventInstance = obj
+		row << {
+			a(href: g.createLink(controller:"event",action:'show',id:eventInstance.id), label: eventInstance.title)
+			label(value: eventInstance?.startTime + " - " + eventInstance?.endTime)
+			//label(value: eventInstance?.region)
+			label(value: eventInstance?.location)
+			
+		}
+	
+	}// 
 	private rowRegRenderer = {Row row, Object id, int index ->
 		def regInstance = Registration.get(id)
 		row << {
 			//a(href: g.createLink(controller:"registration",action:'edit',id:id), label: regInstance.course.name)			
 			a(href: g.createLink(controller:"course",action:'show',id:regInstance.course.id), label: regInstance.course.name)
-			label(value: regInstance.course.startDate.format('dd/MM/yyyy'))
-			label(value: regInstance.learner.firstLastName())
+			label(value: regInstance?.regDate?.format('dd/MM/yyyy'))
+			label(value: regInstance?.learner?.firstLastName())
 			
 		}
-	}
+	} //end 
+	
+	def listEvents(def registerInstanceList) {
+		
+		// def (startRange, endRange) = [params.long('start'), params.long('end')].collect { new Instant(it  * 1000L).toDate() }
+		// def (startRange, endRange) = [params.date('start','yyyy-MM-dd'), params.date('end','yyyy-MM-dd')] //.collect { new Instant(it  * 1000L).toDate() }
+		def today = new Date()
+		def startRange = today
+		def endRange = today.plus(60)
+		def events = []
+		registerInstanceList.each {reg ->
+			events.addAll(reg?.course?.events?.findAll{
+						((it.isRecurring==false) & (it.startTime >= startRange) & (it.startTime <= endRange)) |	
+						((it.isRecurring == true) & (it.recurUntil==null | it.recurUntil >= startRange))							
+					}
+				)
+		} 
+
+//		def eventsOther = com.cland.elearning.Event.withCriteria {
+//			 or {
+//				 and {
+//					 eq("isRecurring", false)
+//					 between("startTime", startRange, endRange)
+//				 }
+//				 and {
+//					 eq("isRecurring", true)
+//					 or {
+//						 isNull("recurUntil")
+//						 ge("recurUntil", startRange)
+//					 }
+//				 }
+//			 }
+//		 }
+ 
+
+		 // iterate through to see if we need to add additional Event instances because of recurring
+		 // events
+		 def eventList = []
+ 
+		 def displayDateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm a")
+ 
+		 events.each {event ->
+ 
+			 def dates = eventService.findOccurrencesInRange(event, startRange, endRange)
+ 
+			 dates.each { date ->
+				 DateTime startTime = new DateTime(date)
+				 DateTime endTime = startTime.plusMinutes(event.durationMinutes)
+ 
+				 /*
+					 start/end and occurrenceStart/occurrenceEnd are separate because fullCalendar will use the client's local timezone (which may be different than the server's timezone)
+					 start/end are used to render the events on the calendar and the occurrenceStart/occurrenceEnd values are passed along to the show popup
+				 */
+				 //eventList.add(event)
+				 eventList << [
+						 id: event.id,
+						 title: event.title,
+						 allDay: false,
+						 startTime: displayDateFormatter.format(startTime.toDate()),
+						 endTime: displayDateFormatter.format(endTime.toDate()),
+						 occurrenceStart: startTime.toInstant().millis,
+						 occurrenceEnd: endTime.toInstant().millis,
+						 region:event.region,
+						 location:event.location
+				 ]
+			 }
+		 }
+		// return events
+		 return eventList.sort{it.occurrenceStart}
+	 } //end
 } //end home composer class

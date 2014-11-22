@@ -9,15 +9,14 @@
     <r:require module="calendar" />
 </head>
 <body>
-
-<div class="nav" role="navigation">
-    <ul>
-        <li><a href="${createLink(uri: '/')}" class="home">Home</a></li>
-        <li><g:link action="index" class="calendar">Calendar</g:link></li>
-        <li><g:link action="create" class="create">New Event</g:link></li>
-    </ul>
-</div>
-
+	<div class="bread-crump">
+		<span class="r-arrow"></span>
+		<g:link controller="event" action="index">Calendar</g:link>
+		<span class="r-arrow"></span>
+		<span class="current-crump">
+			New Entry
+		</span>
+	</div>
 <div id="create-event" class="content scaffold-create" role="main">
 
 <h1><g:message code="default.create.label" args="[entityName]" /></h1>
@@ -40,11 +39,11 @@
     <fieldset class="form">
         <g:render template="form" model="model" />
     </fieldset>
-
+<sec:ifAnyGranted roles="ADMIN,TUTOR">
     <fieldset class="buttons">
-        <g:submitButton name="create" class="save">Save</g:submitButton>
+        <g:submitButton name="create" class="save" value="Save"/>
     </fieldset>
-
+</sec:ifAnyGranted>
 </g:form>
 
 </div>

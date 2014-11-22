@@ -22,8 +22,8 @@
 		</div>
 		<z:space />
 		<z:hbox>
-			<z:panel width="100%" height="300px" title="My Work"
-				collapsible="true">
+			<z:panel width="100%" minheight="300" title="My Work"
+				collapsible="true" sizable="true">
 				<z:panelchildren>
 					<z:tabbox width="400px" height="100%">
 						<z:tabs>
@@ -39,7 +39,7 @@
 											<z:column width="150px"
 												label="${message(code: 'registration.course.name.label', default: 'Course')}" />
 											<z:column
-												label="${message(code: 'registration.course.startDate.label', default: 'Start Date')}" />
+												label="${message(code: 'registration.regDate.label', default: 'Registration Date')}" />
 											<z:column
 												label="${message(code: 'registration.learner.firstName.label', default: 'Learner')}" />
 											<z:column />
@@ -81,10 +81,22 @@
 				</z:panelchildren>
 
 			</z:panel>
-			<z:panel width="435px" height="300px" title="My Course Events"
-				border="normal" collapsible="true">
+			<z:panel width="435px" minheight="300" title="My Course Events"
+				border="normal" collapsible="true" sizable="true">
 				<z:panelchildren>
+				<sec:ifLoggedIn>
+					<z:grid id="myEventsGrid"
+						emptyMessage="${message(code:'emptyMessage',default:'No Record')}">
+						<z:columns sizable="true">
+						<z:column label="${message(code: 'event.title.label', default: 'Title')}" />
+						<z:column label="${message(code: 'event.when.label', default: 'When')}" />
+						<z:column label="${message(code: 'event.location.label', default: 'Location')}" /> 		
+						</z:columns>
+					</z:grid>
+				</sec:ifLoggedIn>
+				<sec:ifNotLoggedIn>
 					<center>No course events available yet</center>
+				</sec:ifNotLoggedIn>	
 				</z:panelchildren>
 			</z:panel>
 		</z:hbox>

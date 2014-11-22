@@ -39,7 +39,19 @@ class BootStrap {
 			println("BootStrap >> ON!")
 			doBootStrap = true
 		}else{
-		println("BootStrap >> off!")
+			println("BootStrap >> off!")
+//			//For all the Exam Results, copy Exam data to ExamResult
+//			def examresults = ExamResult.list()
+//			examresults.each {er ->
+//				//testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide",
+//				Exam e = er.exam
+//				def values = [testNumber:e.testNumber,maxMark:e.maxMark,weight:e.weight,factor:e.factor,factorOperand:e.factorOperand]
+//				er.properties = values
+//				er.save(flush:true)
+//				if(er.hasErrors()){
+//					println(er.errors)
+//				}
+//			}
 		}
 		switch(Environment.getCurrent()){
 			case "DEVELOPMENT":
@@ -196,11 +208,11 @@ class BootStrap {
 				def exam = new Exam(testNumber:1,maxMark:60,weight:0.4,factor:1,factorOperand:"Divide", status:"Active")
 				def exam2 = new Exam(testNumber:2,maxMark:90,weight:0.8,factor:1,factorOperand:"Divide",status:"Active")
 
-				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:"Assignment")
-				def submodule3 = new SubModule(name:"Tutor Tester",description:"Tutor Marked Assessment", type:"Tutor Marked Assessment")
+				def submodule = new SubModule(name:"Gravity",description:"Take home assignment", type:LearningMode.ASS.toString())
+				def submodule3 = new SubModule(name:"Tutor Tester",description:"Tutor Marked Assessment", type:LearningMode.TMA.toString())
 				submodule.addToExams(exam)
 				submodule.addToExams(exam2)
-				def module = new Module(name:"Module01",description:"First module",duration:3,durationUnit:"months")
+				def module = new Module(name:"Module01",description:"First module",duration:3,durationUnit:"months",valid:24,validUnit:"months")
 				module.addToSubmodules(submodule)
 				module.addToSubmodules(submodule3)
 				module.save()
@@ -213,11 +225,11 @@ class BootStrap {
 				def exam3 = new Exam(testNumber:1,maxMark:75,weight:0.3,factor:1,factorOperand:"Divide",status:"Active")
 				def exam4 = new Exam(testNumber:2,maxMark:88,weight:0.7,factor:1,factorOperand:"Divide",status:"Active")
 
-				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:"Practical Attendance Exercises")
+				def submodule2 = new SubModule(name:"Security",description:"Practical Assignment", type:LearningMode.PAX.toString())
 				
 				submodule2.addToExams(exam3)
 				submodule2.addToExams(exam4)
-				def module2 = new Module(name:"Module02",description:"Second module",duration:3,durationUnit:"months")
+				def module2 = new Module(name:"Module02",description:"Second module",duration:3,durationUnit:"months",valid:24,validUnit:"months")
 				module2.addToSubmodules(submodule2)
 				
 				module2.save()

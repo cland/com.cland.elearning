@@ -7,7 +7,7 @@ public enum LearningMode {
 			"Practical Attendance Exercises",
 			"Tutor Marked Assessment"
 	 */
-	ASS("Assigment"),
+	ASS("Assignment"),
 	PAX("Practical Attendance Exercises"),
 	CMA("Computer Marked Assessment"),
 	TMA("Tutor Marked Assessment")

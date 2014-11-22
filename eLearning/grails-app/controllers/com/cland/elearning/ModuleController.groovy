@@ -136,7 +136,9 @@ class ModuleController {
 		//println("jq_list_exam: ${params}")
 		def exams = Exam.createCriteria().list() {
 			eq "submodule.id", params.id as long
+			order('status','asc')
 			order('testNumber','asc')
+			
 		}
 
 		def jsonCells = exams.collect {

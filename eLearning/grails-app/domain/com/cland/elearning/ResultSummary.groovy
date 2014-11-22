@@ -55,7 +55,7 @@ class ResultSummary {
 		total
 	}
 	Integer totalMaxMark(){
-		def total = module?.totalMaxMark()
+		def total = results?.sum { it?.maxMark }
 		if(!total) total = 0
 		total
 	}
@@ -156,7 +156,7 @@ class ResultSummary {
 	private DatumDependentDuration getAge( Date dob, Date now = new Date() ) {
 		dob.clearTime()
 		now.clearTime()
-		assert dob < now
+		//assert dob <= now
 		Calendar.instance.with { c ->
 		  c.time = dob
 		  def (years, months, days) = [ 0, 0, 0 ]

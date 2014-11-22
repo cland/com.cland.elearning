@@ -186,9 +186,9 @@ var cland_params = {
 		 			{name:'submodule', editable:false,editrules:{required:true}},
 		 			{name:'examname', editable:false,editrules:{required:true}},
 		 	        {name:'mark', editable:true,editrules:{required:true}},
-		 	        {name:'maxMark', editable:false},
+		 	        {name:'maxMark', editable:true,editrules:{required:true}},
 		 	        {name:'percentMark', editable:false},     
-		 	        {name:'tutor', editable:false},   
+		 	        {name:'contributionMark', editable:false},   
 		 	        {name:'id',hidden:true},		 	        
 		 	       	{name:'subact',index:'subact', width:150,sortable:false,search:false,align:'center'},
 		            {name:'resultSumId',index:'resultSumId',editable:true, hidden:true,sortable:false,search:false,editoptions:{defaultValue:row_id}}
@@ -199,6 +199,7 @@ var cland_params = {
  		   sortorder:'asc',
  		   height:"100%",
  		   autowidth:true,
+ 		  footerrow : true,
  		   gridComplete: function(){
  			   thisgrid = jQuery("#" + subgrid_table_id);
  			   var subids = thisgrid.jqGrid('getDataIDs');
@@ -212,6 +213,11 @@ var cland_params = {
  		            thisgrid.jqGrid('setRowData',_id,{subact: be+se+ce}); //be+se+ce+de forall actions
  				}
  			  if(cland_params.canEdit) $(".edit").show(); else  $(".edit").hide();
+ 			 var markTotal=  $(this).jqGrid('getCol', 'mark', false, 'sum');     
+ 	        var contributionTotal=  $(this).jqGrid('getCol', 'contributionMark', false, 'sum');  
+ 	        var maxMarkTotal=  $(this).jqGrid('getCol', 'maxMark', false, 'sum');        
+ 	        var pmark = (markTotal/maxMarkTotal)*100
+ 	        $(this).jqGrid('footerData', 'set', {submodule:'Total:',maxMark: maxMarkTotal,mark: markTotal, percentMark: pmark.toFixed(1) + "%",contributionMark:contributionTotal.toFixed(1) + "%"});
  			},  
  		   cellEdit:false,
  		    cellsubmit: 'remote',

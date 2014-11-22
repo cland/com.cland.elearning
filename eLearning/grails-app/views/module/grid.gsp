@@ -176,6 +176,7 @@ var cland_params = {
 		   sortorder:'asc',
 		   height:"100%",
 		   autowidth:true,
+		   footerrow : true,
 		   gridComplete: function(){
 			   thisgrid = jQuery("#" + subgrid_table_id);
 			   var subids = thisgrid.jqGrid('getDataIDs');
@@ -184,6 +185,13 @@ var cland_params = {
 				   	de = "<input style='height:22px;' type='button' value='Delete' onclick=\"deleteGridRow('"+_id+"','"+subgrid_table_id+"');\" />";		            
 		            thisgrid.jqGrid('setRowData',_id,{subact: de}); //be+se+ce+de forall actions
 				}
+			  
+		        var maxMarkTotal=  $(this).jqGrid('getCol', 'maxMark', false, 'sum');		      
+		        var weightTotal=  $(this).jqGrid('getCol', 'weight', false, 'sum');
+		        weightTotal=(weightTotal*100).toFixed(0)
+		        $(this).jqGrid('footerData', 'set', {testNumber:'Total:', weight: weightTotal + "%",maxMark: maxMarkTotal});
+		        
+		        
 			},  
 		   cellEdit:true,
 		    cellsubmit: 'remote',

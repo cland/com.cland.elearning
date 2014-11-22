@@ -11,12 +11,11 @@ class Course {
 	Region region
 	String status
 	String comments
-	static hasMany = [modules:Module,registrations:Registration,premodules:PreModule,events:CourseEvent]
+	static hasMany = [modules:Module,registrations:Registration,premodules:PreModule,events:Event]
     static constraints = {
 		name(blank:false)
 	//	startDate(nullable:true) //validator: {return (it >= new Date())})
 	//	endDate(nullable:true) //validator: {return (it >= new Date())})
-		modules(blank:false)
 		region(nullable:true)
 		status(inList:["active","inactive","open","closed"])
 		comments(nullable:true)

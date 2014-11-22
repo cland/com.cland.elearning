@@ -135,15 +135,20 @@ grails.plugins.springsecurity.controllerAnnotations.staticRules=[
 	'/module/create/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
 	'/module/edit/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
 	'/certificate/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	//'/event/edit/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	//'/event/create/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'],
+	//'/event/delete/**': ["hasRole('ADMIN')",'IS_AUTHENTICATED_FULLY'], 
+	
 	//** GENERAL AUTHENTICATED USER
 	'/home/**': ['IS_AUTHENTICATED_FULLY'],
 	'/course/**': ['IS_AUTHENTICATED_FULLY'],	
 	'/registration/show/**': ['IS_AUTHENTICATED_FULLY'],
 	'/ResultSummary/**': ['IS_AUTHENTICATED_FULLY'],	
-	'/courseEvent/**': ['IS_AUTHENTICATED_FULLY'],
 	'/module/**': ['IS_AUTHENTICATED_FULLY'],
 	'/ExamResult/**': ['IS_AUTHENTICATED_FULLY'],
 	'/organisation/**': ['IS_AUTHENTICATED_FULLY'],	
 	'/login/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
+	'/event/**': ['IS_AUTHENTICATED_FULLY'],
+	'/person/**': ['IS_AUTHENTICATED_FULLY'],
 	'/logout/**': ['IS_AUTHENTICATED_ANONYMOUSLY']
 ]

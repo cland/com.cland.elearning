@@ -1,7 +1,9 @@
 <%@ page import="com.cland.elearning.Event" %>
+<%@ page import="com.cland.elearning.Course" %>
 <%@ page import="com.cland.elearning.EventRecurType" %>
 <%@ page import="org.joda.time.Instant" %>
-
+<g:set var="courseService" bean="courseService"/>
+<g:set var="courseInstance" value="${(params.action=='create'? Course.get(params?.course?.id) : courseService?.findCourseForEvent(eventInstance)) }"/>
 
 <g:set var="entityName" value="${message(code: 'event.label', default: 'Event')}" />
 
@@ -23,10 +25,18 @@
 
     <g:textField name="endTime"
          value="${formatDate(date: occurrenceEnd ? new Instant(occurrenceEnd).toDate() : eventInstance?.endTime, format: 'dd/MM/yyyy hh:mm a')}"
-         class="datetime" />
-
-        
+         class="datetime" />       
 </div>
+
+<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'facilitator', 'error')}">
+<label for="facilitator">Facilitator:  </label>
+	<g:select name="facilitator.id" value="${eventInstance?.facilitator?.id }" from="${com.cland.elearning.Person.findAll{studentNo == null | studentNo==""}}" optionKey="id"  noSelection="['null':'--select facilitator--']"/>	
+</div>	
+
+<div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'region', 'error')}">
+<label for="region">Region:  </label>
+	<g:select name="region.id" value="${eventInstance?.region?.id }" from="${com.cland.elearning.Region.list()}" optionKey="id"  optionValue="${{it.name + " - " + it?.country?.name}}" noSelection="['null':'--All Regions--']"/>	
+</div>	
 
 <div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'location', 'error')}">
     <label for="location"><g:message code="event.location.label" default="Location" /></label>
@@ -48,6 +58,12 @@
 <div class="fieldcontain ${hasErrors(bean: eventInstance, field: 'description', 'error')}">
     <label for="description"><g:message code="event.description.label" default="Description" /></label>
     <g:textArea name="description"  value="${eventInstance?.description}" />
+</div>
+<br/><hr/><br/>
+<div id="related-to-div">
+<h1>Related To (Optional)</h1>
+	<label for="cource">Course: </label>
+	<g:select name="course.id" value="${courseInstance?.id }" from="${com.cland.elearning.Course.list()}" optionKey="id"  noSelection="[0:'--select one--']"/>
 </div>
 
 
