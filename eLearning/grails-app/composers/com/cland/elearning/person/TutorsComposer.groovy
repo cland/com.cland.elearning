@@ -3,10 +3,12 @@ package com.cland.elearning.person
 import org.zkoss.zk.ui.Component
 import org.zkoss.zul.*
 import org.zkoss.zk.ui.event.*
+import org.zkoss.zk.ui.event.Event;
+
 import com.cland.elearning.*
 import org.codehaus.groovy.grails.plugins.springsecurity.*
 
-class ListComposer {
+class TutorsComposer {
     Grid grid
     ListModelList listModel = new ListModelList()
     Paging paging
@@ -37,7 +39,10 @@ class ListComposer {
     void onClick_searchButton(Event e) {
         redraw()
     }
-
+	void onClick_clearButton(Event e) {
+		clearBoxes()
+		redraw()
+	}
     void onPaging_paging(ForwardEvent fe) {
         def event = fe.origin
         redraw(event.activePage)
@@ -47,28 +52,27 @@ class ListComposer {
 
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
-        def personInstanceList = Person.createCriteria().list(offset: offset, max: max) {
+		int totalCount = 0
+
+		def tutorIds = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))*.person*.id
 		
-            order('firstName','asc')
-//            if (idLongbox.value) {
-//                eq('id', idLongbox.value)
-//            }
-			or {
-			if(keywordBoxId.value){
-				ilike('studentNo',keywordBoxId.value+"%")
-			}
+		def tutors = Person.createCriteria().list(offset: offset, max: max){
+			'in' ("id",tutorIds)
+			order('firstName','asc')
 			if(keywordBox.value){
 				ilike('firstName',keywordBox.value+"%")
 			}
+			ne("username","default.tutor")
 			if(keywordBoxLastname.value){
 				ilike('lastName',keywordBoxLastname.value+"%")
 			}
-            }
-        }		
+		}
 		
-        paging.totalSize = personInstanceList.totalCount
+		totalCount = tutors?.totalCount //  check.size()
+		//def tmp = personInstanceList.findAll{it.isTutor() == true & it.username != "default.tutor"}
+        paging.totalSize = totalCount
         listModel.clear()
-        listModel.addAll(personInstanceList.id)
+        listModel.addAll(tutors.id) //personInstanceList.id)
     }
 
     private rowRenderer = {Row row, Object id, int index ->
@@ -78,12 +82,7 @@ class ListComposer {
                 label(value: personInstance.firstName)
                 label(value: personInstance.lastName)
 				a(href: g.createLink(controller:"person",action:'show',id:id), label: personInstance.username)
-							
-				if(personInstance.isLearner()){
-					label(value: personInstance.studentNo)
-				}else{
-					label(value: "--")
-				}
+				
 				label(value: roles.toListString())
                 hlayout{
 					if(canView)toolbarbutton(label: g.message(code: 'default.button.view.label', default: 'View'),image:'/images/skin/database_table.png',href:g.createLink(controller: "person", action: 'show', id: id))
@@ -102,6 +101,11 @@ class ListComposer {
 	//** CUSTOM TESTS
 	 void onChanging_keywordBox(InputEvent e) {
 		 keywordBox.value = e.value
-		 redraw()
+		// redraw()
+	 }
+	 private void clearBoxes(){
+		 keywordBox.value = ""
+		 //keywordBoxId.value = ""
+		 keywordBoxLastname.value = ""
 	 }
 } //end class

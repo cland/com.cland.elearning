@@ -10,6 +10,7 @@
 		apply="com.cland.elearning.venue.FusionComposer">
 
 		<z:hlayout>
+			<h2 style="padding: 2px 10px 1px 5px;"> Venues </h2>
 			<z:toolbarbutton href="${createLink(action:'create')}"
 				image="/images/skin/database_add.png"
 				label="${message(code:'default.new.label',args:[entityName])}" />

@@ -38,6 +38,24 @@ class SubModule {
 		if(!total) total = 0
 		total
 	}
+	Integer totalMaxMark(def etype){
+		def col = exams.findAll {type == etype}
+		def total = col?.sum { it?.maxMark }
+		if(!total) total = 0
+		total
+	}
+	BigDecimal totalWeight(){
+		 
+		BigDecimal total = exams?.sum { it?.weight }
+		if(!total) return new BigDecimal(0, 2)
+		total.setScale(2, BigDecimal.ROUND_HALF_EVEN)
+	}
+	BigDecimal totalWeight(def etype){
+		def col = exams.findAll {type == etype}
+		BigDecimal total = col?.sum { it?.weight }
+		if(!total)  return new BigDecimal(0, 2)
+		total.setScale(2, BigDecimal.ROUND_HALF_EVEN)
+	}
 	String getSubModuleType(){
 		return type
 	}

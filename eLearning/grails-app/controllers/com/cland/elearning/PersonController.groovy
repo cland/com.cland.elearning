@@ -12,6 +12,8 @@ class PersonController {
     }
 	@Secured(["hasAnyRole('ADMIN','TUTOR')"])
     def list = {}
+	def learners = {}
+	def tutors = {}
 	@Secured(["hasRole('ADMIN')"])
     def create = {
 		
@@ -124,26 +126,27 @@ class PersonController {
 		String filter = null
 		def states = []
 		
-		def personList = Person.createCriteria().list() {
-			createAlias('company','org')				
-			order('firstName','asc')
-			order('lastName','asc')
-			isNotEmpty("learnerRegistrations")
-			if(states.size()>0){
-				learnerRegistrations{
-					results{
-						'in'('status',inprogress_states)
-					}
-				}
-			}
-			if(filter){
-				ilike('firstname',""+filter+"%")
-			}			
-		}?.unique{it.id}
+//		def personList = Person.createCriteria().list() {
+//			createAlias('company','org')				
+//			order('firstName','asc')
+//			order('lastName','asc')
+//			isNotEmpty("learnerRegistrations")
+//			if(states.size()>0){
+//				learnerRegistrations{
+//					results{
+//						'in'('status',inprogress_states)
+//					}
+//				}
+//			}
+//			if(filter){
+//				ilike('firstname',""+filter+"%")
+//			}			
+//		}?.unique{it.id}
 
 		//tutors
 		def tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))?.person
-		
+		def personList = PersonRole.findAllByRole(Role.findByAuthority('LEARNER'))?.person
+
 		def data = personList.collect({it.toMap()})			 
 		def headers = ['Firstname', 'Lastname', 'Student No.', 'Company', 'Email','Exam Type','Disabled','Gender','Current Learner',			
 			'Id No.',

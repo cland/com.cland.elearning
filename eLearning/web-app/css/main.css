@@ -229,12 +229,12 @@ fieldset,
 }
 
 .fieldcontain label,
-.fieldcontain .property-label {
+.fieldcontain .property-label,.dataTable label, .dataTable .property-label {
 	color: #666666;
 	text-align: right;
 	width: 25%;
 }
-
+.dataTable label, .dataTable .property-label {font-weight:bold;}
 .fieldcontain .property-label {
 	float: left;
 }

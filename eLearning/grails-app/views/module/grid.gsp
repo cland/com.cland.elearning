@@ -1,3 +1,4 @@
+<%@page import="com.cland.elearning.LearningMode"%>
 <html>
 <head>
 <meta name="layout" content="main" />
@@ -59,12 +60,21 @@ var cland_params = {
 		<h1>
 			&nbsp;<g:fieldValue bean="${moduleInstance}" field="name" />
 		</h1>
-		<div class="content">
+		<div class="content" style="width:100%;">
+		<div style="float:right;margin-right:20px;width:40%;">
+			<table class="dataTable">
+			<tr><th></th><th>Max Mark</th><th>Weight</th></tr>
+			<tr><td><label>CMA</label></td><td><span id="cma_mark">${moduleInstance.totalMaxMark(LearningMode.CMA.toString())}</span></td><td><span id="cma_cont">${moduleInstance.totalWeight(LearningMode.CMA.toString())}</span></td></tr>
+			<tr><td><label>PAX</label></td><td><span id="pax_mark">${moduleInstance.totalMaxMark(LearningMode.PAX.toString())}</span></td><td><span id="pax_cont">${moduleInstance.totalWeight(LearningMode.PAX.toString())}</span></td></tr>
+			<tr><td><label>TMA</label></td><td><span id="tma_mark">${moduleInstance.totalMaxMark(LearningMode.TMA.toString())}</span></td><td><span id="tma_cont">${moduleInstance.totalWeight(LearningMode.TMA.toString())}</span></td></tr>
+			<tr><td><b>TOTALS</b></td><td><b>${moduleInstance.totalMaxMark()}</b></td><td><b>${(moduleInstance.totalWeight()) * 100} %</b></td></tr>
+			</table>
+		</div>
 			<g:fieldValue bean="${moduleInstance}" field="description" /><br/>
-			<b>Max Possible Score:</b> ${moduleInstance.totalMaxMark()}<br/>
 			<b>Duration:</b> ${moduleInstance?.duration} ${moduleInstance?.durationUnit}<br/>
 			<b>Certification expires:</b> ${moduleInstance?.valid} ${moduleInstance?.validUnit}
 		</div>
+		
 	</fieldset>
 	<sec:ifAnyGranted roles="ADMIN,TUTOR">
 		<g:form>

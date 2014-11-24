@@ -48,9 +48,7 @@ class ListComposer {
 			createAlias('tutor','tut')
 			createAlias('reg.learner','l')
             order('reg.learner','asc')
-//            if (idLongbox.value) {
-//                eq('id', idLongbox.value)
-//            }
+
 			if(keywordBox.value){
 				ilike('l.lastName',"%"+keywordBox.value+"%")
 			}

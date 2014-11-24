@@ -1,5 +1,7 @@
 package com.cland.elearning
 
+import java.text.NumberFormat
+
 class Module {
 
 	String name
@@ -40,7 +42,22 @@ class Module {
 		if(!total) total = 0
 		total
 	}
+	Integer totalMaxMark(def etype){
+		def total = submodules?.sum { it?.totalMaxMark(etype) }
+		if(!total) total = 0
+		total
+	}
+	BigDecimal totalWeight(){
+		BigDecimal total = submodules?.sum { it?.totalWeight() }
+		if(!total) return  new BigDecimal(0, 2)
+		total.setScale(2, BigDecimal.ROUND_HALF_EVEN)
+	}
+	BigDecimal totalWeight(def etype){
 	
+		BigDecimal total = submodules?.sum { it?.totalWeight(etype) }
+		if(!total) return  new BigDecimal(0, 2)
+		total.setScale(2, BigDecimal.ROUND_HALF_EVEN)
+	}
 	String toString(){
 		"${name}"
 	}

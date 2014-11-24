@@ -1,3 +1,8 @@
+<%@page import="com.cland.elearning.LearningMode"%>
+<g:set var="cma_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.CMA.toString()}}"/>
+<g:set var="pax_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.PAX.toString()}}"/>
+<g:set var="tma_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.TMA.toString()}}"/>
+<g:set var="ass_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.ASS.toString()}}"/>
 <html>
 <head>
 <meta name="layout" content="main" />
@@ -19,6 +24,10 @@
 	background-repeat: no-repeat;
 	text-indent: 25px;
 }
+.results-table {
+	font-size:9pt;
+}
+tr.total-row {background:#ccc;border-top:solid 1px #000; font-weight:bold}
 .ui-jqgrid .ui-jqgrid-htable th div {
 	height: auto;
 	overflow: hidden;
@@ -88,9 +97,34 @@ var cland_params = {
 			&nbsp;${resultSummaryInstance.register.learner.toString()}
 		</h1>
 		<div class="content">
-			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code})<br/>
+<div style="float:right;margin-right:-20px;border:solid 1px #ccc;border-top:none;">
+			<table style="" class="results-table">
+			<tr>
+				<td style="border-right:double 1px #000;">
+					<g:render template="result_table" bean="${cma_results }" var="results" model="[type:'CMA']"></g:render>
+				</td>
+				<td style="border-right:double 1px #000;">
+					<g:render template="result_table" bean="${pax_results }" var="results" model="[type:'PAX']"></g:render>
+				</td>
+				<td style="border-right:double 1px #000;">
+					<g:render template="result_table" bean="${tma_results }" var="results" model="[type:'TMA']"></g:render>
+				</td>
+				<td>
+			
+			<table>
+				<tr><th colspan="2">GRAND TOTALS</th></tr>
+				<tr><td>MARK:</td><td>${resultSummaryInstance.totalMark()}</td></tr>
+				<tr><td>OUT OF:</td><td>${resultSummaryInstance.totalMaxMark()}</td></tr>
+				<tr><td>PERCENT:</td><td> <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>%</td></tr>
+			</table>
+			</td>
+			</tr>
+		</table>
+		</div>		
+		<div style="font-size:10pt;width:22%;float:left;line-height: 1.8em;">
 			<b>Module:</b> ${resultSummaryInstance.module.name} <br/>
-			<b>Result:</b> ${resultSummaryInstance.result} [ Mark: <b>${resultSummaryInstance.totalMark()}</b> out of <b>${resultSummaryInstance.totalMaxMark()}</b> - PERCENT: <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>% ]<br/>			
+			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code})<br/>			
+			<b>Result:</b> ${resultSummaryInstance.result} 	<br/>		
 			<b>Status:</b> ${resultSummaryInstance.status}
 			<g:if test="${resultSummaryInstance?.isExpired()}">
 				<br/><span style="background:red;padding: 2px;color:yellow;">Module overdue! It's been ${resultSummaryInstance.getCurrentDuration() } ${resultSummaryInstance?.module?.durationUnit } since module was started.</span>
@@ -116,6 +150,9 @@ var cland_params = {
 					</span>
 				</g:if>
 			</sec:ifAnyGranted>
+			</div>
+			
+			
 		</div>
 	</fieldset>
 		<sec:ifAnyGranted roles="ADMIN,TUTOR">

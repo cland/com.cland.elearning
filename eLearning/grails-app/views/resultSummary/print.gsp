@@ -1,8 +1,9 @@
 
-<g:set var="cma_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == 'Computer Marked Assessment'}}"/>
-<g:set var="pax_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == 'Practical Attendance Exercises'}}"/>
-<g:set var="tma_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == 'Tutor Marked Assessment'}}"/>
-<g:set var="ass_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == 'Assignment'}}"/>
+<%@page import="com.cland.elearning.LearningMode"%>
+<g:set var="cma_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.CMA.toString()}}"/>
+<g:set var="pax_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.PAX.toString()}}"/>
+<g:set var="tma_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.TMA.toString()}}"/>
+<g:set var="ass_results" value="${resultSummaryInstance?.results?.findAll{it?.subModule?.type == LearningMode.ASS.toString()}}"/>
 <html>
 <head>
 <meta name="layout" content="main" />

@@ -84,7 +84,16 @@ var cland_params = {
 			style="text-align: center;"></div>
 	</div>
 
-	<script type="text/javascript">// <![CDATA[
+	<script type="text/javascript">
+	function returnHyperLink(cellValue, options, rowdata, action) 
+
+	{
+
+	    return "<a style='color:blue' title='View: " +cellValue + "' alt='View: " +cellValue + "' href='../../resultSummary/show/" + options.rowId + "' >" + cellValue + "</a>";
+
+	}
+	
+	// <![CDATA[
   /* when the page has finished loading.. execute the follow */
   $(document).ready(function () {
 	  //field set functions
@@ -132,7 +141,7 @@ var cland_params = {
       datatype: "json",
       colNames:['Module','Result','Status','Started','Completed','Tutor','Cert Number','id','Actions'],
       colModel:[
-		{name:'module', editable:false},	
+		{name:'module', editable:false,formatter: returnHyperLink},	
 		{name:'result',editable:true,width:70,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.result_types}},
         {name:'status',editable:true,width:80,editrules:{required:true},edittype:"select",formatter:'select', editoptions:{value:cland_params.states}},
         {name:'startDate',index: 'startDate', width: 80, editable: true, editoptions: { dataInit: function(el) { setTimeout(function() { $(el).datepicker({ dateFormat: 'dd-M-yy' }); }, 200); } } },

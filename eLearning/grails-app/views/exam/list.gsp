@@ -11,6 +11,7 @@
 
         <z:window style="padding:5px" apply="com.cland.elearning.exam.ListComposer">
             <z:hlayout>
+            	<h2 style="padding: 2px 2px 1px 1px;"> Exams </h2>
                 <z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
                 <z:space/>
                <z:label value="${message(code:'exam.module.name',default:'Module:')}"/>
