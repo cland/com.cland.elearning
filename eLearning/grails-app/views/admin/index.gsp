@@ -105,8 +105,22 @@
 		</div>
 		<div id="page-body" role="main">
 			<h1>Welcome: Developer's Section</h1>
-			<p>This is a developer's section only</p>
-
+			<p>This is a developer or super admin's section only</p>
+			<sec:ifAnyGranted roles="ADMIN">
+				<fieldset><legend>UPLOAD Learner Data</legend>
+				<br/><br/><br/>
+				<h2>Update Learner Information</h2>
+					<g:uploadForm action="uploadLearnerData">
+					    <input type="file" name="filecsv" />
+					    <input type="submit" />
+					</g:uploadForm>
+				<h2>Register Learners</h2>
+					<g:uploadForm action="registerLearners">
+					    <input type="file" name="learnerRegistrationCsv" />
+					    <input type="submit" />
+					</g:uploadForm>
+				</fieldset><br/>
+			</sec:ifAnyGranted>
 			<div id="controller-list" role="navigation">
 				<h2>Available Controllers:</h2>
 				<ul>

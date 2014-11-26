@@ -25,7 +25,8 @@ class Person {
 	String gender
 	String maritalStatus
 	Race race
-	String address
+	String address	
+	String addressCode
 	String postalAddress
 	String postalCode
 	String city	
@@ -76,6 +77,7 @@ class Person {
 		schoolQualification(nullable:true)
 		tertiaryQualification(nullable:true) 
 		address(nullable:true)	
+		addressCode(nullable:true)
 		postalAddress(nullable:true)
 		postalCode(nullable:true)
 		contactNoHome(nullable:true)

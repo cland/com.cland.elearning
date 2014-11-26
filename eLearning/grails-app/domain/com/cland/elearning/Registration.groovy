@@ -11,7 +11,6 @@ class Registration {
     static constraints = {
 		learner()
 		course()
-		tutor()
 		dateCreated()
 		regDate()
 		tutor(nullable:true)	
