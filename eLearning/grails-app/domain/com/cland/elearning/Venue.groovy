@@ -11,12 +11,12 @@ class Venue {
 
 	static constraints = {
 		name(blank:false)
-		address()
-		geoLocation()
-		contactName()
-		contactNumber()
-		directions()
-		region()			
+		address(nullable:true)
+		geoLocation(nullable:true)
+		contactName(nullable:true)
+		contactNumber(nullable:true)
+		directions(nullable:true)
+		region(nullable:true)
 	}
 	def beforeInsert = {
 		// your code goes here

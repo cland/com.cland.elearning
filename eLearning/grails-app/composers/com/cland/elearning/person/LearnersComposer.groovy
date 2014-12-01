@@ -12,11 +12,16 @@ class LearnersComposer {
     ListModelList listModel = new ListModelList()
     Paging paging
        //Longbox idLongbox
-	
+	 
 	Textbox keywordBox
 	Textbox keywordBoxLastname
 	Textbox keywordBoxId
 	Textbox keywordBoxTutor
+	Textbox keywordBoxCompany
+	Datebox keywordBoxStartDate
+	Datebox keywordBoxEndDate
+	Radiogroup dateRangeType
+	
 	def springSecurityService
 	boolean canEdit = false
 	boolean canView = true
@@ -53,11 +58,15 @@ class LearnersComposer {
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
 		def tmp = []
-		int totalCount = 0
-		if(!keywordBoxTutor.value){
+		int totalCount = 0		
+		Radio selectedItem = dateRangeType.getSelectedItem();
+	//	println("radio: " + selectedItem.value)
+		if(!keywordBoxTutor.value & !keywordBoxStartDate.value & !keywordBoxEndDate.value){
+			
 			def learnerIds = PersonRole.findAllByRole(Role.findByAuthority('LEARNER'))*.person*.id
 			
 			tmp = Person.createCriteria().list(offset: offset, max: max){
+				createAlias('company','org')
 				'in' ("id",learnerIds)
 				order('firstName','asc')
 				if(keywordBoxId.value){
@@ -67,8 +76,11 @@ class LearnersComposer {
 				if(keywordBoxLastname.value){
 					ilike('lastName',keywordBoxLastname.value+"%")
 				}
+				if(keywordBoxCompany.value){
+					ilike('org.name',keywordBoxCompany.value+"%")
+				}
+				
 			}
-			
 			totalCount = tmp?.totalCount			
 			
 		}else{
@@ -76,23 +88,39 @@ class LearnersComposer {
 				createAlias('register','reg')
 				createAlias('tutor','tut')
 				createAlias('reg.learner','l')
-				order('reg.learner','asc')
+				createAlias('l.company','org')
+				order('l.firstName','asc')
 	
 				if(keywordBoxTutor.value){
 					or{
 						ilike('tut.lastName',"%"+keywordBoxTutor.value+"%")
 						ilike('tut.firstName',"%"+keywordBoxTutor.value+"%")
-					}
-					
+					}					
 				}
-			}
+				if(keywordBoxStartDate.value != null & keywordBoxEndDate.value != null){
+					if(selectedItem.value == "dateRegistered"){
+						between('reg.regDate',keywordBoxStartDate.getValue(),keywordBoxEndDate.getValue())
+					}else{
+						between('endDate',keywordBoxStartDate.getValue(),keywordBoxEndDate.getValue())
+					}
+				}
+				if(keywordBoxCompany.value){
+					ilike('org.name',keywordBoxCompany.value+"%")
+				}
+				if(keywordBoxId.value){
+					ilike('l.studentNo',keywordBoxId.value+"%")
+				}
+
+				if(keywordBoxLastname.value){
+					ilike('l.lastName',keywordBoxLastname.value+"%")
+				}
+			} //createcriteria
 			totalCount = resultSummaryInstanceList.totalCount
 			resultSummaryInstanceList.each {rs ->
 				if(!tmp.contains(rs?.register?.learner)) tmp.add(rs?.register?.learner)
 			}
 		}
-		
-		
+				
         paging.totalSize = totalCount //personInstanceList.totalCount
         listModel.clear()
         listModel.addAll(tmp.id) //personInstanceList.id)
@@ -146,9 +174,27 @@ class LearnersComposer {
 		  keywordBoxTutor.value = e.value
 		 // redraw()
 	  }
+	 void onChanging_keywordBoxCompany(InputEvent e) {
+		 keywordBoxCompany.value = e.value
+		// redraw()
+	 }
+	 void onChanging_keywordBoxStartDate(InputEvent e) {
+		 println("StartDate changed")
+		// redraw()
+	 }
+	 void onChanging_keywordBoxEndDate(InputEvent e) {
+		 println("EndDate changed")
+		// redraw()
+	 }
+	 void onClick_dateRangeType() {
+		 Radio selectedItem = dateRangeType.getSelectedItem();
+		// println(selectedItem.value)
+		
+	 }
 	 private void clearBoxes(){		 
 		 keywordBoxTutor.value = ""		 
 		 keywordBoxId.value = ""
-		 keywordBoxLastname.value = ""		 
+		 keywordBoxLastname.value = ""	
+		 keywordBoxCompany.value = ""
 	 }
 } //end class

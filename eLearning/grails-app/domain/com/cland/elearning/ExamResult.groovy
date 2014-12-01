@@ -27,7 +27,7 @@ class ExamResult {
 		contributionMark(min:new Double(0.0),max:new Double(100.0))
 		
 		subModule()
-		exam()
+		exam(nullable:true)
 		testNumber(nullable:true,blank:true,min:1)
 		factor(nullable:true,blank:true)
 		factorOperand(nullable:true,blank:true)

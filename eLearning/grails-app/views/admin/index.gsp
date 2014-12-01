@@ -112,11 +112,20 @@
 				<h2>Update Learner Information</h2>
 					<g:uploadForm action="uploadLearnerData">
 					    <input type="file" name="filecsv" />
+					    <input type="text" name="delimeter" value=";"/>
 					    <input type="submit" />
 					</g:uploadForm>
 				<h2>Register Learners</h2>
 					<g:uploadForm action="registerLearners">
 					    <input type="file" name="learnerRegistrationCsv" />
+					    <input type="text" name="delimeter" value=";"/>
+					    <input type="submit" />
+					</g:uploadForm>	<br/>
+				
+				<h2>Load Learners Results</h2>
+					<g:uploadForm action="loadLearnerResults">
+					    <input type="file" name="loadLearnerResultsCsv" />
+					    <input type="text" name="delimeter" value=";"/>
 					    <input type="submit" />
 					</g:uploadForm>
 				</fieldset><br/>

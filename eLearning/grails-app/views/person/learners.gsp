@@ -19,23 +19,40 @@
 		                <z:toolbarbutton href="${createLink(controller:'resultSummary', action:'jq_export_results_flat', params:[save: '1',rtype:'1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Test Scores'])}"/>
               		</sec:ifAnyGranted>
         		</z:hlayout>
-        		<z:hlayout>
-        			        		
-<%--	                <z:label value="${message(code:'person.firstName',default:'Firstname')}"/>--%>
-<%--	                <z:textbox id="keywordBox" class="search-box"/>--%>
-<%--	                <z:space/>--%>
-	               
-	                <z:label value="${message(code:'person.lastName',default:'Learner Lastname')}"/>
-	                <z:textbox id="keywordBoxLastname" class="search-box"/>
-	                <z:space/>
-	               <z:label value="${message(code:'person.tutor',default:'Tutor Lastname')}"/>
-	                <z:textbox id="keywordBoxTutor" class="search-box"/>
-	                <z:space/>
-	                <z:label value="${message(code:'person.studentNo',default:'Student No.')}"/>
-	                <z:textbox id="keywordBoxId" class="search-box"/>
-	                <z:space/>
-	                <z:button id="searchButton" label="${message(code:'search')}"/>
-	                <z:button id="clearButton" label="${message(code:'clear')}"/>
+        		<z:hlayout style="border:solid 1px rgba(62, 59, 59, 1);padding:5px;">
+        			<z:vlayout >
+        				<z:hlayout>
+        					<z:label value="${message(code:'person.lastName',default:'Learner Lastname')}"/>
+			                <z:textbox id="keywordBoxLastname" class="search-box"/>
+			                <z:space/>
+			               <z:label value="${message(code:'person.tutor',default:'Tutor Lastname')}"/>
+			                <z:textbox id="keywordBoxTutor" class="search-box"/>
+			                <z:space/>
+			                <z:label value="${message(code:'person.studentNo',default:'Student No.')}"/>
+			                <z:textbox id="keywordBoxId" class="search-box"/>
+        				</z:hlayout>
+        				<z:hlayout>
+        					<z:label value="${message(code:'person.company',default:'Company')}"/>
+			                <z:textbox id="keywordBoxCompany" class="search-box"/>
+			                <z:space/>
+			                 <z:label style="font-weight:bold" value="Date Range:"/>
+			               <z:label value="${message(code:'person.startdate',default:'From Date')}"/>
+			                <z:datebox id="keywordBoxStartDate" class="search-box" format="dd-MM-yyyy" constraint="no future: now or never"/>
+			                <z:space/>
+			                <z:label value="${message(code:'person.enddate',default:'To Date')}"/>
+			                <z:datebox id="keywordBoxEndDate" class="search-box" format="dd-MM-yyyy" constraint="no future: now or never"/>
+			                <z:space/>
+			                <z:radiogroup id="dateRangeType" name="dateRangeType">
+			                	<z:radio checked="true" value="dateCompleted" label="Final Date" style="padding:2px;"/>
+			                	<z:radio value="dateRegistered" label="Date Registered" style="padding:2px;" />
+			                </z:radiogroup>
+        				</z:hlayout>
+        			</z:vlayout>
+        			<z:hlayout style="vertical-align:middle;margin-top:10px;">  
+        				<z:button id="searchButton" label="${message(code:'Search')}" style="font-weight:bold;padding:5px;"/>
+	                	<z:button id="clearButton" label="${message(code:'Clear')}" style="font-weight:bold;padding:5px;"/>
+	                </z:hlayout>
+
         		</z:hlayout>
         	</z:vlayout>
            
