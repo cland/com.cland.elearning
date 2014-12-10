@@ -97,62 +97,74 @@ var cland_params = {
 			&nbsp;${resultSummaryInstance.register.learner.toString()}
 		</h1>
 		<div class="content">
-<div style="float:right;margin-right:-20px;border:solid 1px #ccc;border-top:none;">
-			<table style="" class="results-table">
-			<tr>
-				<td style="border-right:double 1px #000;">
-					<g:render template="result_table" bean="${cma_results }" var="results" model="[type:'CMA']"></g:render>
-				</td>
-				<td style="border-right:double 1px #000;">
-					<g:render template="result_table" bean="${pax_results }" var="results" model="[type:'PAX']"></g:render>
-				</td>
-				<td style="border-right:double 1px #000;">
-					<g:render template="result_table" bean="${tma_results }" var="results" model="[type:'TMA']"></g:render>
-				</td>
-				<td>
-			
-			<table>
-				<tr><th colspan="2">GRAND TOTALS</th></tr>
-				<tr><td>MARK:</td><td>${resultSummaryInstance.totalMark()}</td></tr>
-				<tr><td>OUT OF:</td><td>${resultSummaryInstance.totalMaxMark()}</td></tr>
-				<tr><td>PERCENT:</td><td> <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>%</td></tr>
-			</table>
-			</td>
-			</tr>
-		</table>
-		</div>		
-		<div style="font-size:10pt;width:22%;float:left;line-height: 1.8em;">
-			<b>Module:</b> ${resultSummaryInstance.module.name} <br/>
-			<b>Course:</b> ${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code})<br/>			
-			<b>Result:</b> ${resultSummaryInstance.result} 	<br/>		
-			<b>Status:</b> ${resultSummaryInstance.status}
-			<g:if test="${resultSummaryInstance?.isExpired()}">
-				<br/><span style="background:red;padding: 2px;color:yellow;">Module overdue! It's been ${resultSummaryInstance.getCurrentDuration() } ${resultSummaryInstance?.module?.durationUnit } since module was started.</span>
-			</g:if>
-			<g:if test="${resultSummaryInstance?.isCertExpired()}">
-				<br/><span style="background:red;padding: 2px;color:yellow;">Module certificate has expired! It's been ${resultSummaryInstance.getCurrentCertDuration() } ${resultSummaryInstance?.module?.validUnit } since module was complete and certificate issued.</span>
-			</g:if>
-			<br/>					
-			<b>Date Started:</b> ${resultSummaryInstance?.startDate?.format("dd-MMM-yyyy")}<br/>
-			<b>Date Completed:</b> ${resultSummaryInstance?.endDate?.format("dd-MMM-yyyy")}<br/>
-			<b>Tutor:</b> ${resultSummaryInstance.tutor.toString()}<br/>
-			<b>Payment Status:</b> ${resultSummaryInstance?.paymentStatus}<br/>
-			<b>Certificate No.:</b> <span id="certno">${resultSummaryInstance?.certificate?.certno}</span><span id="certno-msg"></span>
-			<sec:ifAnyGranted roles="ADMIN,TUTOR">
-				<g:if test="${ resultSummaryInstance?.certificate?.certno == null & (resultSummaryInstance?.result == 'Pass' | resultSummaryInstance?.result == 'Exempt')}">	
-					<span id="certno-link">			
-						<g:remoteLink action="generate" controller="certificate" params="${['resultSummary.id':resultSummaryInstance?.id ]}"
-							onSuccess='onCertSuccess(data)'
-							onLoading='onCertLoading()'
-							onFailure='onCertFailure(data)'>
-							Generate Certificate Number
-						</g:remoteLink>
-					</span>
-				</g:if>
-			</sec:ifAnyGranted>
+			<div style="font-size:10pt;line-height: 1.8em;">
+			<table class="dataTable">
+				<tr>
+					<td><b>Module:</b></td><td>${resultSummaryInstance.module.name}</td>
+					<td><b>Result:</b></td><td>${resultSummaryInstance.result} </td>
+					<td><b>Date Started:</b> </td><td>${resultSummaryInstance?.startDate?.format("dd-MMM-yyyy")}</td>
+				</tr>
+				<tr>
+					<td><b>Course:</b></td><td>${resultSummaryInstance.register.course.name} (${resultSummaryInstance.register.course.code})</td>
+					<td><b>Status:</b> </td>
+					<td>${resultSummaryInstance.status}					
+						<g:if test="${resultSummaryInstance?.isExpired()}">
+							<br/><span style="background:red;padding: 2px;color:yellow;">Module overdue! It's been ${resultSummaryInstance.getCurrentDuration() } ${resultSummaryInstance?.module?.durationUnit } since module was started.</span>
+						</g:if>
+						<g:if test="${resultSummaryInstance?.isCertExpired()}">
+							<br/><span style="background:red;padding: 2px;color:yellow;">Module certificate has expired! It's been ${resultSummaryInstance.getCurrentCertDuration() } ${resultSummaryInstance?.module?.validUnit } since module was complete and certificate issued.</span>
+						</g:if>
+					</td>
+					<td><b>Date Completed:</b> </td><td>${resultSummaryInstance?.endDate?.format("dd-MMM-yyyy")}</td>
+				</tr>
+				<tr>
+					<td><b>Tutor:</b></td><td> ${resultSummaryInstance.tutor.toString()}</td>
+					<td><b>Payment Status:</b></td><td>${resultSummaryInstance?.paymentStatus}</td>
+					<td><b>Certificate No.:</b> </td>
+					<td>
+						<span id="certno">${resultSummaryInstance?.certificate?.certno}</span><span id="certno-msg"></span>
+						<sec:ifAnyGranted roles="ADMIN,TUTOR">
+							<g:if test="${ resultSummaryInstance?.certificate?.certno == null & (resultSummaryInstance?.result == 'Pass' | resultSummaryInstance?.result == 'Exempt')}">	
+								<span id="certno-link">			
+									<g:remoteLink action="generate" controller="certificate" params="${['resultSummary.id':resultSummaryInstance?.id ]}"
+										onSuccess='onCertSuccess(data)'
+										onLoading='onCertLoading()'
+										onFailure='onCertFailure(data)'>
+										Generate Certificate Number
+									</g:remoteLink>
+								</span>
+							</g:if>
+						</sec:ifAnyGranted>
+					</td>
+				</tr>
+				</table>
 			</div>
-			
-			
+			<div style="margin-right:-20px;border:solid 1px #ccc;border-top:none;">
+				<table style="" class="results-table">
+					<tr>
+						<td style="border-right:double 1px #000;">
+							<g:render template="result_table" bean="${cma_results }" var="results" model="[type:'CMA']"></g:render>
+						</td>
+						<td style="border-right:double 1px #000;">
+							<g:render template="result_table" bean="${pax_results }" var="results" model="[type:'PAX']"></g:render>
+						</td>
+						<td style="border-right:double 1px #000;">
+							<g:render template="result_table" bean="${tma_results }" var="results" model="[type:'TMA']"></g:render>
+						</td>
+						<td style="border-right:double 1px #000;">
+							<g:render template="result_table" bean="${ass_results }" var="results" model="[type:'ASS']"></g:render>
+						</td>
+						<td>			
+							<table>
+								<tr><th colspan="2">GRAND TOTALS</th></tr>
+								<tr><td>MARK:</td><td>${resultSummaryInstance.totalMark()}</td></tr>
+								<tr><td>OUT OF:</td><td>${resultSummaryInstance.totalMaxMark()}</td></tr>
+								<tr><td>PERCENT:</td><td> <b>${String.format( '%.1f', resultSummaryInstance.totalPercentMark())}</b>%</td></tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>			
 		</div>
 	</fieldset>
 		<sec:ifAnyGranted roles="ADMIN,TUTOR">

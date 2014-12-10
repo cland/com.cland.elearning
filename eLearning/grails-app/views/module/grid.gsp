@@ -67,6 +67,7 @@ var cland_params = {
 			<tr><td><label>CMA</label></td><td><span id="cma_mark">${moduleInstance.totalMaxMark(LearningMode.CMA.toString())}</span></td><td><span id="cma_cont">${moduleInstance.totalWeight(LearningMode.CMA.toString())}</span></td></tr>
 			<tr><td><label>PAX</label></td><td><span id="pax_mark">${moduleInstance.totalMaxMark(LearningMode.PAX.toString())}</span></td><td><span id="pax_cont">${moduleInstance.totalWeight(LearningMode.PAX.toString())}</span></td></tr>
 			<tr><td><label>TMA</label></td><td><span id="tma_mark">${moduleInstance.totalMaxMark(LearningMode.TMA.toString())}</span></td><td><span id="tma_cont">${moduleInstance.totalWeight(LearningMode.TMA.toString())}</span></td></tr>
+			<tr><td><label>ASS</label></td><td><span id="ass_mark">${moduleInstance.totalMaxMark(LearningMode.ASS.toString())}</span></td><td><span id="ass_cont">${moduleInstance.totalWeight(LearningMode.ASS.toString())}</span></td></tr>
 			<tr><td><b>TOTALS</b></td><td><b>${moduleInstance.totalMaxMark()}</b></td><td><b>${(moduleInstance.totalWeight()) * 100} %</b></td></tr>
 			</table>
 		</div>

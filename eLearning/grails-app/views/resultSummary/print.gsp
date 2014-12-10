@@ -83,7 +83,7 @@ function printPage() {
 		<tr><td><b>Date Completed:</b> </td><td>${resultSummaryInstance?.endDate?.format("dd-MMM-yyyy")}</td><td><b>Certificate No:</b></td><td>${resultSummaryInstance?.certificate?.certno}</td></tr>
 	</table>
 	
-	<table style="" class="results-table">
+	<table style="" class="results-table dataTable">
 		<tr>
 			<td style="border-right:double 1px #000;">
 				<g:render template="result_table" bean="${cma_results }" var="results" model="[type:'CMA']"></g:render>
@@ -93,6 +93,9 @@ function printPage() {
 			</td>
 			<td style="border-right:double 1px #000;">
 				<g:render template="result_table" bean="${tma_results }" var="results" model="[type:'TMA']"></g:render>
+			</td>
+			<td style="border-right:double 1px #000;">
+				<g:render template="result_table" bean="${ass_results }" var="results" model="[type:'ASS']"></g:render>
 			</td>
 			<td>
 		
