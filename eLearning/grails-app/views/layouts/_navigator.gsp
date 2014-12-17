@@ -18,6 +18,7 @@
 			</sec:ifAnyGranted>
 			<sec:ifAnyGranted roles="ADMIN">
 				<li><g:link controller="certificate" action="list">Certificates</g:link></li>	
+				<li><g:link controller="resultSummary" action="export">Export-Panel</g:link></li>
 			</sec:ifAnyGranted>
 		</g:link></li>
 		<li><g:link controller="event" action="index">Calendar</g:link></li>	

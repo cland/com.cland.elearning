@@ -588,7 +588,7 @@ class AdminController {
 							//println(studentno + " - row " + count + " >> Adding new resultSummary...module: " + module)
 							resultSummary = new ResultSummary(
 									status:status,
-									result:"None",
+									result:result,
 									module:module,
 									tutor:tutor,
 									certNumber:"",

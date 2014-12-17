@@ -121,8 +121,10 @@ class CertificateController {
 			//createAlias('certificate','cert')
 			eq('status',"completed")
 			or {
-				eq('result',"Pass")
-				eq('result',"Exempt")
+				ilike('result',"%Pass%")
+				ilike('result',"%Exempt%")
+				ilike('result',"%Completed%")
+				
 			}
 			if(startdate != null & enddate != null){
 				between('endDate', startdate, enddate)

@@ -4,6 +4,7 @@ import groovy.time.DatumDependentDuration
 import groovy.time.TimeCategory;
 import groovy.time.TimeDuration
 import grails.plugins.springsecurity.Secured
+import java.text.SimpleDateFormat
 import pl.touk.excel.export.WebXlsxExporter
 class ResultSummaryController {
 
@@ -64,6 +65,9 @@ class ResultSummaryController {
 		
 	}
 	
+	def export = {	
+	}
+	
 	private List getTutors(){
 		def tutorList = Person.findAllByFirstNameAndLastName("No","Tutor")
 		def list = com.cland.elearning.PersonRole.findAllByRole(com.cland.elearning.Role.findByAuthority('TUTOR'))?.person
@@ -79,6 +83,13 @@ class ResultSummaryController {
 		String sord = (params?.sord ? params.sord : "")				
 		boolean dosave = (params?.int('save') == 1 ? true : false)
 		String reportType = (params?.rtype ? params.rtype : "1")
+		def startdate = params?.startDate_Completed 
+		def enddate = params?.endDate_Completed 
+		if(startdate != null & startdate != "") startdate = parseDate(startdate) else startdate = null
+		if(enddate != null  & startdate != "") enddate = parseDate(enddate) else null
+		long moduleid = (params?.module.id ? params?.module.id?.toLong(): 0)
+		def learnerId = params?.learnerid 
+
 		if(dosave){
 			//save to file
 			def completed_data = null
@@ -96,9 +107,9 @@ class ResultSummaryController {
 					'marks.test1','marks.test2','marks.test3','marks.test4','marks.test5','marks.test6','marks.test7','marks.test8','marks.test9','marks.test10',
 					'marks.total','marks.maxtotal','marks.percent','marks.total_contribution','regdate'
 					]
-				completed_data = getResultsData("Completed",rowcount,page,sidx,sord)
-				inprogress_data = getResultsData("In Progress",rowcount,page,sidx,sord)
-				exempt_data = getResultsData("Exempt",rowcount,page,sidx,sord)
+				completed_data = getResultsData("Completed",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
+				inprogress_data = getResultsData("In Progress",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
+				exempt_data = getResultsData("Exempt",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
 			}else{
 			//println(">> Exporting OTHER report type.")
 				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Result','Status',					
@@ -114,10 +125,10 @@ class ResultSummaryController {
 					'submodules.TMA.total','submodules.TMA.maxtotal','submodules.TMA.mark','submodules.TMA.totalcontribution',
 					'submodules.ASS.total','submodules.ASS.maxtotal','submodules.ASS.mark','submodules.ASS.totalcontribution'
 					]
-				completed_data = getResultsData2("Completed",rowcount,page,sidx,sord)
+				completed_data = getResultsData2("Completed",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
 				//println(completed_data)
-				inprogress_data = getResultsData2("In Progress",rowcount,page,sidx,sord)
-				exempt_data = getResultsData2("Exempt",rowcount,page,sidx,sord)
+				inprogress_data = getResultsData2("In Progress",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
+				exempt_data = getResultsData2("Exempt",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
 			}
 			new WebXlsxExporter().with {
 			    setResponseHeaders(response)
@@ -138,7 +149,7 @@ class ResultSummaryController {
 			
 		}else{
 			//return as simple JSON result
-			def results = getResultsData2(status,rowcount,page,sidx,sord)			
+			def results = getResultsData2(status,rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)			
 			int max = rowcount
 			
 			int total = results?.size() //count
@@ -153,16 +164,27 @@ class ResultSummaryController {
 		
 	} //end export
 	
-	def getResultsData(String status,int rowcount,int page,String sidx,String sord){				
+	def getResultsData(String status,int rowcount,int page,String sidx,String sord, def period_startdate, def period_enddate, long moduleid, String learnerId){				
 		
 		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
 			createAlias('register','reg')
 			createAlias('tutor','tut')
 			createAlias('reg.learner','l')
+			createAlias('module','module')
 			order('reg.learner','asc')
 
 			if(status){
 				ilike('status',"%"+status+"%")
+			}
+			//test for date module was completed
+			if(period_startdate != null & period_enddate != null){
+				between('endDate', period_startdate, period_enddate)
+			}
+			if(moduleid > 0) {
+				eq('module.id',moduleid)
+			}
+			if(learnerId){
+				like("l.studentNo",learnerId)
 			}
 		}	
 		def allResults = []		
@@ -230,16 +252,27 @@ class ResultSummaryController {
 	 * 
 	 * 
 	 */
-	def getResultsData2(String status,int rowcount,int page,String sidx,String sord){
+	def getResultsData2(String status,int rowcount,int page,String sidx,String sord, def period_startdate, def period_enddate, long moduleid,String learnerId){
 		
 		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
 			createAlias('register','reg')
 			createAlias('tutor','tut')
 			createAlias('reg.learner','l')
+			createAlias('module','module')
 			order('reg.learner','asc')
 
 			if(status){
 				ilike('status',"%"+status+"%")
+			}
+			//test for date module was completed
+			if(period_startdate != null & period_enddate != null){
+				between('endDate', period_startdate, period_enddate)
+			}
+			if(moduleid > 0) {
+				eq('module.id',moduleid)
+			}
+			if(learnerId){
+				like("l.studentNo",learnerId)
 			}
 		}
 		def allResults = []
@@ -505,4 +538,8 @@ class ResultSummaryController {
 		  new DatumDependentDuration( years, months, days, 0, 0, 0, 0 )
 		}
 	  }
+	private parseDate(date) {
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		return (!date) ? new Date() : df.parse(date)
+   }
 } //end class
