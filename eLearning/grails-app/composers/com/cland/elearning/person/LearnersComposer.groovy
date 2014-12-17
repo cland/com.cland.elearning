@@ -7,6 +7,7 @@ import org.zkoss.zk.ui.event.*
 import com.cland.elearning.*
 import org.codehaus.groovy.grails.plugins.springsecurity.*
 
+
 class LearnersComposer {
     Grid grid
     ListModelList listModel = new ListModelList()
@@ -48,6 +49,7 @@ class LearnersComposer {
 		clearBoxes()
 		redraw()
 	}
+	
     void onPaging_paging(ForwardEvent fe) {
         def event = fe.origin
         redraw(event.activePage)
@@ -57,6 +59,7 @@ class LearnersComposer {
 
         int offset = activePage * paging.pageSize
         int max = paging.pageSize
+		println("Max: " + max) 
 		def tmp = []
 		int totalCount = 0		
 		Radio selectedItem = dateRangeType.getSelectedItem();
@@ -196,5 +199,8 @@ class LearnersComposer {
 		 keywordBoxId.value = ""
 		 keywordBoxLastname.value = ""	
 		 keywordBoxCompany.value = ""
+		 // keywordBoxStartDate.value = null
+		 // keywordBoxEndDate.value = null
 	 }
+	 
 } //end class

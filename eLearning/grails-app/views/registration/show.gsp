@@ -28,7 +28,7 @@ var cland_params = {
 		submod_types :"Assignment:Assignment;Computer Marked Asessment:CMA;Practical Attendance Exercises:PAE;Tutor Marked Assessment:TMA",
 		states : "Not Started:Not Started;In Progress:In Progress;Completed:Completed;Exempt:Exempt;Re-Write:Re-Write",	
 		tutors :  ${tutorList},	
-		result_types: "Pass:Pass;Fail:Fail;None:None;Exempt:Exempt",
+		result_types: "Pass:Pass;Fail:Fail;None:None;Exempt:Exempt;Assign O/Standing:Assign O/Standing;Completed:Completed;Current:Current;Defer:Defer;Defer Adv:Defer Adv;Defer Recd:Defer Recd;Did Not Write TMA:Did Not Write TMA;Dropped Out:Dropped Out;F/Mod Re-Enrol:F/Mod Re-Enrol;F/TMA & Redo Work:F/TMA & Redo Work;F/TMA-Rewrite:F/TMA-Rewrite;Fail Ass Redo Work:Fail Ass Redo Work;Fail PAX Redo work:Fail PAX Redo work;Incom & Rewrite TMA:Incom & Rewrite TMA;Incom (Work):Incom (Work);Incom Write TMA:Incom Write TMA;Pass Distinction:Pass Distinction;Pass Merit:Pass Merit;Redo Work:Redo Work;Re-Enrol:Re-Enrol;Suspend:Suspend;To Finish Work:To Finish Work;Unspecified:Unspecified;W/draw:W/draw",
 		
 		operands : "Divide:Divide;Multiply:Multiply;Subtract:Subtract;Add:Add"
 	}

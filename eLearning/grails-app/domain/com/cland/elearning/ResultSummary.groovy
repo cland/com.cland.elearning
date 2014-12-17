@@ -25,7 +25,7 @@ class ResultSummary {
 		certificate nullable:true
 		status(inList:["Not Started","In Progress","Completed","Exempt","Re-Write"])
 		paymentStatus(nullable:true,inList:["Not-Paid","Paid","Exempt"])
-		result(inList:["Pass","Fail","None","Exempt"])
+		result(inList:["Pass","Fail","None","Exempt","Assign O/Standing","Completed","Current","Defer","Defer Adv","Defer Recd","Did Not Write TMA","Dropped Out","F/Mod Re-Enrol","F/TMA & Redo Work","F/TMA-Rewrite","Fail Ass Redo Work","Fail PAX Redo work","Incom & Rewrite TMA","Incom (Work)","Incom Write TMA","Pass Distinction","Pass Merit","Redo Work","Re-Enrol","Suspend","To Finish Work","Unspecified","W/draw"])
 		certNumber(blank:true)
 		module()
 		startDate(nullable:true) 

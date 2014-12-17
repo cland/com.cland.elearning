@@ -121,6 +121,7 @@ class PersonController {
 		render response as JSON
 		
 	} //end jq_remove_course
+	
 	def jq_export_learners = {
 		
 		String filter = null

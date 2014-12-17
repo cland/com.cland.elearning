@@ -49,6 +49,7 @@ class AdminController {
 			def person_values = [:]
 			def org_values = [:]
 			if(count > 0){
+				println("Row: " + count)
 				row.eachWithIndex {col,index ->
 					
 					def value = col?.trim()?.replaceAll("\"", "")?.replaceAll("'","")
@@ -199,6 +200,7 @@ class AdminController {
 			SubModule submodule = null
 			Person tutor = null
 			String status = ""
+			String result = ""
 			def test1 = [:]
 			def test2 = [:]
 			def test3 = [:]
@@ -211,7 +213,9 @@ class AdminController {
 			def test10 = [:]
 			def test11 = [:]
 			def test12 = [:]
+			
 			if(count > 0){
+				println("Row: " + count)
 				row.eachWithIndex {col,index ->
 					//set the data
 					def value = col?.trim()?.replaceAll("\"", "")?.replaceAll("'","")
@@ -238,16 +242,52 @@ class AdminController {
 						break
 						case 3:
 							//submodule
-							submodule = module?.submodules?.find{it?.type==fixType(value)}							
+							submodule = module?.submodules?.find{it?.type==fixType(value)}	
+							//println("Submodule: '" + fixType(value) + "' => " + submodule )						
 						break
 						case 4:
 							//tutor
-							tutor = Person.findByFirstNameAndLastName(value.substring(0, value.indexOf(" "))?.trim(), value.substring(value.indexOf(" ")+1))
-							if(!tutor) tutor = Person.findByUsername("default.tutor")
+							def t_fname =  value
+							def t_lname = ""
+							try{
+								if(t_fname.indexOf(" ")> 0){
+									t_fname =  value.substring(0, value.indexOf(" "))?.trim()
+									t_lname = value.substring(value.indexOf(" ")+1)
+								}
+								//println("Looking for tutor: " + t_fname + ", " + t_lname )
+								tutor = Person.findByFirstNameAndLastName(t_fname,t_lname)
+							}catch(Exception ex){
+								tutor = Person.findByUsername("default.tutor")
+							}
+							def tutorRole = Role.findByAuthority('TUTOR')
+							if(!tutor) {
+								tutor = new Person(username: t_fname + "." + t_lname,
+									enabled: true,
+									password: 'Learning1Tutor',
+									firstName: t_fname,
+									lastName: t_lname,
+									idNo :"tut" + new Date().format("yyyyddHHmmss").toString(),
+									contactNo : "0000",
+									dateOfBirth:(new Date() - 365*30),
+									gender:"F",
+									address:"Unknown",
+									city:"Durban",
+									email:t_fname + "." + t_lname + "@whereever.com")	
+								tutor.save(flush:true)
+								if(tutor.hasErrors()) {
+									//println("Tutor Errors: " + tutor.errors)
+									tutor = Person.findByUsername("default.tutor")
+								}else{
+									PersonRole.create(tutor, tutorRole, true)
+								}														
+							}else{
+								tutor = Person.findByUsername("default.tutor")
+							}
 						break
 						case 5:
 							//resultsummary status
-							status = value
+							result = value
+							status = getResultStatus(result)
 						break
 						case 6:
 							//start date / enrolment date
@@ -273,17 +313,18 @@ class AdminController {
 							}
 						break
 						case 8:
-							if(value != ""){
+							
 								int testNum = 1
-								Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-								test1.put("mark", value)
-								test1.put("factor", 1)
-								test1.put("examDate", new Date())
-								test1.put("submodule", submodule)
-								test1.put("exam", e)  //????
-								test1.put("testNumber", testNum)
-								test1.put("factorOperand", "Divide")
-							}
+								Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+								if(e?.id){
+									if(value != ""){test1.put("mark", value)}else test1.put("mark", 0)																					
+									test1.put("factor", 1)
+									test1.put("examDate", new Date())
+									test1.put("subModule", submodule)
+									test1.put("exam", e)  //????
+									test1.put("testNumber",testNum)
+									test1.put("factorOperand", "Divide")
+								}
 						break
 						case 9:
 							if(value != "") test1.put("maxMark", new Integer(value))
@@ -292,17 +333,18 @@ class AdminController {
 							if(value != "") test1.put("weight",new BigDecimal(value))
 						break
 						case 11:
-							if(value != ""){ 
+							
 								int testNum = 2
-								Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-								test2.put("mark", value)
-								test2.put("factor", 1)
-								test2.put("examDate", new Date())
-								test2.put("submodule", submodule)
-								test2.put("exam", e)  //????
-								test2.put("testNumber", testNum)
-								test2.put("factorOperand", "Divide")
-							}						
+								Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+								if(e?.id){
+									if(value != ""){test2.put("mark", value)}else test2.put("mark", 0)																					
+									test2.put("factor", 1)
+									test2.put("examDate", new Date())
+									test2.put("subModule", submodule)
+									test2.put("exam", e)  //????
+									test2.put("testNumber",testNum)
+									test2.put("factorOperand", "Divide")
+								}					
 						break
 						case 12:
 							if(value != "") test2.put("maxMark", new Integer(value))
@@ -311,17 +353,18 @@ class AdminController {
 							if(value != "") test2.put("weight", new BigDecimal(value))
 						break
 						case 14:
-						if(value != ""){
+						
 							int testNum = 3
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test3.put("mark", value)
-							test3.put("factor", 1)
-							test3.put("examDate", new Date())
-							test3.put("submodule", submodule)
-							test3.put("exam", e)  //????
-							test3.put("testNumber", testNum)
-							test3.put("factorOperand", "Divide")
-						}
+							Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+							if(e?.id){
+								if(value != ""){test3.put("mark", value)}else test3.put("mark", 0)																					
+								test3.put("factor", 1)
+								test3.put("examDate", new Date())
+								test3.put("subModule", submodule)
+								test3.put("exam", e)  //????
+								test3.put("testNumber",testNum)
+								test3.put("factorOperand", "Divide")
+							}
 						break
 						case 15:
 							if(value != "") test3.put("maxMark", new Integer(value))
@@ -331,17 +374,18 @@ class AdminController {
 						break
 						
 						case 17:
-						if(value != ""){
+						
 							int testNum = 4
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test4.put("mark", value)
-							test4.put("factor", 1)
-							test4.put("examDate", new Date())
-							test4.put("submodule", submodule)
-							test4.put("exam", e)  //????
-							test4.put("testNumber",testNum)
-							test4.put("factorOperand", "Divide")
-						}
+							Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+							if(e?.id){
+								if(value != ""){test4.put("mark", value)}else test4.put("mark", 0)																					
+								test4.put("factor", 1)
+								test4.put("examDate", new Date())
+								test4.put("subModule", submodule)
+								test4.put("exam", e)  //????
+								test4.put("testNumber",testNum)
+								test4.put("factorOperand", "Divide")
+							}
 						break
 						case 18:
 							if(value != "") test4.put("maxMark", new Integer(value))
@@ -350,17 +394,18 @@ class AdminController {
 							if(value != "") test4.put("weight", new BigDecimal(value))
 						break
 						case 20:
-						if(value != ""){
+						
 							int testNum = 5
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test5.put("mark", value)
-							test5.put("factor", 1)
-							test5.put("examDate", new Date())
-							test5.put("submodule", submodule)
-							test5.put("exam", e)  //????
-							test5.put("testNumber",testNum)
-							test5.put("factorOperand", "Divide")
-						}
+							Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+							if(e?.id){
+								if(value != ""){test5.put("mark", value)}else test5.put("mark", 0)																					
+								test5.put("factor", 1)
+								test5.put("examDate", new Date())
+								test5.put("subModule", submodule)
+								test5.put("exam", e)  //????
+								test5.put("testNumber",testNum)
+								test5.put("factorOperand", "Divide")
+							}
 						break
 						case 21:
 							if(value != "") test5.put("maxMark", new Integer(value))
@@ -370,17 +415,18 @@ class AdminController {
 						break
 						
 						case 23:
-						if(value != ""){
+
 							int testNum = 6
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test6.put("mark", value)
-							test6.put("factor", 1)
-							test6.put("examDate", new Date())
-							test6.put("submodule", submodule)
-							test6.put("exam", e)  //????
-							test6.put("testNumber",testNum)
-							test6.put("factorOperand", "Divide")
-						}
+							Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+							if(e?.id){
+								if(value != ""){test6.put("mark", value)}else test6.put("mark", 0)																					
+								test6.put("factor", 1)
+								test6.put("examDate", new Date())
+								test6.put("subModule", submodule)
+								test6.put("exam", e)  //????
+								test6.put("testNumber",testNum)
+								test6.put("factorOperand", "Divide")
+							}
 						break
 						case 24:
 							if(value != "") test6.put("maxMark", new Integer(value))
@@ -390,17 +436,18 @@ class AdminController {
 						break
 						
 						case 26:
-						if(value != ""){
+
 							int testNum = 7
 							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test7.put("mark", value)
-							test7.put("factor", 1)
-							test7.put("examDate", new Date())
-							test7.put("submodule", submodule)
-							test7.put("exam", e)  //????
-							test7.put("testNumber",testNum)
-							test7.put("factorOperand", "Divide")
-						}
+							if(e?.id){
+								if(value != ""){test7.put("mark", value)}else test7.put("mark", 0)
+								test7.put("factor", 1)
+								test7.put("examDate", new Date())
+								test7.put("subModule", submodule)
+								test7.put("exam", e)  //????
+								test7.put("testNumber",testNum)
+								test7.put("factorOperand", "Divide")
+							}
 						break
 						case 27:
 							if(value != "") test7.put("maxMark", new Integer(value))
@@ -410,17 +457,17 @@ class AdminController {
 						break
 						
 						case 29:
-						if(value != ""){
 							int testNum = 8
 							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test8.put("mark", value)
-							test8.put("factor", 1)
-							test8.put("examDate", new Date())
-							test8.put("submodule", submodule)
-							test8.put("exam", e)  //????
-							test8.put("testNumber",testNum)
-							test8.put("factorOperand", "Divide")
-						}
+							if(e?.id){
+								if(value != ""){test8.put("mark", value)}else test8.put("mark", 0)
+								test8.put("factor", 1)
+								test8.put("examDate", new Date())
+								test8.put("subModule", submodule)
+								test8.put("exam", e)  //????
+								test8.put("testNumber",testNum)
+								test8.put("factorOperand", "Divide")
+							}
 						break
 						case 30:
 							if(value != "") test8.put("maxMark", new Integer(value))
@@ -430,17 +477,19 @@ class AdminController {
 						break
 						
 						case 32:
-						if(value != ""){
+						
 							int testNum = 9
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test9.put("mark", value)
-							test9.put("factor", 1)
-							test9.put("examDate", new Date())
-							test9.put("submodule", submodule)
-							test9.put("exam", e)  //????
-							test9.put("testNumber",testNum)
-							test9.put("factorOperand", "Divide")
-						}
+							Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+							if(e?.id){
+								if(value != ""){test9.put("mark", value)}else test9.put("mark", 0)																					
+								test9.put("factor", 1)
+								test9.put("examDate", new Date())
+								test9.put("subModule", submodule)
+								test9.put("exam", e)  //????
+								test9.put("testNumber",testNum)
+								test9.put("factorOperand", "Divide")
+							}
+						
 						break
 						case 33:
 							if(value != "") test9.put("maxMark", new Integer(value))
@@ -450,17 +499,18 @@ class AdminController {
 						break
 						
 						case 35:
-						if(value != ""){
+						
 							int testNum = 10
 							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test10.put("mark", value)
-							test10.put("factor", 1)
-							test10.put("examDate", new Date())
-							test10.put("submodule", submodule)
-							test10.put("exam", e)  //????
-							test10.put("testNumber",testNum)
-							test10.put("factorOperand", "Divide")
-						}
+							if(e?.id){
+								if(value != ""){test10.put("mark", value)}else test10.put("mark", 0)
+								test10.put("factor", 1)
+								test10.put("examDate", new Date())
+								test10.put("subModule", submodule)
+								test10.put("exam", e)  //????
+								test10.put("testNumber",testNum)
+								test10.put("factorOperand", "Divide")
+							}
 						break
 						case 36:
 							if(value != "") test10.put("maxMark", new Integer(value))
@@ -470,17 +520,19 @@ class AdminController {
 						break
 						
 						case 38:
-						if(value != ""){
+						
 							int testNum = 11
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test11.put("mark", value)
-							test11.put("factor", 1)
-							test11.put("examDate", new Date())
-							test11.put("submodule", submodule)
-							test11.put("exam", e)  //????
-							test11.put("testNumber",testNum)
-							test11.put("factorOperand", "Divide")
-						}
+							Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+							if(e?.id){
+								if(value != ""){test11.put("mark", value)}else test11.put("mark", 0)																					
+								test11.put("factor", 1)
+								test11.put("examDate", new Date())
+								test11.put("subModule", submodule)
+								test11.put("exam", e)  //????
+								test11.put("testNumber",testNum)
+								test11.put("factorOperand", "Divide")
+							}
+					
 						break
 						case 39:
 							if(value != "") test11.put("maxMark", new Integer(value))
@@ -489,23 +541,23 @@ class AdminController {
 							if(value != "") test11.put("weight", new BigDecimal(value))
 						break
 						
-						case 42:
-						if(value != ""){
-							int testNum = 12
-							Exam e = submodule?.exams?.find{it?.testNumber==testNum}
-							test12.put("mark", value)
+						case 41:
+						int testNum = 12
+						Exam e = submodule?.exams?.find{it?.testNumber==testNum}						
+						if(e?.id){
+							if(value != ""){test12.put("mark", value)}else test12.put("mark", 0)																					
 							test12.put("factor", 1)
 							test12.put("examDate", new Date())
-							test12.put("submodule", submodule)
+							test12.put("subModule", submodule)
 							test12.put("exam", e)  //????
 							test12.put("testNumber",testNum)
 							test12.put("factorOperand", "Divide")
 						}
 						break
-						case 43:
+						case 42:							
 							if(value != "") test12.put("maxMark", new Integer(value))
 						break
-						case 44:
+						case 43:
 							if(value != "") test12.put("weight", new BigDecimal(value))
 						break
 					} //end switch
@@ -516,28 +568,24 @@ class AdminController {
 					//println(studentno + ": looking for: regDate: " + dateRegistered )
 					registration = Registration.find {it.course.id == course.id & it.learner.id == learner.id }
 					//Do the registration
-					if(!registration){
-						println(studentno + ": adding new registration")
-						registration = new Registration(course:course,learner:learner,regDate:dateRegistered,dateCreated:new Date())
-						registration.save()						
-					}
-					
-					if(registration.hasErrors() | !registration){
-						failedList.add(studentno + " > registration prob " + registration.errors)
-						println(registration.errors)
-					}else{
+					if(registration){
+						
 						//add the results
 						//create the resultSummary if one does not exist already
-					//println(studentno + " >> " + module?.id + " - " + registration?.id)
-						resultSummary = ResultSummary.withCriteria {
+					//println(studentno + " >> " + module?.id + " - " + registration?.id + " > " + registration)
+					def test = ResultSummary.withCriteria {
 							createAlias("module","mod")
 							createAlias("register","r")
 							eq("mod.id",module?.id)
 							eq("r.id",registration.id)
 							
-						} //findByModuleAndRegister(module,registration)
-						if(!resultSummary){
-							println(studentno + " >> Adding new resultSummary...module: " + module)
+						}
+					
+					if(test.size()>0) resultSummary = test.get(0)
+										
+						//println("ResultSummary found??:> " + resultSummary?.id)
+						if(!resultSummary?.id){
+							//println(studentno + " - row " + count + " >> Adding new resultSummary...module: " + module)
 							resultSummary = new ResultSummary(
 									status:status,
 									result:"None",
@@ -547,13 +595,25 @@ class AdminController {
 									startDate:dateRegistered,
 									endDate:endDate
 								)
-							resultSummary.save(flush:true)		
-							registration.addToResults(resultSummary)
+							//resultSummary.save(flush:true)	
+							//if(resultSummary.hasErrors()){
+							//	println(studentno + " >> Failed " + resultSummary.errors)
+							//}else{
+								//println(studentno + " >> Adding new resultSummary to registration... " + resultSummary?.id)
+								registration.addToResults(resultSummary)
+								
+								if(registration?.hasErrors()){
+									println(studentno + " - row " + count + " >> failed to create result summary..." + registration?.errors)
+								}else{
+								registration.save(flush:true)
+								}
+							//}
 						}
+						//println("ResultSummary confirm:> " + resultSummary?.id)
 						//for each of the tests add toe results
-						if(resultSummary){
+						if(resultSummary?.id){
 							
-							println(studentno + " >> adding examresult...")
+							//println(studentno + " >> adding examresult... to result summary " + resultSummary?.id )
 							addExamResult(resultSummary, test1)
 							addExamResult(resultSummary, test2)
 							addExamResult(resultSummary, test3)
@@ -566,19 +626,24 @@ class AdminController {
 							addExamResult(resultSummary, test10)
 							addExamResult(resultSummary, test11)
 							addExamResult(resultSummary, test12)
-							println(studentno + " >> done adding results")
+							println(studentno + " - row " + count + " >> Done adding results")
 							resultSummary.save()
-							registration.save()
+							if(resultSummary.hasErrors()){
+								println (studentno + " - row " + count + " >> error saving examresults: " + resultSummary?.errors)
+								failedList.add(studentno + " - row " + count + " >> error saving examresults: " + resultSummary?.errors)
+							}
+						//	registration.save()
 						}else{
-							failedList.add(studentno + " >> resultSummary prob" )
+							failedList.add(studentno + " - row " + count + " >> resultSummary prob" )
 						}
 					} //end else all is good with registration instance
 					
 				}else{
-					 failedList.add(studentno + " >> No course or learner")
+					 failedList.add(studentno + " - row " + count + " >> No course or learner")
 				}
 				
 			} //end if count > 0
+			//println("Done with row " + count)
 			count++
 		} //end splitEachLine
 		println("Done processing - loadLearnerResults!")
@@ -593,17 +658,25 @@ class AdminController {
 	} //end closure loadLearnerResults
 	
 	private void addExamResult(def resultSummary, def data){
-		if(!data.isEmpty()) {
-			println("D: " + data)
+		if(!data.isEmpty() & data?.mark != null) {
+			//println("D: " + data)
 			def tmpexam = new ExamResult(data)
 			//tmpexam.save()
+			
+			//println("EXAM: >> " + tmpexam?.id + " => " + tmpexam + " => " + tmpexam?.hasErrors())
 			if(tmpexam?.hasErrors() | !tmpexam) {
+				println("D: " + data)
 				println(tmpexam.errors) 
 			}else {
-				resultSummary.addToResults(tmpexam)
+				def testResult = resultSummary.results.find{it.testNumber == tmpexam.testNumber & it?.subModule?.id ==  tmpexam?.subModule?.id}
+				//print ">> " + testResult
+				if(!testResult) {
+					resultSummary.addToResults(tmpexam)
+					//println ">> Added result."
+				}
 			}
 		}
-	}
+	}//end function addExamResult
 	
 	/**
 	 * registerLearners:
@@ -776,4 +849,15 @@ class AdminController {
 		if(value.equals("TMA")) return LearningMode.TMA.toString()
 		return value
 	}
+	private String getResultStatus(String value){
+		
+		if(value.equalsIgnoreCase("Completed")|value.equalsIgnoreCase("Pass Distinction")|value.equalsIgnoreCase("Pass")|value.equalsIgnoreCase("Pass Merit")|value.equalsIgnoreCase("Fail PAX Redo work")|value.equalsIgnoreCase("Fail Ass Redo Work")|value.equalsIgnoreCase("Dropped Out")|value.equalsIgnoreCase("Suspend")||value.equalsIgnoreCase("W/draw")) return "Completed"
+		if(value.equalsIgnoreCase("Assign O/Standing")|value.equalsIgnoreCase("Current")|value.equalsIgnoreCase("Did Not Write TMA")|value.equalsIgnoreCase("Incom (Work)")|value.equalsIgnoreCase("Incom Write TMA")|value.equalsIgnoreCase("To Finish Work")) return "In Progress"
+		if(value.equalsIgnoreCase("Unspecified")|value.equalsIgnoreCase("Defer")|value.equalsIgnoreCase("Defer Recd")|value.equalsIgnoreCase("Defer Adv")) return "Not Started"
+		if(value.equalsIgnoreCase("Exempt")) return "Exempt"
+		if(value.equalsIgnoreCase("F/TMA and Redo Work")|value.equalsIgnoreCase("F/TMA-Rewrite")|value.equalsIgnoreCase("Redo Work")|value.equalsIgnoreCase("Incom & Rewrite TMA")|value.equalsIgnoreCase("F/Mod Re-Enrol")|value.equalsIgnoreCase("Re-Enrol")) return "Re-Write"
+		
+		return "Completed"
+	}
+		
 } //end class

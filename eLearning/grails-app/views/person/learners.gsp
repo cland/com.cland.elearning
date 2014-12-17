@@ -3,6 +3,8 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'learner.label', default: 'Learner')}" />
         <title><g:appTitle title=""><g:message code="default.list.label" args="[entityName]" /></g:appTitle></title>
+        <g:javascript library="jquerymin" />
+       
     </head>
     <body>
     
@@ -14,9 +16,9 @@
         			<z:toolbarbutton href="${createLink(action:'create')}" image="/images/skin/database_add.png" label="${message(code:'default.new.label',args:[entityName])}"/>
 	                <z:space/>
 	                <sec:ifAnyGranted roles="ADMIN,TUTOR">
-	              		<z:toolbarbutton href="${createLink(controller:'person', action:'jq_export_learners', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Learners'])}"/>
-	              		<z:toolbarbutton href="${createLink(controller:'resultSummary', action:'jq_export_results_flat', params:[save: '1',rtype:'2'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Results'])}"/>
-		                <z:toolbarbutton href="${createLink(controller:'resultSummary', action:'jq_export_results_flat', params:[save: '1',rtype:'1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['Test Scores'])}"/>
+	              		<z:toolbarbutton id="export_learners" href="${createLink(controller:'person', action:'jq_export_learners', params:[save: '1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All Learners'])}"/>
+	              		<z:toolbarbutton href="${createLink(controller:'resultSummary', action:'jq_export_results_flat', params:[save: '1',rtype:'2'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All Results'])}"/>
+		                <z:toolbarbutton href="${createLink(controller:'resultSummary', action:'jq_export_results_flat', params:[save: '1',rtype:'1'])}" image="${fam.icon(name: 'page_excel')}" label="${message(code:'default.export.label',args:['All Test Scores'])}"/>
               		</sec:ifAnyGranted>
         		</z:hlayout>
         		<z:hlayout style="border:solid 1px rgba(62, 59, 59, 1);padding:5px;">
@@ -54,6 +56,9 @@
 	                </z:hlayout>
 
         		</z:hlayout>
+        		<z:hlayout>
+        		<z:button id="exportLearnerButton" label="${message(code:'Export Learners')}" style="font-weight:bold;padding:5px;"/>
+        		</z:hlayout>
         	</z:vlayout>
            
            
@@ -79,6 +84,18 @@
             </z:grid>
             <z:paging autohide="false" id="paging" pageSize="50"/>
         </z:window>
-        
+         <script type="text/javascript">
+         function exportLeaners(){
+             	alert("fuction export...")
+             }
+        $(document).ready(function () {
+            $("#test1").click(function(){
+                	alert("Clicked!");
+                });
+        	$(document).on("click","#test1",function(){
+				alert("Exporting....");
+            	});
+        });
+        </script>
     </body>
 </html>

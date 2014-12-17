@@ -182,7 +182,7 @@ class RegistrationController {
 				}else if(params?.status?.equalsIgnoreCase("In Progress")){
 					if(params?.startDate){
 						//ensure that we reset the result to "None"
-						resultSummary.result = "None"						
+						resultSummary.result = "Current"						
 					}else{							
 						message = "Error! Please specify the date that the module started! "
 						println(message)
