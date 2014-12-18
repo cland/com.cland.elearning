@@ -99,12 +99,30 @@ class ResultSummaryController {
 			def withProperties = ""
 			if(reportType.equals("1")){
 				//println(">> Exporting report type " + reportType)
-				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Mode of Learning','Result','Status',
-					'Test 1','Test 2','Test 3','Test 4','Test 5','Test 6','Test 7','Test 8','Test 9','Test 10',
+				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Region','Email', 'Module','Start Date','Completion Date','Mode of Learning','Result','Status',
+					'Test 1','Max Mark','% Mark','% Contrib',
+					'Test 2','Max Mark','% Mark','% Contrib',
+					'Test 3','Max Mark','% Mark','% Contrib',
+					'Test 4','Max Mark','% Mark','% Contrib',
+					'Test 5','Max Mark','% Mark','% Contrib',
+					'Test 6','Max Mark','% Mark','% Contrib',
+					'Test 7','Max Mark','% Mark','% Contrib',
+					'Test 8','Max Mark','% Mark','% Contrib',
+					'Test 9','Max Mark','% Mark','% Contrib',
+					'Test 10','Max Mark','% Mark','% Contrib',
 					'Total','Out of','% Mark','Total Contribution','Registration Date']
 				
-				withProperties = ['course','student_number', 'firstname', 'lastname', 'company','email', 'module_name','module_startdate','module_enddate','submodule','result','status',
-					'marks.test1','marks.test2','marks.test3','marks.test4','marks.test5','marks.test6','marks.test7','marks.test8','marks.test9','marks.test10',
+				withProperties = ['course','student_number', 'firstname', 'lastname', 'company','region','email', 'module_name','module_startdate','module_enddate','submodule','result','status',
+					'marks.test1','marks.testmax1','marks.testpercent1','marks.testcontrib1',
+					'marks.test2','marks.testmax2','marks.testpercent2','marks.testcontrib2',
+					'marks.test3','marks.testmax3','marks.testpercent3','marks.testcontrib3',
+					'marks.test4','marks.testmax4','marks.testpercent4','marks.testcontrib4',
+					'marks.test5','marks.testmax5','marks.testpercent5','marks.testcontrib5',
+					'marks.test6','marks.testmax6','marks.testpercent6','marks.testcontrib6',
+					'marks.test7','marks.testmax7','marks.testpercent7','marks.testcontrib7',
+					'marks.test8','marks.testmax8','marks.testpercent8','marks.testcontrib8',
+					'marks.test9','marks.testmax9','marks.testpercent9','marks.testcontrib9',
+					'marks.test10','marks.testmax10','marks.testpercent10','marks.testcontrib10',
 					'marks.total','marks.maxtotal','marks.percent','marks.total_contribution','regdate'
 					]
 				completed_data = getResultsData("Completed",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
@@ -112,14 +130,14 @@ class ResultSummaryController {
 				exempt_data = getResultsData("Exempt",rowcount,page,sidx,sord,startdate,enddate,moduleid,learnerId)
 			}else{
 			//println(">> Exporting OTHER report type.")
-				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Email', 'Module','Start Date','Completion Date','Result','Status',					
+				headers = ['Course Name','Student No', 'Name', 'Surname', 'Company','Region','Email', 'Module','Start Date','Completion Date','Result','Status',					
 					LearningMode.CMA.getKey() + ' Total',LearningMode.CMA.getKey()+' Out Of',LearningMode.CMA.getKey() + ' Mark %',LearningMode.CMA.getKey()+' Contribution',
 					LearningMode.PAX.getKey() + ' Total',LearningMode.PAX.getKey()+' Out Of',LearningMode.PAX.getKey() + ' Mark %',LearningMode.PAX.getKey()+' Contribution',
 					LearningMode.TMA.getKey() + ' Total',LearningMode.TMA.getKey()+' Out Of',LearningMode.TMA.getKey() + ' Mark %',LearningMode.TMA.getKey()+' Contribution',
 					LearningMode.ASS.toString() + ' Total',LearningMode.ASS.toString()+' Out Of',LearningMode.ASS.toString() + ' Mark %',LearningMode.ASS.toString()+' Contribution',
 					]
 				
-				withProperties = ['course','student_number', 'firstname', 'lastname', 'company','email', 'module_name','module_startdate','module_enddate','result','status',					
+				withProperties = ['course','student_number', 'firstname', 'lastname', 'company','region','email', 'module_name','module_startdate','module_enddate','result','status',					
 					'submodules.CMA.total','submodules.CMA.maxtotal','submodules.CMA.mark','submodules.CMA.totalcontribution',
 					'submodules.PAX.total','submodules.PAX.maxtotal','submodules.PAX.mark','submodules.PAX.totalcontribution',
 					'submodules.TMA.total','submodules.TMA.maxtotal','submodules.TMA.mark','submodules.TMA.totalcontribution',
@@ -196,7 +214,7 @@ class ResultSummaryController {
 			
 			def coursename = course.name
 			def modulename = resultSummaryInstance.module.name
-			
+			def region = person?.region?.name
 			def studentId = person.studentNo
 			def firstname = person.firstName?.toLowerCase()?.capitalize()
 			def lastname = person.lastName?.toLowerCase()?.capitalize()
@@ -223,6 +241,9 @@ class ResultSummaryController {
 				subresult.each{key1 ->					
 					tests.put("test" + key1?.test, key1?.mark)
 					tests.put("testdate" + key1?.test, key1?.exam_date)
+					tests.put("testmax" + key1?.test, key1?.max_mark)
+					tests.put("testcontrib" + key1?.test, String.format( '%.1f',key1?.contribution_mark))
+					tests.put("testpercent" + key1?.test,  String.format( '%.1f',key1?.percent_mark))
 				}
 				
 				for(int i=tests.size()+1;i<=10;i++){
@@ -232,7 +253,7 @@ class ResultSummaryController {
 				tests.put("maxtotal", max_total)
 				tests.put("percent", percentage)
 				tests.put("total_contribution",total_contribution)
-				def jsonResults = [id:resultSummaryInstance.id,student_number:studentId,firstname:firstname,lastname:lastname,company:company,regdate:regdate,
+				def jsonResults = [id:resultSummaryInstance.id,student_number:studentId,firstname:firstname,lastname:lastname,company:company,region:region,regdate:regdate,
 					course:coursename,module_name: modulename,module_startdate:startdate,module_enddate:enddate,result:result,status:status,submodule:key,
 					marks:tests,
 					total_mark:totalMark,total_max:totalMax,percent:totalMarkPercent,email:email]
@@ -289,6 +310,7 @@ class ResultSummaryController {
 			def firstname = person.firstName?.toLowerCase()?.capitalize()
 			def lastname = person.lastName?.toLowerCase()?.capitalize()
 			def company = person?.company?.name?.toLowerCase()?.capitalize()
+			def region = person?.region?.name
 			def email = person?.email?.toLowerCase()
 			def startdate = resultSummaryInstance.startDate?.format("dd-MMM-yyyy")
 			def enddate = resultSummaryInstance.endDate?.format("dd-MMM-yyyy")
@@ -347,7 +369,7 @@ class ResultSummaryController {
 				}
 				
 			} //end grouped each
-			def jsonResults = [id:resultSummaryInstance.id,student_number:studentId,firstname:firstname,lastname:lastname,company:company,regdate:regdate,
+			def jsonResults = [id:resultSummaryInstance.id,student_number:studentId,firstname:firstname,lastname:lastname,company:company,region:region,regdate:regdate,
 				course:coursename,module_name: modulename,module_startdate:startdate,module_enddate:enddate,result:result,status:status,
 				submodules:submodules,
 				total_mark:totalMark,total_max:totalMax,percent:totalMarkPercent,email:email]
