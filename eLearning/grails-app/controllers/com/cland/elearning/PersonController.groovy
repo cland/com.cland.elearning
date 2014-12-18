@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.User.AuthorityComparator;
 import grails.converters.JSON
 import pl.touk.excel.export.WebXlsxExporter
 import grails.plugins.springsecurity.Secured
+import java.text.SimpleDateFormat
 class PersonController {
 	def springSecurityService
 	
@@ -126,29 +127,29 @@ class PersonController {
 		
 		String filter = null
 		def states = []
+		def status = "Completed"		
+		boolean dosave = (params?.int('save') == 1 ? true : false)
+		String reportType = (params?.rtype ? params.rtype : "1")
+		def startdate = params?.startDate_Completed
+		def enddate = params?.endDate_Completed
+		if(startdate != null & startdate != "") startdate = parseDate(startdate) else startdate = null
+		if(enddate != null  & startdate != "") enddate = parseDate(enddate) else null
+		long moduleid = (params?.module.id ? params?.module.id?.toLong(): 0)
+		def learnerId = params?.learnerid
+		if(learnerId == "") learnerId = null
 		
-//		def personList = Person.createCriteria().list() {
-//			createAlias('company','org')				
-//			order('firstName','asc')
-//			order('lastName','asc')
-//			isNotEmpty("learnerRegistrations")
-//			if(states.size()>0){
-//				learnerRegistrations{
-//					results{
-//						'in'('status',inprogress_states)
-//					}
-//				}
-//			}
-//			if(filter){
-//				ilike('firstname',""+filter+"%")
-//			}			
-//		}?.unique{it.id}
-
-		//tutors
-		def tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))?.person
-		def personList = PersonRole.findAllByRole(Role.findByAuthority('LEARNER'))?.person
-
-		def data = personList.collect({it.toMap()})			 
+		def personList = null
+		def tutorList = null
+		if(startdate != null || enddate != null || moduleid > 0 || learnerId != null){			
+			def results = getResultsData(null,startdate,enddate,moduleid,learnerId)
+			personList = results?.collect{it?.register?.learner}.unique()
+			tutorList = results?.collect{it?.register?.tutor}.unique()
+		}else{
+			personList = PersonRole.findAllByRole(Role.findByAuthority('LEARNER'))?.person
+			tutorList = PersonRole.findAllByRole(Role.findByAuthority('TUTOR'))?.person
+		}
+				
+		def data = personList?.collect({it?.toMap()})			 
 		def headers = ['Firstname', 'Lastname', 'Student No.', 'Company', 'Email','Exam Type','Disabled','Gender','Current Learner',			
 			'Id No.',
 			'Date of Birth',
@@ -195,7 +196,7 @@ class PersonController {
 			'disability',
 			'created']
 		
-		def tutor_data = tutorList.collect({it.toMap()})
+		def tutor_data = tutorList?.collect({it?.toMap()})
 		def tutor_headers = ['Firstname', 'Lastname','Company', 'Email','Gender',
 			'Id No.',
 			'Date of Birth',
@@ -262,4 +263,33 @@ class PersonController {
 		}
 		return max
 	} //end helper method findUpperIndex
+	def getResultsData(String status,def period_startdate, def period_enddate, long moduleid, String learnerId){
+		
+		def resultSummaryInstanceList = ResultSummary.createCriteria().list() {
+			createAlias('register','reg')
+			createAlias('tutor','tut')
+			createAlias('reg.learner','l')
+			createAlias('module','module')
+			order('reg.learner','asc')
+
+			if(status){
+				ilike('status',"%"+status+"%")
+			}
+			//test for date module was completed
+			if(period_startdate != null & period_enddate != null){
+				between('endDate', period_startdate, period_enddate)
+			}
+			if(moduleid > 0) {
+				eq('module.id',moduleid)
+			}
+			if(learnerId){
+				like("l.studentNo",learnerId)
+			}
+		}
+		return resultSummaryInstanceList
+	}
+	private parseDate(date) {
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		return (!date) ? new Date() : df.parse(date)
+   }
 } //end class

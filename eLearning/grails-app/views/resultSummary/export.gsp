@@ -60,7 +60,7 @@
 					<fieldset class="buttons">						
 						<g:submitButton id="export_results_btn" name="export_results" class="export" value="Export Results" onclick="exportResults('1','2');"/>
 						<g:submitButton id="export_scores_btn" name="export_scores" class="export" value="Export Test Scores" onclick="exportResults('1','1');"/>
-						<g:submitButton id="export_learners_btn" name="export_learners" class="export" value="Export All Learners" onclick="exportLearners('1','1');"/>
+						<g:submitButton id="export_learners_btn" name="export_learners" class="export" value="Export Learners" onclick="exportLearners('1','1');"/>
 					</fieldset>
 					</fieldset>
 
