@@ -132,7 +132,7 @@ class LearnersComposer {
     private rowRenderer = {Row row, Object id, int index ->
         def personInstance = Person.get(id)
 		
-		def registerInstanceList = Registration.findAll{learner.id == personInstance?.id}
+		def registerInstanceList = Registration.findAll{learner.id == personInstance?.id}?.sort{it.regDate}?.reverse()
         row << {                                             
                 label(value: personInstance.firstName)
                 label(value: personInstance.lastName)
@@ -147,7 +147,7 @@ class LearnersComposer {
 					int i = 0
 					registerInstanceList.each {reg ->
 						i+=1
-						a(href: g.createLink(controller:"registration",action:'show',id:reg?.id), label: i + ") " +  reg?.course?.name)
+						a(href: g.createLink(controller:"registration",action:'show',id:reg?.id), label: i + ") " +  reg?.course?.name + " - " + reg?.regDate?.format("MMM yyyy"))
 					}
 				}
                 hlayout{

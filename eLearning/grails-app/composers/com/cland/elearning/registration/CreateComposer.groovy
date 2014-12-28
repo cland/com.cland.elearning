@@ -3,15 +3,30 @@ package com.cland.elearning.registration
 import org.apache.jasper.compiler.Node.ParamsAction;
 import org.zkoss.zk.ui.Component
 import org.zkoss.zk.ui.event.Event
+import org.zkoss.zk.ui.event.ForwardEvent;
+import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zul.*
+import org.joda.time.*
+import org.joda.time.format.*
 import com.cland.elearning.*
 
 class CreateComposer {
     Window self
     def afterCompose = {Component comp ->
         //todo initialize components here
+		learnerListBox.setItemRenderer(learnerListBoxRowRenderer as ListitemRenderer)
+		learnerListBox.setModel(learnerListBoxModel)
+		redrawLearnerListBox()
     }
-
+	ListModelList learnerListBoxModel = new ListModelList()
+	Bandbox learnerBandbox
+	Listbox learnerListBox
+	Longbox learnerIdBox
+	Paging learnerPaging
+	Textbox learnerSearch
+	Toolbarbutton clearLearnerListBoxSearch
+	Toolbarbutton newLearner
+	String searchLearnerListBoxStr = ""
     void onClick_saveButton(Event e) {
         def registrationInstance = new Registration(self.params)
         if (!registrationInstance.save(flush: true) && registrationInstance.hasErrors()) {
@@ -29,11 +44,25 @@ class CreateComposer {
 	//	for(def key: params.keySet()){
 	//		println(key + " - " + params.getAt(key))
 	//	}
-				
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 		Long active_tab = 1
 		def courseId = params.getAt("course.id")
 		def learnerId = params.getAt("learner.id")
-		def registrationInstance = Registration.findAllWhere("learner.id":learnerId as Long,"course.id":courseId as Long)
+		def regdate = params?.getAt("regDate")
+		def regyear = regdate?.format("yyyy")
+		DateTime startyear = formatter.parseDateTime("01/01/" + regyear);
+		DateTime endyear = formatter.parseDateTime("31/12/" + regyear);
+
+		def registrationInstance = Registration.withCriteria(uniqueResult:true) {
+			createAlias("course","c")
+			createAlias("learner","l")
+			
+			between('regDate',startyear?.toDate(), endyear?.toDate())
+			eq('c.id',courseId)
+			eq('l.id',learnerId)			
+			  
+		}
+		//def registrationInstance = Registration.findAllWhere("learner.id":learnerId as Long,"course.id":courseId as Long)
 		if(registrationInstance){
 			flash.message = registrationInstance.learner.toString() + " is already registered!" //g.message(code: 'default.exists.message', args: [g.message(code: 'registration.label', default: 'Registration'), registrationInstance.id])
 			if(params.src =="learner"){
@@ -133,4 +162,57 @@ class CreateComposer {
 		return resultSummary
 	} //end createExamResults
 	
+	//Begin Learner bandbox
+	
+		void onSelect_learnerListBox(Event e){
+			learnerIdBox.value = learnerListBox.selectedItem.value
+			learnerBandbox.value=learnerListBox.selectedItem.label
+			learnerBandbox.close()
+		}
+		
+		private learnerListBoxRowRenderer = {Listitem listitem, clientInstanceId, int index ->
+			Person clientInstance = Person.read(clientInstanceId)
+			listitem << { listcell(label: clientInstance?.toString() + " (" + clientInstance?.studentNo + ")") }
+			listitem.setValue(clientInstanceId)
+		}
+	
+		void onPaging_learnerPaging(ForwardEvent fe) {
+			def event = fe.origin
+			redrawLearnerListBox(event.activePage)
+		}
+	
+		private redrawLearnerListBox(int activePage = 0) {
+	
+			int offset = activePage * learnerPaging.pageSize
+	
+			int max = learnerPaging.pageSize
+			def clientInstanceList = Person.createCriteria().list(offset: offset, max: max) {
+				order('firstName')
+				if (!searchLearnerListBoxStr.isEmpty()) {
+					or {
+						ilike('lastName', "%" + searchLearnerListBoxStr + "%")
+						ilike('studentNo',searchLearnerListBoxStr + "%")
+					}
+				}
+				
+			}
+			learnerPaging.totalSize = clientInstanceList.totalCount
+			learnerListBoxModel.clear()
+			learnerListBoxModel.addAll(clientInstanceList.id)
+		}
+	
+		void onChanging_learnerSearch(InputEvent e) {
+			searchLearnerListBoxStr = e.value
+			redrawLearnerListBox()
+		}
+	
+		void onClick_clearLearnerListBoxSearch(Event e){
+			learnerSearch.value = ""
+			searchLearnerListBoxStr = ""
+			redrawLearnerListBox()
+		}
+		
+		void onClick_newLearner(Event e){
+			learnerBandbox.close()
+		}
 } //end class

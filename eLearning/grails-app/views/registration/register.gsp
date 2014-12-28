@@ -20,8 +20,8 @@
 			</g:if>
     <z:grid>
         <z:columns sizable="true">
-            <z:column label="${message(code:'name',default:'Name')}" width="100px"/>
-            <z:column label="${message(code:'value',default:'Value')}"/>
+<%--            <z:column label="${message(code:'name',default:'Name')}" width="100px"/>--%>
+<%--            <z:column label="${message(code:'value',default:'Value')}"/>--%>
         </z:columns>
         <tmpl:form/>
     </z:grid>

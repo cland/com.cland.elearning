@@ -78,7 +78,7 @@
                     <z:column label="${message(code: 'person.lastname.label', default: 'Last Name')}"/>
                     <z:column label="${message(code: 'person.username.label', default: 'Username')}"/>                    
                     <z:column width="90px" label="${message(code: 'person.studentno.label', default: 'Student No')}"/>
-                    <z:column width="250px" label="${message(code: 'person.courses.label', default: 'Courses')}"/>                    
+                    <z:column width="250px" label="${message(code: 'person.courses.label', default: 'Course - Date Registered')}"/>                    
                     <z:column width="170px"/>
                 </z:columns>
             </z:grid>

@@ -491,7 +491,7 @@ $("#tabs").tabs(
                         .load('../../registration/register?course.id=' + course_id)
                         .dialog({
                             autoOpen: false,
-                            width:350,
+                            width:800,
                             beforeClose: function(event,ui){
                             	
                             },
